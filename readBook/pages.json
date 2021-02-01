@@ -1,16 +1,101 @@
 {
+	"easycom": {
+		"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
+	},
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/index/index",
+			// 登录
+			"path": "pages/login/login",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			// 首页
+			"path": "pages/home/home",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			// 分类
+			"path": "pages/classify/classify",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			// 登录
+			"path": "pages/bookrack/bookrack",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			// 登录
+			"path": "pages/mine/mine",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
 			}
 		}
 	],
 	"globalStyle": {
+		// "navigationBarTextStyle": "black",
+		// "navigationBarTitleText": "uni-app",
+		// "navigationBarBackgroundColor": "#F8F8F8",
+		// "backgroundColor": "#F8F8F8"
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+		"navigationStyle": "custom",
+		"mp-alipay": {
+			"transparentTitle": "always",
+			"titlePenetrate": "YES"
+		},
+		"navigationBarTextStyle": "white"
+	},
+	// 底部导航
+	"tabBar": {
+		// 字体颜色
+		"color": "#b4b4b4",
+		// 点击字体颜色
+		"selectedColor": "#90bbff",
+		// 底部背景色 
+		"backgroundColor": "#FFFFFF",
+		"position": "bottom",
+		"borderStyle": "black",
+		"list": [{
+				"pagePath": "pages/home/home",
+				"iconPath": "static/icon/home.png",
+				"selectedIconPath": "static/icon/homex.png",
+				"text": "书城"
+			}, {
+				"pagePath": "pages/bookrack/bookrack",
+				"iconPath": "static/icon/bookrack.png",
+				"selectedIconPath": "static/icon/bookrackx.png",
+				"text": "书架"
+			},
+			{
+				"pagePath": "pages/classify/classify",
+				"iconPath": "static/icon/classify.png",
+				"selectedIconPath": "static/icon/classifyx.png",
+				"text": "分类"
+			},
+			{
+				"pagePath": "pages/mine/mine",
+				"iconPath": "static/icon/mine.png",
+				"selectedIconPath": "static/icon/minex.png",
+				"text": "我的"
+			}
+		]
 	}
+	
 }
