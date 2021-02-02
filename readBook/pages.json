@@ -31,7 +31,7 @@
 			}
 		},
 		{
-			// 登录
+			// 书架
 			"path": "pages/bookrack/bookrack",
 			"style": {
 				"app-plus": {
@@ -40,8 +40,26 @@
 			}
 		},
 		{
-			// 登录
+			// 我的
 			"path": "pages/mine/mine",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			// 协议
+			"path": "pages/login/agreement/agreement",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			// 问题反馈
+			"path": "pages/mine/problemFeedback/problemFeedback",
 			"style": {
 				"app-plus": {
 					"titleNView": false
@@ -65,9 +83,9 @@
 	// 底部导航
 	"tabBar": {
 		// 字体颜色
-		"color": "#b4b4b4",
+		"color": "#999999",
 		// 点击字体颜色
-		"selectedColor": "#90bbff",
+		"selectedColor": "#A3834F",
 		// 底部背景色 
 		"backgroundColor": "#FFFFFF",
 		"position": "bottom",

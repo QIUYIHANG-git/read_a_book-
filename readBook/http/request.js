@@ -1,4 +1,4 @@
-let api = 'http://192.168.168.185:13005/admin'
+let api = 'https://api-guji.sinmore.vip/'
 
 
 /***
@@ -23,14 +23,14 @@ let ureq = function uget(options = {}){
 			method:options.method,
 			// config,
 			success(res) {
-				// if(res.code != 0){
-				// 	uni.showToast({
-				// 		title:res.msg,
-				// 		icon:'none',
-				// 		duration:3000
-				// 	})
-				// 	return
-				// }
+				if(res.statusCode != 200){
+					uni.showToast({
+						title:res.errMsg,
+						icon:'none',
+						duration:3000
+					})
+					return
+				}
 				resolve(res)
 			},
 			fail(err) {
@@ -44,16 +44,4 @@ let ureq = function uget(options = {}){
 		})
 	})
 } 
-// ureq.interceptor.request = (config => {
-	
-// })
-// ureq.interceptor.response = (response) => {
-//     //判断返回状态 执行相应操作
-// 	console.log(response)
-//     return response;
-// }
-// ureq.interceptors.request.use = (config) => {
-// 	console.log(config)
-// 	return config
-// }
 export default ureq

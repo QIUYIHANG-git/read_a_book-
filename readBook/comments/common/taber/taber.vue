@@ -5,13 +5,12 @@
 				top:`${padd}`,
 				backgroundColor:`${backgroundColor}`
 			}">
-			<view class="bar-view-left" >
-				<view class="" @click="whoreReturn">
+			<view class="bar-view-left" @click="whoreReturn">
+				
 					<slot name="img"></slot>
-				</view>
-				<view class="" @click="homeCilck">
+				<!-- <view class="" @click="homeCilck">
 					<slot name="imgtow"></slot>
-				</view>
+				</view> -->
 			</view>
 			<view class="bar-view-center">
 				<slot name="text"></slot>
@@ -95,9 +94,9 @@
 			width:100%;
 			position:absolute;
 			.bar-view-left {
-				width: 104rpx;
+				width: 42rpx;
 				height: 42rpx;
-				margin-left: 20rpx;
+				margin-left: 30rpx;
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
@@ -105,8 +104,8 @@
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
-					width: 42rpx;
-					height: 42rpx;
+					width: 21rpx;
+					height: 35rpx;
 				}
 			}
 
@@ -115,15 +114,16 @@
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
+					line-height:30.12rpx;
 					color: #fff;
-					font-size: 34rpx;
+					font-size: 36rpx;
 				}
 			}
 
 			.bar-view-right {
 				width: 42rpx;
 				height: 42rpx;
-				margin-right: 20rpx;
+				margin-right: 30rpx;
 			}
 		}
 	}

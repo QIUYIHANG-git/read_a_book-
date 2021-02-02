@@ -9,7 +9,9 @@ export default new Vuex.Store({
 		info: {
 			userName: '',
 			userImg: ''
-		}
+		},
+		token:'',
+		tokenType:''
 	},
 	mutations: {
 		// 账号信息
@@ -21,6 +23,14 @@ export default new Vuex.Store({
 		eliminateInfo(state) {
 			state.info.userName = ''
 			state.info.userImg = ''
+		},
+		// 清空token
+		eliminateToken(state){
+			state.token = ''
+		},
+		// 清空tokenType
+		eliminateTokenType(state){
+			state.tokenType = ''
 		}
 	},
 	actions: {},
