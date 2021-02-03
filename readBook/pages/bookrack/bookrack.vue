@@ -8,8 +8,90 @@
 		}">
 		</view>
 		<scroll-view class="coupon" scroll-y="true">
-			<view class="" @click="login">
-				书架
+			<view class="read-box">
+				<view class="read-box-one">
+					本周阅读<text>1980</text>分钟
+				</view>
+				<view class="read-box-tow">
+					<view class="search-itme">
+						<image src="../../static/icon/home/aso.png" mode=""></image>
+						<!-- <input placeholder-style="color: #B9A798;" placeholder="搜索"type="text" value="" /> -->
+						<text>搜索</text>
+					</view>
+				</view>
+				<view class="read-box-therr">
+					<image src="../../static/icon/bookrack/menu.png" mode="" @click="offOn"></image>
+					<view v-show="offpos" class="read-box-therr-pos">
+						<view class="text-itme" @click="grouping">
+							新建分组
+						</view>
+						<view class="text-itme" @click="compile">
+							编辑
+						</view>
+						<view class="text-itme" @click="pattern">
+							切换模式
+						</view>
+					</view>
+				</view>
+			</view>
+			<view v-if="modelOne==0">
+				<view class="img-itme" v-for="(list,index) in listUrl" :key="index" :style="{backgroundImage:`${list.url}`}">
+					<view class="text-number">
+						{{list.text}}<text>[{{list.number}}]</text>
+					</view>
+					<view class="in-detail">
+						<image src="../../static/icon/bookrack/详细.png" mode=""></image>
+					</view>
+				</view>
+			</view>
+			<view v-else-if="modelOne==1">
+				<!-- 自定义分组 -->
+				<view class="img-itme-tow" v-for="(listUrl,index) in listTow" :key="index" :style="{backgroundImage:`${listUrl.url}`}">
+					<view class="text-number">
+						{{listUrl.text}}<text>[{{listUrl.number}}]</text>
+					</view>
+					<view class="in-detail">
+						<image src="../../static/icon/bookrack/详细.png" mode=""></image>
+					</view>
+					<!-- 选中编辑 -->
+					<!-- <view class="ori" @click="oriOd(index)">
+						<image v-if="orinumber[index]==index" src="../../static/icon/bookrack/选中.png" mode=""></image>
+					</view> -->
+				</view>
+				<!-- 推荐书籍 -->
+				<view class="books">
+					<view class="books-box">
+						<view class="books-itme" v-for="(shuitme,index) in shuList" :key="index" :style="{backgroundImage:`${shuitme.url}`}">
+							<view class="text-box">
+								{{shuitme.text}}
+							</view>
+						</view>
+					</view>
+					<view class="books-pos">
+						<view class="text-pos">
+							<view class="text-itme" v-for="(shutext,index) in shuList" :key="index">
+								{{shutext.text}}
+							</view>
+						</view>
+					</view>
+				</view>
+				<!-- 推荐书籍二 -->
+				<view class="books" style="margin-top: 90rpx; ">
+					<view class="books-box">
+						<view class="books-itme" v-for="(shuitme,index) in shuListTow" :key="index" :style="{backgroundImage:`${shuitme.url}`}">
+							<view class="text-box">
+								{{shuitme.text}}
+							</view>
+						</view>
+					</view>
+					<view class="books-pos">
+						<view class="text-pos">
+							<view class="text-itme" v-for="(shutext,index) in shuListTow" :key="index">
+								{{shutext.text}}
+							</view>
+						</view>
+					</view>
+				</view>
 			</view>
 		</scroll-view>
 	</view>
@@ -23,7 +105,82 @@
 		},
 		data() {
 			return {
-				matop: ''
+				matop: '',
+				// 菜单
+				offpos: false,
+				// 模式状态
+				modelOne: 1,
+				// 
+				orinumber:[0,1],
+				// 模式0分组
+				listUrl: [{
+						text: '經部',
+						number: 10,
+						url: 'url(../../static/icon/bookrack/经部书单.png)'
+					},
+					{
+						text: '史部',
+						number: 4,
+						url: 'url(../../static/icon/bookrack/史部书单.png)'
+					},
+					{
+						text: '子部',
+						number: 10,
+						url: 'url(../../static/icon/bookrack/子部书单.png)'
+					},
+					{
+						text: '集部',
+						number: 4,
+						url: 'url(../../static/icon/bookrack/集部书单.png)'
+					},
+					{
+						text: '叢部',
+						number: 4,
+						url: 'url(../../static/icon/bookrack/丛部书单.png)'
+					}
+				],
+				// 模式1分组
+				listTow: [{
+						text: '历史与书法',
+						number: 10,
+						url: 'url(../../static/icon/bookrack/书单.png)'
+					},
+					{
+						text: '研究书词的书',
+						number: 4,
+						url: 'url(../../static/icon/bookrack/书单.png)'
+					}
+				],
+				// 书籍
+				shuList: [{
+						text: '周易孔義集說',
+						url: 'url(../../static/icon/bookrack/经部封面.png)'
+					},
+					{
+						text: '社司轉帖',
+						url: 'url(../../static/icon/bookrack/史部封面.png)'
+					},
+					{
+						text: '修文殿禦覽存',
+						url: 'url(../../static/icon/bookrack/子部封面.png)'
+					}
+				],
+				// 书籍2
+				shuListTow:[
+					{
+						text: '周易孔義集說',
+						url: 'url(../../static/icon/bookrack/经部封面.png)'
+					},
+					{
+						text: '修文殿禦覽存',
+						url: 'url(../../static/icon/bookrack/经部封面.png)'
+					},
+					{
+						text: '相宗絡索',
+						url: 'url(../../static/icon/bookrack/经部封面.png)'
+					}
+				]
+				
 			}
 		},
 		methods: {
@@ -32,15 +189,309 @@
 				console.log(data)
 				this.matop = data
 				console.log(this.matop)
+			},
+			// 菜单显示与退出
+			offOn() {
+				if (this.offpos == false) {
+					this.offpos = true
+				} else {
+					this.offpos = false
+				}
+			},
+			// 新建分组方法
+			grouping() {
+				console.log('新建分组')
+			},
+			// 编辑方法
+			compile() {
+				console.log('编辑')
+				uni.navigateTo({
+					url:'./compile/compile',
+					fail(err) {
+						console.log(err)
+					}
+				})
+			},
+			// 切换模式方法
+			pattern() {
+				console.log('切换模式')
+				this.offpos = false
+				if (this.modelOne == 0) {
+					this.modelOne = 1
+				} else {
+					this.modelOne = 0
+				}
+			},
+			// 选中编辑
+			oriOd(index){
+				uni.navigateTo({
+					url:'./compile/compile',
+					fail(err) {
+						console.log(err);
+					}
+				})
 			}
 		}
 	}
 </script>
 
 <style scoped lang="less">
-	.coupon{
-		height:100%;
+	.coupon {
+		height: 100%;
 		width: 100%;
-		background-color: #fff;
+		background: #F6F1E9;
+		padding-bottom: 21rpx;
+		.read-box {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-top: 30rpx;
+			padding: 0 30rpx 30rpx 31rpx;
+
+			.read-box-one {
+				font-size: 28rpx;
+				font-family: PingFang SC;
+
+				text {
+					color: #A1814C;
+					font-size: 40rpx;
+				}
+			}
+
+			.read-box-tow {
+				.search-itme {
+					background-color: #FFFEF7;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					height: 64rpx;
+					width: 200rpx;
+					border-radius: 32rpx;
+
+					image {
+						width: 28rpx;
+						height: 28rpx;
+					}
+
+					text {
+						margin-left: 11rpx;
+						color: #A1814C;
+						font-size: 28rpx;
+					}
+				}
+			}
+
+			.read-box-therr {
+				position: relative;
+
+				image {
+					width: 64rpx;
+					height: 64rpx;
+				}
+
+				.read-box-therr-pos {
+					width: 180rpx;
+					height: 275rpx;
+					background-image: url(../../static/icon/bookrack/弹出.png);
+					background-size: 100% 100%;
+					background-repeat: no-repeat;
+					position: absolute;
+					top: 100%;
+					z-index: 999;
+					right: 0;
+					overflow: hidden;
+					animation-name: moveheigth;
+					animation-duration: .5s;
+					animation-timing-function: linear;
+
+					@keyframes moveheigth {
+						0% {
+							height: 0;
+						}
+
+						25% {
+							height: 25%;
+						}
+
+						45% {
+							height: 45%;
+						}
+
+						50% {
+							height: 65%;
+						}
+
+						70% {
+							height: 75%;
+						}
+
+						85% {
+							height: 85%;
+						}
+
+						100% {
+							height: 100%;
+						}
+					}
+
+					.text-itme {
+						width: 100%;
+						height: 91rpx;
+						color: #fff;
+						font-size: 28rpx;
+						font-family: PingFang SC;
+						font-weight: 400;
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						border-bottom: 1rpx solid #333333;
+					}
+				}
+			}
+
+		}
+
+		.img-itme {
+			width: 690rpx;
+			height: 120rpx;
+			margin: 0 auto 30rpx auto;
+			background-size: 100% 100%;
+			background-repeat: no-repeat;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+
+			.text-number {
+				font-size: 32rpx;
+				color: #ffffff;
+				font-family: PingFang SC;
+				margin-left: 151rpx;
+			}
+
+			.in-detail {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				margin-right: 30rpx;
+
+				image {
+					width: 38rpx;
+					height: 38rpx;
+				}
+			}
+		}
+
+		.img-itme-tow {
+			width: 690rpx;
+			height: 120rpx;
+			margin: 0 auto 30rpx auto;
+			background-image: url(../../static/icon/bookrack/书单.png);
+			background-size: 100% 100%;
+			background-repeat: no-repeat;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			position: relative;
+			.ori{
+				width: 40rpx;
+				height: 40rpx;
+				border-radius: 50%;
+				background-color: rgba(0,0,0,.6);
+				border: 3rpx solid #fff;
+				position: absolute;
+				top: 0;
+				image{
+					width: 40rpx;
+					height: 40rpx;
+				}
+			}
+
+			.text-number {
+				font-size: 32rpx;
+				color: #ffffff;
+				font-family: PingFang SC;
+				margin-left: 151rpx;
+			}
+
+			.in-detail {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				margin-right: 30rpx;
+
+				image {
+					width: 38rpx;
+					height: 38rpx;
+				}
+			}
+		}
+
+		.books {
+			position: relative;
+			padding-top: 28rpx;
+			width: 100%;
+			height: 296rpx;
+			z-index: 999;
+
+			.books-box {
+
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				padding: 0 29rpx;
+				box-sizing: border-box;
+
+				.books-itme {
+					width: 206rpx;
+					height: 296rpx;
+					background-size: 100% 100%;
+					background-repeat: no-repeat;
+
+					.text-box {
+						font-size: 24rpx;
+						margin-top: 28rpx;
+						margin-left: 18rpx;
+						width: 55rpx;
+						height: 200rpx;
+						padding: 5rpx 18rpx;
+						box-sizing: border-box;
+						color: #333333;
+						font-family: PingFang SC;
+					}
+				}
+			}
+
+			.books-pos {
+				position: absolute;
+				z-index: -1;
+				bottom: -80rpx;
+				height: 118.5rpx;
+				width: 100%;
+				background-image: url(../../static/icon/home/推荐书籍.png);
+				background-size: 100% 100%;
+				background-repeat: no-repeat;
+				
+				.text-pos{
+					position: relative;
+					top: 50rpx;
+					width: 100%;
+					height: 30rpx;
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					padding: 0 29rpx;
+					box-sizing: border-box;
+					.text-itme{
+						width: 206rpx;
+						height: 100%;
+						font-size: 28rpx;
+						font-family: PingFang SC;
+						font-weight: 500;
+						color: #000;
+					}
+				}
+			}
+		}
+
 	}
 </style>
