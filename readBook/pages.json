@@ -74,6 +74,15 @@
 					"titleNView": false
 				}
 			}
+		},
+		{
+			// 搜索
+			"path": "pages/bookrack/search/search",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
 		}
 	],
 	"globalStyle": {

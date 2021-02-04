@@ -13,7 +13,7 @@
 					本周阅读<text>1980</text>分钟
 				</view>
 				<view class="read-box-tow">
-					<view class="search-itme">
+					<view class="search-itme" @click="csearchClick">
 						<image src="../../static/icon/home/aso.png" mode=""></image>
 						<!-- <input placeholder-style="color: #B9A798;" placeholder="搜索"type="text" value="" /> -->
 						<text>搜索</text>
@@ -249,6 +249,27 @@
 					}
 				})
 			},
+			// 方法
+			movegx(){
+				this.$ureq({
+					url:'api/bookgroup',
+					method:'GET',
+					header:{
+						Accept:'application/json',
+						Authorization:String(this.$store.state.token) 
+					}
+				}).then(res =>{
+					this.listTow = res.data
+					for(let i in this.listTow){
+						// url 书单
+						this.listTow[i].url = 'url(http://i1.fuimg.com/733036/858a6e0a012d3a88.png)'
+					}
+					console.log(res)
+				})
+				.catch(err => {
+					console.log(err)
+				})
+			},
 			// 切换模式方法
 			pattern() {
 				console.log('切换模式')
@@ -305,6 +326,12 @@
 					}
 				}).then(res =>{
 					this.okConfigOff = false
+					this.movegx()
+					uni.showToast({
+						title:'添加成功',
+						icon:'success',
+						duration:2000
+					})
 					console.log(res)
 				})
 				.catch(err => {
@@ -321,20 +348,19 @@
 				this.deleteOff = true
 				console.log('-------------',row)
 			},
+			// 删除
 			deleteConfig(){
 				this.deleteOff = false
 				this.$ureq({
-					url:'api/bookgroup/',
-					method:'GET',
-					data:{
-						id:this.deleteId
-					},
+					url:'api/bookgroup/'+this.deleteId,
+					method:'DELETE',
 					header:{
 						Accept:'application/json',
 						Authorization:String(this.$store.state.token) 
 					}
 				}).then(res => {
 					console.log(res)
+					this.movegx()
 					uni.showToast({
 						title:'删除成功',
 						icon:'success',
@@ -342,6 +368,15 @@
 					})
 				}).catch(err => {
 					console.log(err)
+				})
+			},
+			// 搜索
+			csearchClick(){
+				uni.navigateTo({
+					url:'./search/search',
+					fail(err) {
+						console.log(err)
+					}
 				})
 			}
 		},
@@ -361,6 +396,23 @@
 					this.listUrl[i].id = res.data[i].id
 					this.listUrl[i].number = res.data[i].book_count
 				}
+				console.log(res)
+			})
+			.catch(err => {
+				console.log(err)
+			})
+			this.$ureq({
+				url:'api/bookshelf',
+				method:'GET',
+				data:{
+					page:'1',
+					per_page:'4'
+				},
+				header:{
+					Accept:'application/json',
+					Authorization:String(this.$store.state.token) 
+				}
+			}).then(res => {
 				console.log(res)
 			})
 			.catch(err => {
