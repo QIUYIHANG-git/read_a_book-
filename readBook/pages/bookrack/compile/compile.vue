@@ -164,8 +164,8 @@
 			// 删除分组
 			deletefa(){
 				this.$ureq({
-					url:'api/bookgroup',
-					method:'GET',
+					url:'api/bookgroup/',
+					method:'DELETE',
 					data:{
 						id:id
 					},
@@ -206,7 +206,7 @@
 		},
 		onLoad() {
 			this.$ureq({
-				url:'api/bookgroup',
+				url:'api/bookshelf',
 				method:'GET',
 				data:{
 					page:'1',
