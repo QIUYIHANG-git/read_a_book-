@@ -37,60 +37,61 @@
 					</label>
 				</checkbox-group>
 			</view>
+			<!-- 提示窗口 -->
+			<view v-if="okConfigOff" style="
+			background-color: #fff;
+			width: 80%;
+			height: 200rpx;
+			border: 1rpx solid rgb(36,162,176);
+			border-radius: 24rpx 24rpx 0 0 ;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			position: absolute;
+			top: 40%;
+			left: 10%;
+			">
+				<view >
+					<view style="color: rgb(51,51,51);font-size: 38rpx;font-weight: bold;text-align: center;">
+						登录成功
+					</view>
+					<view style="margin-top: 30rpx;">
+						{{oneTime}}
+					</view>
+				</view>
+			</view>
+			<!-- 登录失败 -->
+			<view v-if="onConfigOff" style="
+			background-color: #fff;
+			width: 80%;
+			height: 400rpx;
+			border: 1rpx solid #000;
+			border-radius: 24rpx 24rpx 0 0 ;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			position: absolute;
+			top: 40%; 
+			left: 10%;
+			">
+				<view >
+					<view style="color: rgb(51,51,51);font-size: 38rpx;font-weight: bold;text-align: center;">
+						<image style="height: 100rpx;width: 100rpx;" src="../../static/icon/jgx.png" mode=""></image>
+					</view>
+					<view style="margin-top: 30rpx;text-align: center;color: rgb(184,184,184);">
+						您的账号处于冻结状态
+					</view>
+					<view style="margin-top: 10rpx;text-align: center;color: rgb(184,184,184);">
+						无法登录，请联系管理员解冻
+					</view>
+					
+					<view style="margin: 30rpx auto 0 auto;">
+						<button style="border-radius: 24rpx 24rpx 0 0; border: 1rpx solid #000;" type="default" @click="dispose">立即处理</button>
+					</view>
+				</view>
+			</view>
 		</scroll-view>
-		<!-- 提示窗口 -->
-		<view v-if="okConfigOff" style="
-		background-color: #fff;
-		width: 80%;
-		height: 200rpx;
-		border: 1rpx solid rgb(36,162,176);
-		border-radius: 24rpx 24rpx 0 0 ;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		position: absolute;
-		top: 40%;
-		left: 10%;
-		">
-			<view >
-				<view style="color: rgb(51,51,51);font-size: 38rpx;font-weight: bold;text-align: center;">
-					登录成功
-				</view>
-				<view style="margin-top: 30rpx;">
-					{{oneTime}}
-				</view>
-			</view>
-		</view>
-		<!-- 登录失败 -->
-		<view v-if="onConfigOff" style="
-		background-color: #fff;
-		width: 80%;
-		height: 400rpx;
-		border: 1rpx solid #000;
-		border-radius: 24rpx 24rpx 0 0 ;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		position: absolute;
-		top: 40%; 
-		left: 10%;
-		">
-			<view >
-				<view style="color: rgb(51,51,51);font-size: 38rpx;font-weight: bold;text-align: center;">
-					<image style="height: 100rpx;width: 100rpx;" src="../../static/icon/jgx.png" mode=""></image>
-				</view>
-				<view style="margin-top: 30rpx;text-align: center;color: rgb(184,184,184);">
-					您的账号处于冻结状态
-				</view>
-				<view style="margin-top: 10rpx;text-align: center;color: rgb(184,184,184);">
-					无法登录，请联系管理员解冻
-				</view>
-				
-				<view style="margin: 30rpx auto 0 auto;">
-					<button style="border-radius: 24rpx 24rpx 0 0; border: 1rpx solid #000;" type="default" @click="dispose">立即处理</button>
-				</view>
-			</view>
-		</view>
+		
 	</view>
 </template>
 
@@ -181,7 +182,7 @@
 															that.oneTime = ''
 															console.log(res.data.first_login)
 														}
-														that.$store.state.token = res.data.token
+														that.$store.state.token ='Bearer ' + res.data.token
 														that.$store.state.tokenType = res.data.token_type
 													}else{
 														that.onConfigOff = true
@@ -286,11 +287,10 @@
 		width: 100%;
 		background-color: #fff;
 		position: relative;
-
 		.content-text {
 			width: 100%;
 			height: 100%;
-
+			
 			.text-one {
 				width: 84%;
 				margin: 100rpx auto 0 auto;

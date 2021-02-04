@@ -35,7 +35,8 @@
 				</view>
 			</view>
 			<view v-if="modelOne==0">
-				<view class="img-itme" v-for="(list,index) in listUrl" :key="index" :style="{backgroundImage:`${list.url}`}">
+				<!-- 默认分组 -->
+				<view class="img-itme" v-for="(list,index) in listUrl" :key="index" :style="{backgroundImage:`${list.url}`}" @click="defaultGrouping(listUrl[index])">
 					<view class="text-number">
 						{{list.text}}<text>[{{list.number}}]</text>
 					</view>
@@ -46,17 +47,13 @@
 			</view>
 			<view v-else-if="modelOne==1">
 				<!-- 自定义分组 -->
-				<view class="img-itme-tow" v-for="(listUrl,index) in listTow" :key="index" :style="{backgroundImage:`${listUrl.url}`}">
+				<view class="img-itme-tow" v-for="(listUrl,index) in listTow" :key="index" :style="{backgroundImage:`${listUrl.url}`}" @click="customGrouping(listTow[index])" @longpress="logGrouping(listTow[index])">
 					<view class="text-number">
-						{{listUrl.text}}<text>[{{listUrl.number}}]</text>
+						{{listUrl.name}}<text>[{{listUrl.book_count}}]</text>
 					</view>
 					<view class="in-detail">
 						<image src="../../static/icon/bookrack/详细.png" mode=""></image>
 					</view>
-					<!-- 选中编辑 -->
-					<!-- <view class="ori" @click="oriOd(index)">
-						<image v-if="orinumber[index]==index" src="../../static/icon/bookrack/选中.png" mode=""></image>
-					</view> -->
 				</view>
 				<!-- 推荐书籍 -->
 				<view class="books">
@@ -93,6 +90,36 @@
 					</view>
 				</view>
 			</view>
+			<!-- 新建分组显示-->
+			<u-popup v-model="okConfigOff" mode="center" border-radius="14" width="560rpx" height="450rpx" :closeable="false" >
+				<view style="background-color: rgb(234,234,234);color: #fff;width: 100%;height: 100%;display: flex;
+				align-items: flex-end;flex-wrap: wrap;font-family: PingFang SC;">
+					<view style="width: 100%;text-align: center;color: rgb(0,0,0);font-size: 36rpx;font-weight: bold;">
+						新建分组
+					</view>
+					<view style="color: #999999;width:480rpx;font-size: 32rpx;margin:0 auto; border-bottom: 1rpx solid #E5E5E5; padding: 40rpx 0;">
+						<input v-model="groupingName" type="text" value="" placeholder="请输入分组名称(限10字)" style-placeholder="color: #999999" />
+					</view>
+					<view style="background-color: #A1814C;width: 100%;padding: 20rpx 0;text-align: center;font-size: 32rpx;font-weight: 400;" @click="succeedConfig">
+						确定
+					</view>
+				</view>
+			</u-popup>
+			<!-- 删除显示-->
+			<u-popup v-model="deleteOff" mode="center" border-radius="14" width="560rpx" height="400rpx" :closeable="false" >
+				<view style="background-color: rgb(234,234,234);color: #fff;width: 100%;height: 100%;display: flex;
+				align-items: flex-end;flex-wrap: wrap;font-family: PingFang SC;">
+					<view style="width: 100%;text-align: center;color: rgb(0,0,0);font-size: 36rpx;font-weight: bold;">
+						删除分组
+					</view>
+					<view style="color: #999999;width:480rpx;font-size: 32rpx;margin:0 auto; border-bottom: 1rpx solid #E5E5E5; padding: 40rpx 0;text-align: center;">
+						确定删除<text style="color: #f00;">{{textdelete}}</text>分组？
+					</view>
+					<view style="background-color: #A1814C;width: 100%;padding: 20rpx 0;text-align: center;font-size: 32rpx;font-weight: 400;" @click="deleteConfig">
+						确定
+					</view>
+				</view>
+			</u-popup>
 		</scroll-view>
 	</view>
 </template>
@@ -109,48 +136,52 @@
 				// 菜单
 				offpos: false,
 				// 模式状态
-				modelOne: 1,
+				modelOne: 0,
 				// 
 				orinumber:[0,1],
+				// 添加分组
+				okConfigOff:false,
+				//  添加分组名字
+				groupingName:'',
+				//删除的时候显示 
+				textdelete:'',
+				// 删除显示
+				deleteOff:false,
+				deleteId:null,
 				// 模式0分组
 				listUrl: [{
 						text: '經部',
 						number: 10,
+						id:null,
 						url: 'url(../../static/icon/bookrack/经部书单.png)'
 					},
 					{
 						text: '史部',
 						number: 4,
+						id:null,
 						url: 'url(../../static/icon/bookrack/史部书单.png)'
 					},
 					{
 						text: '子部',
 						number: 10,
+						id:null,
 						url: 'url(../../static/icon/bookrack/子部书单.png)'
 					},
 					{
 						text: '集部',
 						number: 4,
+						id:null,
 						url: 'url(../../static/icon/bookrack/集部书单.png)'
 					},
 					{
 						text: '叢部',
 						number: 4,
+						id:null,
 						url: 'url(../../static/icon/bookrack/丛部书单.png)'
 					}
 				],
 				// 模式1分组
-				listTow: [{
-						text: '历史与书法',
-						number: 10,
-						url: 'url(../../static/icon/bookrack/书单.png)'
-					},
-					{
-						text: '研究书词的书',
-						number: 4,
-						url: 'url(../../static/icon/bookrack/书单.png)'
-					}
-				],
+				listTow: [],
 				// 书籍
 				shuList: [{
 						text: '周易孔義集說',
@@ -200,6 +231,12 @@
 			},
 			// 新建分组方法
 			grouping() {
+				this.offpos = false
+				this.modelOne == 1?(this.okConfigOff=true) : uni.showToast({
+					title:'请切换模式再操作',
+					icon:'none',
+					duration:2000
+				})
 				console.log('新建分组')
 			},
 			// 编辑方法
@@ -217,6 +254,25 @@
 				console.log('切换模式')
 				this.offpos = false
 				if (this.modelOne == 0) {
+					// 登录自定义列表
+					this.$ureq({
+						url:'api/bookgroup',
+						method:'GET',
+						header:{
+							Accept:'application/json',
+							Authorization:String(this.$store.state.token) 
+						}
+					}).then(res =>{
+						this.listTow = res.data
+						for(let i in this.listTow){
+							// url 书单
+							this.listTow[i].url = 'url(http://i1.fuimg.com/733036/858a6e0a012d3a88.png)'
+						}
+						console.log(res)
+					})
+					.catch(err => {
+						console.log(err)
+					})
 					this.modelOne = 1
 				} else {
 					this.modelOne = 0
@@ -230,7 +286,86 @@
 						console.log(err);
 					}
 				})
+			},
+			// 默认分组
+			defaultGrouping(index){
+				console.log(index)
+			},
+			// 添加分组确定
+			succeedConfig(){
+				this.$ureq({
+					url:'api/bookgroup',
+					method:'POST',
+					data:{
+						name:this.groupingName
+					},
+					header:{
+						Accept:'application/json',
+						Authorization:String(this.$store.state.token) 
+					}
+				}).then(res =>{
+					this.okConfigOff = false
+					console.log(res)
+				})
+				.catch(err => {
+					console.log(err)
+				})
+			},
+			// 自定义分组
+			customGrouping(row){
+				console.log(row)
+			},
+			logGrouping(row){
+				this.textdelete = row.name
+				this.deleteId = row.id
+				this.deleteOff = true
+				console.log('-------------',row)
+			},
+			deleteConfig(){
+				this.deleteOff = false
+				this.$ureq({
+					url:'api/bookgroup/',
+					method:'GET',
+					data:{
+						id:this.deleteId
+					},
+					header:{
+						Accept:'application/json',
+						Authorization:String(this.$store.state.token) 
+					}
+				}).then(res => {
+					console.log(res)
+					uni.showToast({
+						title:'删除成功',
+						icon:'success',
+						duration:2000
+					})
+				}).catch(err => {
+					console.log(err)
+				})
 			}
+		},
+		mounted() {
+			console.log(String(this.$store.state.token))
+			// 登录默认列表
+			this.$ureq({
+				url:'api/bookgroup/default',
+				method:'GET',
+				header:{
+					Accept:'application/json',
+					Authorization:String(this.$store.state.token) 
+				}
+			}).then(res =>{
+				for(let i in this.listUrl){
+					this.listUrl[i].text = res.data[i].name
+					this.listUrl[i].id = res.data[i].id
+					this.listUrl[i].number = res.data[i].book_count
+				}
+				console.log(res)
+			})
+			.catch(err => {
+				console.log(err)
+			})
 		}
 	}
 </script>

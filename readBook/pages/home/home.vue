@@ -121,6 +121,29 @@
 				<view class="books-ba">
 					
 				</view>
+				<view class="ba-pos">
+					
+				</view>
+				<view class="books-text">
+					<view class="books-text-one">
+						周易孔義集說
+					</view>
+					<view class="books-text-tow">
+						作者：[清]沈起元
+					</view>
+					<view class="books-text-therr">
+						朝代：清
+					</view>
+					<view class="books-text-four">
+						版本：四庫全書本
+					</view>
+					<view class="books-text-fove">
+						卷数：20卷
+					</view>
+				</view>
+				<view class="books-go">
+					加入书架
+				</view>
 			</view>
 		</scroll-view>
 	</view>
@@ -403,6 +426,7 @@
 			display: flex;
 			justify-content: space-between;
 			align-items: baseline;
+			margin-bottom: 15rpx;
 			.recommend-itme{
 				width: 371.3rpx;
 				height: 104rpx;
@@ -440,14 +464,71 @@
 		}
 		// 书籍信息
 		.books-information{
-			
+			display: flex;
+			justify-content: left;
+			align-items: center;
+			margin-bottom: 54rpx;
+			position: relative;
+			z-index: 999;
+			.ba-pos{
+				width: 207rpx;
+				height: 32rpx;
+				z-index: -1;
+				background-image: url(http://i1.fuimg.com/733036/b57cb98258cd9e2a.png);
+				background-size: 100% 100%;
+				background-repeat: no-repeat;
+				position: absolute;
+				bottom: -18rpx;
+				left: 20rpx;
+			}
 			.books-ba{
 				width: 185rpx;
 				height: 266rpx;
-				background-color: #f00;
-				// background-image: url(../../static/icon/bookrack/丛部书籍封面.png);
-				// background-size: 100% 100%;
-				// background-repeat: no-repeat;
+				margin-left: 31rpx;
+				background-image: url(http://i1.fuimg.com/733036/90ddcafb6b2377f7.png);
+				background-size: 100% 100%;
+				background-repeat: no-repeat;
+			}
+			.books-text{
+				width: 310rpx;
+				height: 266rpx;
+				margin-left: 29rpx;
+				font-size: 24rpx;
+				font-family: PingFang SC;
+				color: #666666;
+				font-weight: 400;
+				.books-text-one{
+					margin-top: 29rpx;
+					font-size: 32rpx;
+					color: #000;
+					font-weight: 500;
+				}
+				.books-text-tow{
+					margin-top: 15rpx;
+				}
+				.books-text-therr{
+					margin-top: 15rpx;
+				}
+				.books-text-four{
+					margin-top: 15rpx;
+				}
+				.books-text-fove{
+					margin-top: 15rpx;
+				}
+			}
+			
+			.books-go{
+				background-color: #A3834F;
+				width: 140rpx;
+				height: 60rpx;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				font-size: 26rpx;
+				font-family: PingFang SC;
+				font-weight: 400;
+				color: #fff;
+				margin-left: 25rpx;
 			}
 		}
 	}
