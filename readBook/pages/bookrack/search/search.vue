@@ -1,7 +1,7 @@
 <template>
 	<view class="coupon-box" :style="{height:`calc(100vh - ${matop})`}">
 		<taber @child-event='parevent'>
-			<image src="http://i1.fuimg.com/733036/c51090a6f01cc19e.png" mode=""></image>
+			<image slot='img' src="http://i1.fuimg.com/733036/c51090a6f01cc19e.png" mode=""></image>
 			<text slot='text'>搜索</text>
 		</taber>
 		<view class="id" :style="{
@@ -11,8 +11,8 @@
 		<scroll-view class="coupon" scroll-y="true">
 			<view class="search-box">
 				<view class="search-itme">
-					<image src="http://i1.fuimg.com/733036/9e98775c16b2b2e8.png" mode=""></image><input placeholder-style="color: #B9A798;" placeholder="请输入书名/正文内容"
-					 type="text" value="" />
+					<image src="http://i1.fuimg.com/733036/9e98775c16b2b2e8.png" mode=""></image>
+					<input v-model="searchTerms" placeholder-style="color: #B9A798;" placeholder="请输入书名/正文内容" type="text" value="" @blur="enterThe"/>
 				</view>
 				<view class="text-itme">
 					搜索
@@ -23,22 +23,13 @@
 				<view class="tiele-text">
 					搜索历史
 				</view>
-				<view class="delete-text">
+				<view class="delete-text" @click="deleteEnterThe">
 					清空
 				</view>
 			</view>
-			<!--  -->
-			<view class="search-content">
-				<image src="http://i1.fuimg.com/733036/ec5461f93fd1a8f0.png" ></image> <text>嘿嘿</text>
-			</view>
-			<view class="search-content">
-				<image src="http://i1.fuimg.com/733036/ec5461f93fd1a8f0.png" ></image> <text>呵呵呵</text>
-			</view>
-			<view class="search-content">
-				<image src="http://i1.fuimg.com/733036/ec5461f93fd1a8f0.png" ></image> <text>无语了</text>
-			</view>
-			<view class="search-content">
-				<image src="http://i1.fuimg.com/733036/ec5461f93fd1a8f0.png" ></image> <text>嘿嘿</text>
+			<!-- 缓存数据盒子 -->
+			<view class="search-content" v-for="(itme,index) in recordList" :key="index" @click="cacheCilck(recordList[index])">
+				<image src="http://i1.fuimg.com/733036/ec5461f93fd1a8f0.png" ></image> <text>{{itme}}</text>
 			</view>
 		</scroll-view>
 	</view>
@@ -52,7 +43,11 @@
 		},
 		data() {
 			return {
-				matop: ''
+				matop: '',
+				// 搜索字
+				searchTerms:'',
+				// 存在放历史
+				recordList:[]
 			}
 		},
 		methods: {
@@ -61,7 +56,52 @@
 				console.log(data)
 				this.matop = data
 				console.log(this.matop)
+			},
+			// 搜索历史缓存
+			enterThe(){
+				this.recordList.push(this.searchTerms)
+				uni.setStorage({
+				    key: 'recordkey',
+				    data: this.recordList,
+				    success(res){
+						console.log(res)
+					},
+					fail(err) {
+						console.log(err)
+					}
+				});
+			},
+			// 缓存搜索方法
+			cacheCilck(row){
+				console.log(row)
+			},
+			deleteEnterThe(){
+				console.log('清空缓存')
+				uni.setStorage({
+				    key: 'recordkey',
+				    data: [],
+				    success(res){
+						console.log(res)
+					},
+					fail(err) {
+						console.log(err)
+					}
+				});
 			}
+		},
+		onLoad() {
+			let _this = this
+			uni.getStorage({
+			    key: 'recordkey',
+			    success: function (res) {
+			        console.log(res.data);
+					_this.recordList = res.data
+					console.log(_this.recordList)
+			    }
+			});
+		},
+		mounted() {
+			
 		}
 	}
 </script>

@@ -117,31 +117,33 @@
 				</view>
 			</view>
 			<!-- 书籍说明 -->
-			<view class="books-information">
-				<view class="books-ba">
-					
+			<view class="books-information" v-for="(itme,index) in recommendedReading" :key="index" >
+				<view class="books-ba" @click="recommReading">
+					<view class="pos-ba">
+						{{itme.documentName}}
+					</view>
 				</view>
 				<view class="ba-pos">
 					
 				</view>
 				<view class="books-text">
 					<view class="books-text-one">
-						周易孔義集說
+						{{itme.documentName}}
 					</view>
 					<view class="books-text-tow">
-						作者：[清]沈起元
+						作者：{{itme.author}}
 					</view>
 					<view class="books-text-therr">
-						朝代：清
+						<text>朝代：</text>{{itme.dynasty}}
 					</view>
 					<view class="books-text-four">
-						版本：四庫全書本
+						<text>版本：</text>{{itme.version}}
 					</view>
 					<view class="books-text-fove">
-						卷数：20卷
+						<text>卷数：</text>{{itme.volumeName}}卷
 					</view>
 				</view>
-				<view class="books-go">
+				<view class="books-go" @click="addRecommReading">
 					加入书架
 				</view>
 			</view>
@@ -160,6 +162,8 @@
 				matop: '',
 				// 轮播数组
 				BannerList: [],
+				// 推荐阅读
+				recommendedReading:[],
 				// 书籍
 				shuList: [{
 						text: '周易孔義集說',
@@ -195,7 +199,15 @@
 			// 更多事件
 			moreOff(){
 				console.log('点击了更多')
-			}
+			},
+			// 
+			recommReading(){
+				console.log('点击')
+			},
+			//加入书架
+			addRecommReading(){
+				console.log('加入书架')
+			 }
 		},
 		onLoad() {
 			this.$ureq({
@@ -205,6 +217,24 @@
 			.then( (res)=> {
 				console.log(res)
 				this.BannerList = res.data
+			})
+			.catch((err) => {
+				console.log(err)
+			})
+		},
+		onShow() {
+			// 推荐阅读
+			this.$ureq({
+				url:'api/book/recommend',
+				method:'GET',
+				data:{
+					page:'1',
+					per_page:'5'
+				}
+			})
+			.then( (res)=> {
+				console.log('推荐阅读请求:',res)
+				this.recommendedReading = res.data
 			})
 			.catch((err) => {
 				console.log(err)
@@ -488,6 +518,14 @@
 				background-image: url(http://i1.fuimg.com/733036/90ddcafb6b2377f7.png);
 				background-size: 100% 100%;
 				background-repeat: no-repeat;
+				.pos-ba{
+					width: 10rpx;
+					height: 10rpx;
+					background-color: #f00;
+					margin-top: 10rpx;
+					margin-left: 10rpx;
+				}
+					
 			}
 			.books-text{
 				width: 310rpx;

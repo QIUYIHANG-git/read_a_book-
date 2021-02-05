@@ -654,7 +654,7 @@
 				bottom: -80rpx;
 				height: 118.5rpx;
 				width: 100%;
-				background-image: url(../../static/icon/home/推荐书籍.png);
+				background-image: url(http://i1.fuimg.com/733036/ac0d7b103ba414e6.png);
 				background-size: 100% 100%;
 				background-repeat: no-repeat;
 				
