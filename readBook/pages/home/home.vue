@@ -118,7 +118,7 @@
 			</view>
 			<!-- 书籍说明 -->
 			<view class="books-information" v-for="(itme,index) in recommendedReading" :key="index" >
-				<view class="books-ba" @click="recommReading">
+				<view class="books-ba" @click="recommReading(recommendedReading[index])">
 					<view class="pos-ba">
 						{{itme.documentName}}
 					</view>
@@ -143,7 +143,7 @@
 						<text>卷数：</text>{{itme.volumeName}}卷
 					</view>
 				</view>
-				<view class="books-go" @click="addRecommReading">
+				<view class="books-go" @click="addRecommReading(recommendedReading[index])">
 					加入书架
 				</view>
 			</view>
@@ -200,12 +200,46 @@
 			moreOff(){
 				console.log('点击了更多')
 			},
-			// 
-			recommReading(){
+			// 书籍内容
+			recommReading(row){
+				console.log(row)
+				uni.navigateTo({
+					url:'./theBookDetails/theBookDetails?id='+ row.bookguid+'&toc_id='+'1',
+					success(res) {
+						console.log(res)
+					},
+					fail(err) {
+						console.log(err)
+					}
+				})
+				
 				console.log('点击')
 			},
 			//加入书架
-			addRecommReading(){
+			addRecommReading(row){
+				console.log(row)
+				this.$ureq({
+					url:'api/bookshelf',
+					method:'POST',
+					data:{
+						bookguid:row.bookguid,
+						dynastyname:row.dynasty
+					},
+					header:{
+						Accept:'application/json',
+						Authorization:String(this.$store.state.token) 
+					}
+				}).then(res => {
+					console.log(res)
+					uni.showToast({
+						title:'加入书架成功',
+						icon:'success',
+						duration:2000
+					})
+				})
+				.catch(err => {
+					console.log(err)
+				})
 				console.log('加入书架')
 			 }
 		},
@@ -519,11 +553,12 @@
 				background-size: 100% 100%;
 				background-repeat: no-repeat;
 				.pos-ba{
-					width: 10rpx;
-					height: 10rpx;
-					background-color: #f00;
-					margin-top: 10rpx;
-					margin-left: 10rpx;
+					width: 41rpx;
+					height: 171rpx;
+					margin-top: 26rpx;
+					margin-left: 21rpx;
+					overflow: hidden;
+					text-align: center;
 				}
 					
 			}

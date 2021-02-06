@@ -83,6 +83,15 @@
 					"titleNView": false
 				}
 			}
+		},
+		{
+			// 书籍详情
+			"path": "pages/home/theBookDetails/theBookDetails",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
 		}
 	],
 	"globalStyle": {

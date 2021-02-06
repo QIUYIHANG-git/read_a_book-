@@ -13,7 +13,7 @@
 				{{listData.title}}
 			</view>
 			<view style="margin: 0 31rpx 0 31rpx ;margin-top: 49rpx;">
-				{{listData.content}}
+				<u-parse :html="listData.content" :selectable="true"></u-parse>
 			</view>
 		</scroll-view>
 	</view>
@@ -28,7 +28,8 @@
 		data() {
 			return {
 				matop: '',
-				listData:{}
+				listData: {},
+				editorCtx:''
 			}
 		},
 		methods: {
@@ -41,25 +42,25 @@
 		},
 		onShow() {
 			this.$ureq({
-				url:'common/single',
-				data:{
-					id:'1' 
-				},
-				method:'GET'
-			}).then((res)=>{
-				console.log(res)
-				this.listData = res.data
-			})
-			.catch((err)=>{
-				console.log(err)
-			})
+					url: 'common/single',
+					data: {
+						id: '1'
+					},
+					method: 'GET'
+				}).then((res) => {
+					console.log(res)
+					this.listData = res.data
+				})
+				.catch((err) => {
+					console.log(err)
+				})
 		}
 	}
 </script>
 
 <style scoped lang="less">
-	.coupon{
-		height:100%;
+	.coupon {
+		height: 100%;
 		width: 100%;
 		background-color: #fff;
 	}

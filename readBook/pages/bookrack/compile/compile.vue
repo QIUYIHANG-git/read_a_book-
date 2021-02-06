@@ -250,7 +250,7 @@
 				})
 			},
 			// 书籍请求方法
-			shuListf(page,perPageNumber,Lists){
+			shuListf(page,perPageNumber){
 				// 书籍
 				this.$ureq({
 					url:'api/bookshelf',
@@ -265,6 +265,9 @@
 					}
 				}).then(res => {
 					console.log('请求成功',res)
+					if(res.data.length < 1){
+						return
+					}
 					this.shuList = res.data
 					
 					this.orinumber.length = this.shuList.length
@@ -394,6 +397,7 @@
 		},
 		onLoad() {
 			// 书籍请求方法
+			
 			this.shuListf('1','3')
 			console.log(this.shuList)
 		}
