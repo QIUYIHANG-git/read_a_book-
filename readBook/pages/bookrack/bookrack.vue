@@ -14,13 +14,13 @@
 				</view>
 				<view class="read-box-tow">
 					<view class="search-itme" @click="csearchClick">
-						<image src="../../static/icon/home/aso.png" mode=""></image>
+						<image src="http://i1.fuimg.com/733036/9e98775c16b2b2e8.png" mode=""></image>
 						<!-- <input placeholder-style="color: #B9A798;" placeholder="搜索"type="text" value="" /> -->
 						<text>搜索</text>
 					</view>
 				</view>
 				<view class="read-box-therr">
-					<image src="../../static/icon/bookrack/menu.png" mode="" @click="offOn"></image>
+					<image src="http://i1.fuimg.com/733036/f4cebf350195b2cb.png" mode="" @click="offOn"></image>
 					<view v-show="offpos" class="read-box-therr-pos">
 						<view class="text-itme" @click="grouping">
 							新建分组
@@ -153,31 +153,31 @@
 						text: '經部',
 						number: 10,
 						id:null,
-						url: 'url(../../static/icon/bookrack/经部书单.png)'
+						url: 'url(http://i1.fuimg.com/733036/efdd3523da44179a.png)'
 					},
 					{
 						text: '史部',
 						number: 4,
 						id:null,
-						url: 'url(../../static/icon/bookrack/史部书单.png)'
+						url: 'url(http://i1.fuimg.com/733036/861f1c925c3f033a.png)'
 					},
 					{
 						text: '子部',
 						number: 10,
 						id:null,
-						url: 'url(../../static/icon/bookrack/子部书单.png)'
+						url: 'url(http://i1.fuimg.com/733036/b6a50ea69c19fedb.png)'
 					},
 					{
 						text: '集部',
 						number: 4,
 						id:null,
-						url: 'url(../../static/icon/bookrack/集部书单.png)'
+						url: 'url(http://i1.fuimg.com/733036/67d5de97495fb1fe.png)'
 					},
 					{
 						text: '叢部',
 						number: 4,
 						id:null,
-						url: 'url(../../static/icon/bookrack/丛部书单.png)'
+						url: 'url(http://i1.fuimg.com/733036/d365f55a606d93f9.png)'
 					}
 				],
 				// 模式1分组
@@ -185,30 +185,30 @@
 				// 书籍
 				shuList: [{
 						text: '周易孔義集說',
-						url: 'url(../../static/icon/bookrack/经部封面.png)'
+						url: 'url(http://i1.fuimg.com/733036/7dd9f2f302c81f8b.png)'
 					},
 					{
 						text: '社司轉帖',
-						url: 'url(../../static/icon/bookrack/史部封面.png)'
+						url: 'url(http://i1.fuimg.com/733036/0410811b532653e4.png)'
 					},
 					{
 						text: '修文殿禦覽存',
-						url: 'url(../../static/icon/bookrack/子部封面.png)'
+						url: 'url(http://i1.fuimg.com/733036/caecb6a3d8d048e6.png	)'
 					}
 				],
 				// 书籍2
 				shuListTow:[
 					{
 						text: '周易孔義集說',
-						url: 'url(../../static/icon/bookrack/经部封面.png)'
+						url: 'url(http://i1.fuimg.com/733036/7dd9f2f302c81f8b.png)'
 					},
 					{
 						text: '修文殿禦覽存',
-						url: 'url(../../static/icon/bookrack/经部封面.png)'
+						url: 'url(http://i1.fuimg.com/733036/7dd9f2f302c81f8b.png)'
 					},
 					{
 						text: '相宗絡索',
-						url: 'url(../../static/icon/bookrack/经部封面.png)'
+						url: 'url(http://i1.fuimg.com/733036/7dd9f2f302c81f8b.png)'
 					}
 				]
 				
@@ -572,7 +572,7 @@
 			width: 690rpx;
 			height: 120rpx;
 			margin: 0 auto 30rpx auto;
-			background-image: url(../../static/icon/bookrack/书单.png);
+			background-image: url(http://i1.fuimg.com/733036/858a6e0a012d3a88.png);
 			background-size: 100% 100%;
 			background-repeat: no-repeat;
 			display: flex;

@@ -50,7 +50,7 @@
 				<view class="text-classify-one">
 					<view class="text-classify-one-itme">
 						<view class="itme-img">
-							<image src="../../static/icon/home/总库.png" mode=""></image>
+							<image src="http://i1.fuimg.com/733036/9562348daa8754b0.png" mode=""></image>
 						</view>
 						<view class="itme-text">
 							总库
@@ -58,7 +58,7 @@
 					</view>
 					<view class="text-classify-one-itme">
 						<view class="itme-img">
-							<image src="../../static/icon/home/經部.png" mode=""></image>
+							<image src="http://i1.fuimg.com/733036/7e147a5b84a16058.png" mode=""></image>
 						</view>
 						<view class="itme-text">
 							經部
@@ -66,7 +66,7 @@
 					</view>
 					<view class="text-classify-one-itme">
 						<view class="itme-img">
-							<image src="../../static/icon/home/史部.png" mode=""></image>
+							<image src="http://i1.fuimg.com/733036/aadc1469fa043b55.png" mode=""></image>
 						</view>
 						<view class="itme-text">
 							史部
@@ -76,7 +76,7 @@
 				<view class="text-classify-one">
 					<view class="text-classify-one-itme">
 						<view class="itme-img">
-							<image src="../../static/icon/home/子部.png" mode=""></image>
+							<image src="http://i1.fuimg.com/733036/b26bb68f1360316e.png" mode=""></image>
 						</view>
 						<view class="itme-text">
 							子部
@@ -84,7 +84,7 @@
 					</view>
 					<view class="text-classify-one-itme">
 						<view class="itme-img">
-							<image src="../../static/icon/home/集部.png" mode=""></image>
+							<image src="http://i1.fuimg.com/733036/e0dac046bba7d2cf.png" mode=""></image>
 						</view>
 						<view class="itme-text">
 							集部
@@ -92,7 +92,7 @@
 					</view>
 					<view class="text-classify-one-itme">
 						<view class="itme-img">
-							<image src="../../static/icon/home/叢部.png" mode=""></image>
+							<image src="http://i1.fuimg.com/733036/894160d42d45c96d.png" mode=""></image>
 						</view>
 						<view class="itme-text">
 							叢部
@@ -102,10 +102,10 @@
 			</view>
 			<!-- 广告 -->
 			<view class="advertising-member">
-				<image src="../../static/icon/home/会员.png" mode=""></image>
+				<image src="http://i1.fuimg.com/733036/16a850f04e35a834.png" mode=""></image>
 			</view>
 			<view class="advertising-red-packet">
-			 	<image src="../../static/icon/home/红包.png" mode=""></image>
+			 	<image src="http://i1.fuimg.com/733036/771b3fc2134cd137.png" mode=""></image>
 			</view>
 			<!-- 推荐 -->
 			<view class="recommend-box">
@@ -167,15 +167,15 @@
 				// 书籍
 				shuList: [{
 						text: '周易孔義集說',
-						url: 'url(../../static/icon/bookrack/经部封面.png)'
+						url: 'url(http://i1.fuimg.com/733036/019f1db278c77445.png)'
 					},
 					{
 						text: '社司轉帖',
-						url: 'url(../../static/icon/bookrack/史部封面.png)'
+						url: 'url(http://i1.fuimg.com/733036/0410811b532653e4.png)'
 					},
 					{
 						text: '修文殿禦覽存',
-						url: 'url(../../static/icon/bookrack/子部封面.png)'
+						url: 'url(http://i1.fuimg.com/733036/caecb6a3d8d048e6.png)'
 					}
 				],
 			}
