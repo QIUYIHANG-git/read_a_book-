@@ -2,16 +2,16 @@
 	<view class="coupon-box" :style="{height:`calc(100vh - ${matop})`}">
 		<taber @child-event='parevent'>
 			<image slot="img" src="../../../static/icon/min/fanx.png" mode=""></image>
-			<text slot='text'>中文</text>
+			<text slot='text'>{{nametext}}</text>
 		</taber>
 		<view class="id" :style="{
 			marginTop: `${matop}`
 		}">
 		</view>
-		<scroll-view class="coupon" scroll-y="true" @click="onSet">
+		<scroll-view class="coupon" scroll-y="true" @click="onSet" :style="{height: `calc(100% - ${heibotom})`}">
 			<view class="show-top" v-if="offTitle">
 				<view class="one">
-					<view v-for="(itme,index) in listText" :key="" class="show-top-text" >
+					<view v-for="(itme,index) in listText" :key="index" class="show-top-text">
 						<text :class="offText==index?'text-one':'text-tow'" @click="textCilck(index)">{{itme}}</text>
 					</view>
 				</view>
@@ -24,14 +24,41 @@
 					前言
 				</view>
 				<view class="cencer-text">
-					
+					<view class="img-text">
+						<text style="margin-right: 30rpx;">字号:</text>
+						<image style="margin-right: 35rpx;" src="http://i2.tiimg.com/733036/25e24c50e3454252.png" mode="" @click="addfontSizeNuber"></image>
+						<text style="margin-right: 35rpx;">{{fontSizeNuber}}</text>
+						<image src="http://i2.tiimg.com/733036/71ad455b07c265a6.png" mode="" @click="subtractfontSizeNuber"></image>
+					</view>
+					<view class="page-number-box">
+						<text style="margin-right: 32rpx;">跳转:</text> 
+						<view style="width:100rpx;height: 48rpx;border: 2rpx solid; #333;text-align: center;margin-right: 32rpx;">
+							<input v-model="pageNumber" type="number" value="" @blur="pageCilck"/>
+						</view>
+						<text>页</text>
+					</view>
 				</view>
 				<view class="bottom-text">
-					
+					<view class="bottom-itme">
+						<image src="http://i2.tiimg.com/733036/3af87905f80426ae.png" mode=""></image>
+						<text>目录</text>
+					</view>
+					<view class="bottom-itme">
+						<image src="http://i2.tiimg.com/733036/f15e1650459b3664.png" mode=""></image>
+						<text>书签</text>
+					</view>
+					<view class="bottom-itme">
+						<image src="http://i2.tiimg.com/733036/511345981cd3f8f6.png" mode=""></image>
+						<text>笔记</text>
+					</view>
+					<view class="bottom-itme">
+						<image src="http://i2.tiimg.com/733036/d80e480f6fcd2a77.png" mode=""></image>
+						<text>加入书架</text>
+					</view>
 				</view>
 			</view>
-			<view class="parse-box"  >
-				<!-- <u-parse :html="listData.html" :selectable="true" @longpress="logGrouping"></u-parse> -->
+			<view class="parse-box" @longpress="logGrouping" :style="{fontSize:`${fontSizeNuber}rpx`}">
+				<!-- <u-parse :html="listData.html" :selectable="false" ></u-parse> -->
 				<editor id="editor" style="height: 100%;" @ready="onEditorReady" @statuschange="staclo" :read-only='true'></editor>
 				<!-- <rich-text :nodes="listData.html"  class='ctext' bindlongpress="copy" :data-text="listData.html" selectable="true"></rich-text> -->
 			</view>
@@ -49,17 +76,24 @@
 			return {
 				matop: '',
 				listData: {},
+				// 
+				nametext:'正文',
 				// 触摸时间
-				touchStartTime:0,
+				touchStartTime: 0,
 				// 
-				listText:['文字阅读','页面阅览','混合阅览'],
-				offText:0,
+				listText: ['文字阅读', '页面阅览', '混合阅览'],
+				offText: 0,
 				// 
-				offTitle:false,
+				offTitle: false,
 				// 
-				optionId :'',
-				optiontocId :'',
-				editorCtx:''
+				fontSizeNuber:32,
+				// 
+				pageNumber:1,
+				// 
+				optionId: '',
+				optiontocId: '',
+				editorCtx: '',
+				heibotom:'0rpx'
 			}
 		},
 		methods: {
@@ -70,9 +104,18 @@
 				console.log(this.matop)
 			},
 			// 
-			textCilck(index){
-				this.offText  = index
+			textCilck(index) {
+				this.offText = index
 				console.log(this.offText)
+			},
+			addfontSizeNuber(){
+				this.fontSizeNuber += 1
+			},
+			subtractfontSizeNuber(){
+				this.fontSizeNuber -= 1
+			},
+			pageCilck(){
+				console.log(this.pageNumber)
 			},
 			// copy(e) {
 			// 	var that = this;
@@ -91,13 +134,13 @@
 			// 	});
 			// },
 			// 富文本加载事件
-			onEditorReady(){
-				let that = this 
-				
-				console.log('----->内容',that.listData.html)
-				
+			onEditorReady() {
+				let that = this
+
+				console.log('----->内容', that.listData.html)
+
 			},
-			staclo(e){
+			staclo(e) {
 				console.log(e)
 			},
 			onSet(e) {
@@ -107,10 +150,12 @@
 				} else {
 					if (new Date().getTime() - this.touchStartTime <= 300) {
 						// this.setMeau = true
-						if(this.offTitle == true){
+						if (this.offTitle == true) {
 							this.offTitle = false
-						}else{
+							this.heibotom = '0rpx'
+						} else {
 							this.offTitle = true
+							this.heibotom = '305rpx'
 						}
 						console.log('这是双击')
 					}
@@ -118,42 +163,41 @@
 				}
 
 			},
-			logGrouping(){
-				console.log('监听成功')
+			logGrouping() {
+				console.log('长按监听成功')
 			}
 		},
 		mounted() {
-			let that = this 
+			let that = this
 			this.$ureq({
-				url:'api/book/html',
-				method:'GET',
-				data:{
-					bookguid:String(that.optionId),
-					toc_id:String(that.optiontocId)
+				url: 'api/book/html',
+				method: 'GET',
+				data: {
+					bookguid: String(that.optionId),
+					toc_id: String(that.optiontocId)
 				},
-				header:{
-					Accept:'application/json',
-					Authorization:String(that.$store.state.token) 
+				header: {
+					Accept: 'application/json',
+					Authorization: String(that.$store.state.token)
 				}
-			}).then(res =>{
+			}).then(res => {
 				that.listData = res.data
 				uni.createSelectorQuery().select('#editor').context((res) => {
-				    that.editorCtx = res.context
+					that.editorCtx = res.context
 					that.editorCtx.setContents({
-					html:String(that.listData.html),
-					success:(res)=> {
-						console.log('---->1',res)
-					},
-					fail:(res)=> {
-						console.log('------>2',res)
+						html: String(that.listData.html),
+						success: (res) => {
+							console.log('---->1', res)
+						},
+						fail: (res) => {
+							console.log('------>2', res)
 						},
 					})
-					that.editorCtx.format('backgroundColor','#ff0000')
 					console.log(res)
 				}).exec()
 				console.log(that.listData)
 				console.log(res)
-			}).catch(err=>{
+			}).catch(err => {
 				console.log(err)
 			})
 		},
@@ -161,51 +205,62 @@
 			console.log(option)
 			this.optionId = option.id
 			this.optiontocId = option.toc_id
+			this.nametext = option.name
 		}
 	}
 </script>
 
 <style scoped lang="less">
 	.coupon {
-		height: 100%;
 		width: 100%;
-		background-color: rgb(250,248,243);
+		background-color: rgb(250, 248, 243);
 		position: relative;
-		.parse-box{
+
+		.parse-box {
 			margin: 0 auto;
-			padding-top: 49rpx;
 			box-sizing: border-box;
 			width: 86%;
+			font-size: 32rpx;
+			text-align: left;
+			color: #333;
+			line-height: 56rpx;
+			font-family: PingFangSC-Regular;
 		}
-		.show-top{
-			position: absolute;
-			top: 0;
+
+		.show-top {
+			position: fixed;
+			top: 125rpx;
 			width: 750rpx;
 			height: 100rpx;
 			background-color: #fff;
+			z-index: 999;
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
 			box-sizing: border-box;
 			padding: 0 30rpx;
-			font-size: 28rpx;	
+			font-size: 28rpx;
 			font-family: PingFang SC;
 			font-weight: 400;
-			.one{
+
+			.one {
+				display: flex;
+				justify-content: left;
+				align-items: center;
+
+				.show-top-text {
 					display: flex;
 					justify-content: left;
 					align-items: center;
-				.show-top-text{
-					display: flex;
-					justify-content: left;
-					align-items: center;
-					.text-one{
+
+					.text-one {
 						padding-bottom: 20rpx;
 						border-bottom: 2rpx solid #A3834F;
 						margin-right: 61rpx;
 						color: #A3834F;
 					}
-					.text-tow{
+
+					.text-tow {
 						padding-bottom: 20rpx;
 						border-bottom: 2rpx solid #fff;
 						margin-right: 61rpx;
@@ -213,36 +268,75 @@
 					}
 				}
 			}
-			.tow{
-				image{
+
+			.tow {
+				image {
 					width: 64rpx;
 					height: 64rpx;
 				}
 			}
-			
+
 		}
-		.show-bottom{
-			position: absolute;
+
+		.show-bottom {
+			position: fixed;
 			bottom: 0;
 			width: 750rpx;
 			height: 305rpx;
 			background-color: #fff;
-			
-			.top-text{
+
+			.top-text {
 				margin-top: 30rpx;
 				text-align: center;
 				font-size: 28rpx;
 				color: #666666;
-				font-weight: 400;	
+				font-weight: 400;
 				font-family: PingFang SC;
 			}
-			.cencer-text{
-				padding: 38rpx 20rpx;
-				background-color: #ff0000;
+
+			.cencer-text {
+				padding: 40rpx 29rpx;
+				color: #333333;	
+				font-family: PingFang SC;
+				border-bottom: 1rpx solid #E6E6E6;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				.img-text{
+					display: flex;
+					justify-content: left;
+					align-items: center;
+					image{
+						width: 80rpx;
+						height: 48rpx;
+					}
+				}
+				.page-number-box{
+					display: flex;
+					justify-content: left;
+					align-items: center;
+				}
 			}
-			.bottom-text{
-				padding: 38rpx 20rpx;
-				background-color: #55ff7f;
+
+			.bottom-text {
+				padding: 46rpx 20rpx;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				.bottom-itme{
+					font-size: 30rpx;
+					font-weight:500 ;
+					font-family: PingFang SC;
+					color: #333;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					image{
+						width: 30rpx;
+						height: 30rpx;
+						margin-right: 10rpx;
+					}
+				}
 			}
 		}
 	}

@@ -35,20 +35,23 @@
 				</view> -->
 			</view>
 			<!-- 推荐书籍 -->
-			<view class="books">
+			<view class="books" v-for="(shu,index) in lent" :key='index'>
 				<view class="books-box">
-					<view class="books-itme" v-for="(shuitme,index) in shuList" :key="index" :style="{backgroundImage:`${shuitme.url}`}">
+					<view>{{shu.listtext[0]}}</view>
+					<view class="books-itme" v-for="(shuitme,index) in shu.listtext" :key="index" :style="{backgroundImage:`${shuitme.url}`}">
 						<view class="text-box">
 							{{shuitme.book_info.bookname}}
 						</view>
 						<!-- 选中编辑 -->
 						<view class="ori" @click="oriOd(index)">
-							<image v-if="orinumber[index] == offmo[index]"  src="http://i1.fuimg.com/733036/16a9b425f47dcf13.png" ></image>
+							<!-- <image v-if="orinumber[index] == offmo[index]"  src="http://i1.fuimg.com/733036/16a9b425f47dcf13.png" ></image>
+							<image v-else src="http://i1.fuimg.com/733036/ad4f2460146f9b40.png" mode=""></image> -->
+							<image v-if="shuitme.mogbot" src="http://i1.fuimg.com/733036/16a9b425f47dcf13.png" ></image>
 							<image v-else src="http://i1.fuimg.com/733036/ad4f2460146f9b40.png" mode=""></image>
 						</view>
 					</view>
 				</view>
-				<view class="books-pos">
+				<view class="books-pos" :style="{backgroundImage:`${styleimg}`}">
 					<view class="text-pos">
 						<view class="text-itme" v-for="(shutext,index) in shuList" :key="index">
 							{{shutext.book_info.bookname}}
@@ -103,6 +106,7 @@
 								{{listUrl.name}}
 							</view>
 							<view style="display: flex;justify-content: center;align-items: center;">
+								<!--  -->
 								<image v-if="goGroupingOff == index" style="width: 40rpx;height: 40rpx;" src="http://i1.fuimg.com/733036/16a9b425f47dcf13.png" mode=""></image>
 								<image v-else style="width: 40rpx;height: 40rpx;" src="http://i1.fuimg.com/733036/ad4f2460146f9b40.png" mode=""></image>
 							</view>
@@ -164,6 +168,10 @@
 				shuobjList:[],
 				// 移动到那个对象
 				goGrouping:null,
+				// 背景
+				styleimg:'url(http://i1.fuimg.com/733036/ac0d7b103ba414e6.png)',
+				// 书架长度
+				lent:[],
 				shuListTow: [{
 						text: '周易孔義集說',
 						url: 'url(http://i1.fuimg.com/733036/90ddcafb6b2377f7.png)'
@@ -194,60 +202,80 @@
 			},
 			//选事件
 			oriOd(index){
-				this.updes = false
+				console.log(index)
 				this.shuobj = this.shuList[index]
+				// console.log(this.shuobj)
 				let statc = 0
 				let shustatc = 0
 				let shuindex = null
-				for(let i=0;i<this.offmo.length;i++){
-					if(this.offmo[i] == index){
-						console.log('标记重复值')
-						statc = 1
-					}
-				}
-				statc == 0 ? (this.offmo[index]=index) : (this.offmo[index] = null)
-				if(this.shuobjList.length <1 ){
-					console.log('数组为空添加数据')
-					console.log('--1-',this.shuobj)
+				// console.log(this.shuList[index])
+				if(this.shuList[index].mogbot == false){
+					this.$set(this.shuList[index],'mogbot',true)
 					this.shuobjList.push(this.shuobj)
-					console.log('--2-',this.shuobjList) 
 				}else{
-					for(let j in this.shuobjList){
-						if(this.shuobjList[j].book_info.bookguid == this.shuobj.book_info.bookguid){
-							console.log('数组重复了修改状态')
-							shustatc = 1
-							shuindex = Number(j)
-							console.log('重复的index',shuindex)
+					this.$set(this.shuList[index],'mogbot',false)
+					for(let i=0;i<this.shuobjList.length;i++){
+						if(this.shuobjList[i].book_info.bookguid == this.shuobj.book_info.bookguid){
+							console.log('标记重复值')
+							statc = i
 						}
 					}
-					if(shustatc == 0){
-						console.log('数组不重复添加数组')
-						this.shuobjList.push(this.shuobj)
-					}else{
-						shuindex==0?this.shuobjList.splice(shuindex,1):this.shuobjList.splice(shuindex,shuindex)
-						console.log('没加数组了')
-					}
+					console.log('状态',statc)
+					statc==0?this.shuobjList.splice(statc,1):this.shuobjList.splice(statc,statc)
 				}
-				
-				// console.log(this.shuobj)
 				console.log(this.shuobjList)
-				setImmediate(()=>{
-					this.updes = true
-				},10)
+				this.$forceUpdate()
+				// this.updes = false
+				
+				// for(let i=0;i<this.offmo.length;i++){
+				// 	if(this.offmo[i] == index){
+				// 		console.log('标记重复值')
+				// 		statc = 1
+				// 	}
+				// }
+				// statc == 0 ? (this.offmo[index]=index) : (this.offmo[index] = null)
+				// if(this.shuobjList.length <1 ){
+				// 	console.log('数组为空添加数据')
+				// 	console.log('--1-',this.shuobj)
+				// 	this.shuobjList.push(this.shuobj)
+				// 	console.log('--2-',this.shuobjList) 
+				// }else{
+				// 	for(let j in this.shuobjList){
+				// 		if(this.shuobjList[j].book_info.bookguid == this.shuobj.book_info.bookguid){
+				// 			console.log('数组重复了修改状态')
+				// 			shustatc = 1
+				// 			shuindex = Number(j)
+				// 			console.log('重复的index',shuindex)
+				// 		}
+				// 	}
+				// 	if(shustatc == 0){
+				// 		console.log('数组不重复添加数组')
+				// 		this.shuobjList.push(this.shuobj)
+				// 	}else{
+				// 		shuindex==0?this.shuobjList.splice(shuindex,1):this.shuobjList.splice(shuindex,shuindex)
+				// 		console.log('没加数组了')
+				// 	}
+				// }
+				
+				// // console.log(this.shuobj)
+				// console.log(this.shuobjList)
+				// setImmediate(()=>{
+				// 	this.updes = true
+				// },10)
 			},
 			// 删除分组
 			deletefa(){
-				this.$ureq({
-					url:'api/bookgroup/',
-					method:'DELETE',
-					data:{
-						id:id
-					},
-					header:{
-						Accept:'application/json',
-						Authorization:String(this.$store.state.token) 
-					}
-				})
+				// this.$ureq({
+				// 	url:'api/bookgroup/',
+				// 	method:'DELETE',
+				// 	data:{
+				// 		id:id
+				// 	},
+				// 	header:{
+				// 		Accept:'application/json',
+				// 		Authorization:String(this.$store.state.token) 
+				// 	}
+				// })
 			},
 			// 书籍请求方法
 			shuListf(page,perPageNumber){
@@ -265,26 +293,36 @@
 					}
 				}).then(res => {
 					console.log('请求成功',res)
+					let indexs = parseInt(page)-1
+					console.log(indexs)
+					let koumd = this.lent[indexs].listtext
+					console.log('成功了',koumd)
 					if(res.data.length < 1){
+						koumd = res.data
+						this.styleimg = ''
 						return
 					}
-					this.shuList = res.data
-					
-					this.orinumber.length = this.shuList.length
-					this.offmo.length = this.shuList.length
-					for(let i in this.shuList){
-						this.orinumber[i] = Number(i)
+					koumd = res.data
+					this.styleimg = 'url(http://i1.fuimg.com/733036/ac0d7b103ba414e6.png)'
+					for(let i in koumd){
+						koumd.mogbot = false
 					}
-					if(this.shuList.length == 1){
-						this.shuList[0].url = 'url(http://i1.fuimg.com/733036/90ddcafb6b2377f7.png)'
-					}else if (this.shuList.length == 2){
-						this.shuList[0].url = 'url(http://i1.fuimg.com/733036/90ddcafb6b2377f7.png)'
-						this.shuList[1].url = 'url(http://i1.fuimg.com/733036/1ef9ed57bdb18d55.png)'
+					// this.orinumber.length = this.shuList.length
+					// this.offmo.length = this.shuList.length
+					// for(let i in this.shuList){
+					// 	this.orinumber[i] = Number(i)
+					// }
+					if(koumd.length == 1){
+						koumd[0].url = 'url(http://i1.fuimg.com/733036/90ddcafb6b2377f7.png)'
+					}else if (koumd.length == 2){
+						koumd[0].url = 'url(http://i1.fuimg.com/733036/90ddcafb6b2377f7.png)'
+						koumd[1].url = 'url(http://i1.fuimg.com/733036/1ef9ed57bdb18d55.png)'
 					}else{
-						this.shuList[0].url = 'url(http://i1.fuimg.com/733036/90ddcafb6b2377f7.png)'
-						this.shuList[1].url = 'url(http://i1.fuimg.com/733036/1ef9ed57bdb18d55.png)'
-						this.shuList[2].url = 'url(http://i1.fuimg.com/733036/b6a91f6bb5db7669.png)'
+						koumd[0].url = 'url(http://i1.fuimg.com/733036/90ddcafb6b2377f7.png)'
+						koumd[1].url = 'url(http://i1.fuimg.com/733036/1ef9ed57bdb18d55.png)'
+						koumd[2].url = 'url(http://i1.fuimg.com/733036/b6a91f6bb5db7669.png)'
 					}
+					console.log('赋值了',koumd)
 				})
 				.catch(err => {
 					console.log('请求失败',err)
@@ -397,9 +435,33 @@
 		},
 		onLoad() {
 			// 书籍请求方法
-			
-			this.shuListf('1','3')
+			this.$ureq({
+				url:'api/bookshelf',
+				method:'GET',
+				data:{
+					page:'1',
+					per_page:'1000'
+				},
+				header:{
+					Accept:'application/json',
+					Authorization:String(this.$store.state.token) 
+				}
+			}).then(res => {
+				if(res.data.length%3==0){
+					this.lent.length = parseInt(res.data.length/3)
+				}else{
+					this.lent.length = parseInt(res.data.length/3)+1
+				}
+				for(let i=0;i<this.lent.length;i++){
+					this.lent[i] = {listtext:[]}
+				}
+				this.shuListf('1','3')
+				console.log(this.lent)
+			}).catch(err => {
+				console.log(err)
+			})
 			console.log(this.shuList)
+			
 		}
 	}
 </script>
@@ -540,7 +602,7 @@
 				bottom: -80rpx;
 				height: 118.5rpx;
 				width: 100%;
-				background-image: url(http://i1.fuimg.com/733036/ac0d7b103ba414e6.png);
+				
 				background-size: 100% 100%;
 				background-repeat: no-repeat;
 				

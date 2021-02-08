@@ -204,7 +204,7 @@
 			recommReading(row){
 				console.log(row)
 				uni.navigateTo({
-					url:'./theBookDetails/theBookDetails?id='+ row.bookguid+'&toc_id='+'1',
+					url:'./theBookDetails/theBookDetails?id='+ row.bookguid+'&toc_id='+'1'+'&name='+row.documentName,
 					success(res) {
 						console.log(res)
 					},
