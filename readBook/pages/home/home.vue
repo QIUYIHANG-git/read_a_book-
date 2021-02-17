@@ -167,15 +167,15 @@
 				// 书籍
 				shuList: [{
 						text: '周易孔義集說',
-						url: 'url(http://i1.fuimg.com/733036/019f1db278c77445.png)'
+						url: 'url(http://i1.fuimg.com/733036/90ddcafb6b2377f7.png)'
 					},
 					{
 						text: '社司轉帖',
-						url: 'url(http://i1.fuimg.com/733036/0410811b532653e4.png)'
+						url: 'url(http://i1.fuimg.com/733036/238573e6794ffa31.png)'
 					},
 					{
 						text: '修文殿禦覽存',
-						url: 'url(http://i1.fuimg.com/733036/caecb6a3d8d048e6.png)'
+						url: 'url(http://i1.fuimg.com/733036/6a2fba295b0f7cc1.png)'
 					}
 				],
 			}

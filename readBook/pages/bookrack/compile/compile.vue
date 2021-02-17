@@ -37,45 +37,27 @@
 			<!-- 推荐书籍 -->
 			<view class="books" v-for="(shu,index) in lent" :key='index'>
 				<view class="books-box">
-					<view>{{shu.listtext[0]}}</view>
-					<view class="books-itme" v-for="(shuitme,index) in shu.listtext" :key="index" :style="{backgroundImage:`${shuitme.url}`}">
+					
+					<view class="books-itme" v-for="(shuitme,index2) in shu.listtext" :key="index2" :style="{backgroundImage:`${shuitme.url}`}">
 						<view class="text-box">
 							{{shuitme.book_info.bookname}}
 						</view>
 						<!-- 选中编辑 -->
-						<view class="ori" @click="oriOd(index)">
-							<!-- <image v-if="orinumber[index] == offmo[index]"  src="http://i1.fuimg.com/733036/16a9b425f47dcf13.png" ></image>
-							<image v-else src="http://i1.fuimg.com/733036/ad4f2460146f9b40.png" mode=""></image> -->
+						<view class="ori" @click="oriOd(shu.listtext[index2],index,index2)">
 							<image v-if="shuitme.mogbot" src="http://i1.fuimg.com/733036/16a9b425f47dcf13.png" ></image>
 							<image v-else src="http://i1.fuimg.com/733036/ad4f2460146f9b40.png" mode=""></image>
 						</view>
 					</view>
 				</view>
-				<view class="books-pos" :style="{backgroundImage:`${styleimg}`}">
+				
+				<view class="books-pos" :style="{backgroundImage:`${shu.styleimg}`}">
 					<view class="text-pos">
-						<view class="text-itme" v-for="(shutext,index) in shuList" :key="index">
+						<view class="text-itme" v-for="(shutext,index3) in shu.listtext" :key="index3">
 							{{shutext.book_info.bookname}}
 						</view>
 					</view>
 				</view>
 			</view>
-			<!-- 推荐书籍二 -->
-			<!-- <view class="books" style="margin-top: 90rpx; ">
-				<view class="books-box">
-					<view class="books-itme" v-for="(shuitme,index) in shuListTow" :key="index" :style="{backgroundImage:`${shuitme.url}`}">
-						<view class="text-box">
-							{{shuitme.book_info.bookname}}
-						</view>
-					</view>
-				</view>
-				<view class="books-pos">
-					<view class="text-pos">
-						<view class="text-itme" v-for="(shutext,index) in shuListTow" :key="index">
-							{{shuitme.book_info.bookname}}
-						</view>
-					</view>
-				</view>
-			</view> -->
 			<!-- 删除显示-->
 			<u-popup v-model="moveOff" mode="center"  width="560rpx" height="640rpx" :closeable="false" >
 				<view style="background-color: rgb(234,234,234);color: #fff;width: 100%;height: 100%;font-family: PingFang SC;position: relative;box-sizing: border-box;">
@@ -201,67 +183,29 @@
 				});
 			},
 			//选事件
-			oriOd(index){
-				console.log(index)
-				this.shuobj = this.shuList[index]
-				// console.log(this.shuobj)
+			oriOd(row,index1,index2){
+				console.log(row)
+				console.log(index1)
+				console.log(index2)
+				this.shuobj = this.lent[index1].listtext[index2]
 				let statc = 0
-				let shustatc = 0
-				let shuindex = null
-				// console.log(this.shuList[index])
-				if(this.shuList[index].mogbot == false){
-					this.$set(this.shuList[index],'mogbot',true)
+				if(this.lent[index1].listtext[index2].mogbot === false){
+					this.$set(this.lent[index1].listtext[index2],'mogbot',true)
 					this.shuobjList.push(this.shuobj)
 				}else{
-					this.$set(this.shuList[index],'mogbot',false)
-					for(let i=0;i<this.shuobjList.length;i++){
-						if(this.shuobjList[i].book_info.bookguid == this.shuobj.book_info.bookguid){
-							console.log('标记重复值')
-							statc = i
+					this.$set(this.lent[index1].listtext[index2],'mogbot',false)
+						for(let i=0;i<this.shuobjList.length;i++){
+							if(this.shuobjList[i].book_info.bookguid == this.shuobj.book_info.bookguid){
+								console.log('标记重复值')
+								statc = i
+							}
 						}
-					}
-					console.log('状态',statc)
-					statc==0?this.shuobjList.splice(statc,1):this.shuobjList.splice(statc,statc)
+						statc==0?this.shuobjList.splice(statc,1):this.shuobjList.splice(statc,statc)
+						
 				}
 				console.log(this.shuobjList)
 				this.$forceUpdate()
-				// this.updes = false
-				
-				// for(let i=0;i<this.offmo.length;i++){
-				// 	if(this.offmo[i] == index){
-				// 		console.log('标记重复值')
-				// 		statc = 1
-				// 	}
-				// }
-				// statc == 0 ? (this.offmo[index]=index) : (this.offmo[index] = null)
-				// if(this.shuobjList.length <1 ){
-				// 	console.log('数组为空添加数据')
-				// 	console.log('--1-',this.shuobj)
-				// 	this.shuobjList.push(this.shuobj)
-				// 	console.log('--2-',this.shuobjList) 
-				// }else{
-				// 	for(let j in this.shuobjList){
-				// 		if(this.shuobjList[j].book_info.bookguid == this.shuobj.book_info.bookguid){
-				// 			console.log('数组重复了修改状态')
-				// 			shustatc = 1
-				// 			shuindex = Number(j)
-				// 			console.log('重复的index',shuindex)
-				// 		}
-				// 	}
-				// 	if(shustatc == 0){
-				// 		console.log('数组不重复添加数组')
-				// 		this.shuobjList.push(this.shuobj)
-				// 	}else{
-				// 		shuindex==0?this.shuobjList.splice(shuindex,1):this.shuobjList.splice(shuindex,shuindex)
-				// 		console.log('没加数组了')
-				// 	}
-				// }
-				
-				// // console.log(this.shuobj)
-				// console.log(this.shuobjList)
-				// setImmediate(()=>{
-				// 	this.updes = true
-				// },10)
+			
 			},
 			// 删除分组
 			deletefa(){
@@ -297,32 +241,31 @@
 					console.log(indexs)
 					let koumd = this.lent[indexs].listtext
 					console.log('成功了',koumd)
+					console.log(	res.data.length)
 					if(res.data.length < 1){
-						koumd = res.data
-						this.styleimg = ''
+						this.lent[indexs].listtext = res.data
+						// this.styleimg = ''
 						return
 					}
-					koumd = res.data
-					this.styleimg = 'url(http://i1.fuimg.com/733036/ac0d7b103ba414e6.png)'
-					for(let i in koumd){
-						koumd.mogbot = false
+					this.lent[indexs].listtext = res.data
+					// this.styleimg = 'url(http://i1.fuimg.com/733036/ac0d7b103ba414e6.png)'
+					for(let i in this.lent[indexs].listtext){
+						this.lent[indexs].listtext[i].mogbot = false
 					}
-					// this.orinumber.length = this.shuList.length
-					// this.offmo.length = this.shuList.length
-					// for(let i in this.shuList){
-					// 	this.orinumber[i] = Number(i)
-					// }
-					if(koumd.length == 1){
-						koumd[0].url = 'url(http://i1.fuimg.com/733036/90ddcafb6b2377f7.png)'
-					}else if (koumd.length == 2){
-						koumd[0].url = 'url(http://i1.fuimg.com/733036/90ddcafb6b2377f7.png)'
-						koumd[1].url = 'url(http://i1.fuimg.com/733036/1ef9ed57bdb18d55.png)'
+					if(this.lent[indexs].listtext.length == 1){
+						this.lent[indexs].listtext[0].url = 'url(http://i1.fuimg.com/733036/90ddcafb6b2377f7.png)'
+					}else if (this.lent[indexs].listtext.length == 2){
+						this.lent[indexs].listtext[0].url = 'url(http://i1.fuimg.com/733036/90ddcafb6b2377f7.png)'
+						this.lent[indexs].listtext[1].url = 'url(http://i1.fuimg.com/733036/1ef9ed57bdb18d55.png)'
 					}else{
-						koumd[0].url = 'url(http://i1.fuimg.com/733036/90ddcafb6b2377f7.png)'
-						koumd[1].url = 'url(http://i1.fuimg.com/733036/1ef9ed57bdb18d55.png)'
-						koumd[2].url = 'url(http://i1.fuimg.com/733036/b6a91f6bb5db7669.png)'
+						this.lent[indexs].listtext[0].url = 'url(http://i1.fuimg.com/733036/90ddcafb6b2377f7.png)'
+						this.lent[indexs].listtext[1].url = 'url(http://i1.fuimg.com/733036/1ef9ed57bdb18d55.png)'
+						this.lent[indexs].listtext[2].url = 'url(http://i1.fuimg.com/733036/b6a91f6bb5db7669.png)'
 					}
 					console.log('赋值了',koumd)
+					let ki = this.lent
+					this.lent = []
+					this.lent = ki
 				})
 				.catch(err => {
 					console.log('请求失败',err)
@@ -374,7 +317,14 @@
 					}
 				}).then(res =>{
 					this.customf()
-					console.log(res)
+					this.bokse()
+					this.shuobjList = []
+					for(let i in this.lent){
+						for(let j in this.lent[i].listtext){
+							this.$set(this.lent[i].listtext[j],'mogbot',false)
+							this.$forceUpdate()
+						}
+					}
 				}).catch(err => {
 					console.log(err)
 				})
@@ -401,7 +351,9 @@
 						Authorization:String(this.$store.state.token) 
 					}
 				}).then(res =>{
-					_this.shuListf('1','3')
+					_this.bokse()	
+					this.shuobjList.length = 0		
+					console.log('删除处理选中ID',groupIds)
 					console.log(res)
 				}).catch(err => {
 					console.log(err)
@@ -422,9 +374,39 @@
 						// url 书单
 						this.listTow[i].url = 'url(http://i1.fuimg.com/733036/858a6e0a012d3a88.png)'
 					}
-					console.log(res)
+					// 默认选中分组
+					this.goGrouping= this.listTow[0]
 				})
 				.catch(err => {
+					console.log(err)
+				})
+			},
+			// 网络请求书方法
+			bokse(){
+				this.$ureq({
+					url:'api/bookshelf',
+					method:'GET',
+					data:{
+						page:'1',
+						per_page:'1000'
+					},
+					header:{
+						Accept:'application/json',
+						Authorization:String(this.$store.state.token) 
+					}
+				}).then(res => {
+					if(res.data.length%3==0){
+						this.lent.length = parseInt(res.data.length/3)
+					}else{
+						this.lent.length = parseInt(res.data.length/3)+1
+					}
+					for(let i=0;i<this.lent.length;i++){
+						this.lent[i] = {listtext:[],styleimg:'url(http://i1.fuimg.com/733036/ac0d7b103ba414e6.png)'}
+						let hu = String(i+1)
+						this.shuListf(hu,'3')
+					}				
+					console.log(this.lent)
+				}).catch(err => {
 					console.log(err)
 				})
 			}
@@ -432,34 +414,13 @@
 		mounted() {
 			// 登录自定义列表ff
 			this.customf()
+			
 		},
 		onLoad() {
 			// 书籍请求方法
-			this.$ureq({
-				url:'api/bookshelf',
-				method:'GET',
-				data:{
-					page:'1',
-					per_page:'1000'
-				},
-				header:{
-					Accept:'application/json',
-					Authorization:String(this.$store.state.token) 
-				}
-			}).then(res => {
-				if(res.data.length%3==0){
-					this.lent.length = parseInt(res.data.length/3)
-				}else{
-					this.lent.length = parseInt(res.data.length/3)+1
-				}
-				for(let i=0;i<this.lent.length;i++){
-					this.lent[i] = {listtext:[]}
-				}
-				this.shuListf('1','3')
-				console.log(this.lent)
-			}).catch(err => {
-				console.log(err)
-			})
+			
+			// console.log('获取默认id',this.listTow)
+			this.bokse()
 			console.log(this.shuList)
 			
 		}
@@ -552,7 +513,7 @@
 			width: 100%;
 			height: 296rpx;
 			z-index: 999;
-		
+			margin-top: 60rpx;
 			.books-box {
 		
 				display: flex;

@@ -93,6 +93,15 @@
 					"titleNView": false
 				}
 			}
+		},
+		{
+			// 分组详情
+			"path": "pages/bookrack/groupingBookrack/groupingBookrack",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
 		}
 	],
 	"globalStyle": {

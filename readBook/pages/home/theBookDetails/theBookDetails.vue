@@ -58,9 +58,7 @@
 				</view>
 			</view>
 			<view class="parse-box" @longpress="logGrouping" :style="{fontSize:`${fontSizeNuber}rpx`}">
-				<!-- <u-parse :html="listData.html" :selectable="false" ></u-parse> -->
-				<editor id="editor" style="height: 100%;" @ready="onEditorReady" @statuschange="staclo" :read-only='true'></editor>
-				<!-- <rich-text :nodes="listData.html"  class='ctext' bindlongpress="copy" :data-text="listData.html" selectable="true"></rich-text> -->
+				<u-parse :html="listData.html" :selectable="true" ></u-parse>
 			</view>
 		</scroll-view>
 	</view>
@@ -182,19 +180,19 @@
 				}
 			}).then(res => {
 				that.listData = res.data
-				uni.createSelectorQuery().select('#editor').context((res) => {
-					that.editorCtx = res.context
-					that.editorCtx.setContents({
-						html: String(that.listData.html),
-						success: (res) => {
-							console.log('---->1', res)
-						},
-						fail: (res) => {
-							console.log('------>2', res)
-						},
-					})
-					console.log(res)
-				}).exec()
+				// uni.createSelectorQuery().select('#editor').context((res) => {
+				// 	that.editorCtx = res.context
+				// 	that.editorCtx.setContents({
+				// 		html: String(that.listData.html),
+				// 		success: (res) => {
+				// 			console.log('---->1', res)
+				// 		},
+				// 		fail: (res) => {
+				// 			console.log('------>2', res)
+				// 		},
+				// 	})
+				// 	console.log(res)
+				// }).exec()
 				console.log(that.listData)
 				console.log(res)
 			}).catch(err => {
