@@ -8,7 +8,10 @@
 			marginTop: `${matop}`
 		}">
 		</view>
-		<scroll-view class="coupon" scroll-y="true" @click="onSet" :style="{height: `calc(100% - ${heibotom})`}">
+		<scroll-view class="coupon" scroll-y="true" @click="onSet" :style="{
+			height: `calc(100% - ${heibotom})`,
+			paddingTop: `${scrrotop}`
+			}">
 			<view class="show-top" v-if="offTitle">
 				<view class="one">
 					<view v-for="(itme,index) in listText" :key="index" class="show-top-text">
@@ -39,7 +42,7 @@
 					</view>
 				</view>
 				<view class="bottom-text">
-					<view class="bottom-itme">
+					<view class="bottom-itme" @click="catalogue()">
 						<image src="http://i2.tiimg.com/733036/3af87905f80426ae.png" mode=""></image>
 						<text>目录</text>
 					</view>
@@ -57,9 +60,43 @@
 					</view>
 				</view>
 			</view>
-			<view class="parse-box" @longpress="logGrouping" :style="{fontSize:`${fontSizeNuber}rpx`}">
+			
+			<view v-if="offText==0" class="parse-box" @longpress="logGrouping" style="text-align: left;" :style="{fontSize:`${fontSizeNuber}rpx`}">
 				<u-parse :html="listData.html" :selectable="true" ></u-parse>
 			</view>
+			<view v-else-if="offText==1" style="height: 100%;">
+				<scroll-view  scroll-X="true" style="height: 100%;">
+					<image style="width: 2000rpx;height: 100%;" :src="imgurl" mode=""></image>
+				</scroll-view>
+			</view>
+			<view v-else style="height: 100%;text-align: center;" :style="{fontSize:`${fontSizeNuber}rpx`}">
+					<scroll-view style="height: 50%;" scroll-y="true" >
+						<u-parse :html="listData.html" :selectable="true" ></u-parse>
+					</scroll-view>
+					<scroll-view style="height: 49%; width: 88%;margin: 10rpx auto;" scroll-X="true" >
+						<image style="width: 1000rpx;height: 100%;" :src="imgurl" mode=""></image>
+					</scroll-view>
+			</view>
+			<u-popup v-model="showmo" mode='bottom' height="80%" width="100%">
+				<view class="show-box-title">
+					<view :class="numbershow == index?'show-one':'show-tow'" v-for="(itme,index) in listmode" :key="index" @click="showmode(listmode[index],index)">
+						{{itme}}
+					</view>
+				</view>
+				<view v-if="numbershow == 0" >
+					<view class="catalogue-box" v-for="(itme,index) in catalogueList" :key="index">
+						<view class="title-itme" @click="itmename(catalogueList[index],index)">
+							{{itme.name}}
+						</view>
+					</view>
+				</view>
+				<view v-else-if="numbershow == 1">
+					
+				</view>
+				<view v-else>
+					
+				</view>
+			</u-popup>
 		</scroll-view>
 	</view>
 </template>
@@ -80,6 +117,8 @@
 				touchStartTime: 0,
 				// 
 				listText: ['文字阅读', '页面阅览', '混合阅览'],
+				// 目录数千笔记
+				listmode:['目录', '书签', '笔记'],
 				offText: 0,
 				// 
 				offTitle: false,
@@ -91,7 +130,16 @@
 				optionId: '',
 				optiontocId: '',
 				editorCtx: '',
-				heibotom:'0rpx'
+				heibotom:'0rpx',
+				scrrotop:'0rpx',
+				// 图片阅读
+				imgurl:'',
+				// 
+				showmo:false,
+				// 
+				numbershow:0,
+				// 目录列表
+				catalogueList:[]
 			}
 		},
 		methods: {
@@ -104,6 +152,47 @@
 			// 
 			textCilck(index) {
 				this.offText = index
+				let that = this
+				if(this.offText == 0){
+					console.log('状态1')
+				}else if(this.offText == 1) {
+					console.log('状态2')
+					this.$ureq({
+						url: 'api/book/imgurl',
+						method: 'GET',
+						data: {
+							bookguid: String(that.optionId),
+							toc_id: String(that.optiontocId)
+						},
+						header: {
+							Accept: 'application/json',
+							Authorization: String(that.$store.state.token)
+						}
+					}).then(res => {
+						this.imgurl = res.data.img_url
+						console.log(res)
+					}).catch(err => {
+						console.log(err)
+					})
+				}else {
+					this.$ureq({
+						url: 'api/book/imgurl',
+						method: 'GET',
+						data: {
+							bookguid: String(that.optionId),
+							toc_id: String(that.optiontocId)
+						},
+						header: {
+							Accept: 'application/json',
+							Authorization: String(that.$store.state.token)
+						}
+					}).then(res => {
+						this.imgurl = res.data.img_url
+						console.log(res)
+					}).catch(err => {
+						console.log(err)
+					})
+				}
 				console.log(this.offText)
 			},
 			addfontSizeNuber(){
@@ -115,22 +204,6 @@
 			pageCilck(){
 				console.log(this.pageNumber)
 			},
-			// copy(e) {
-			// 	var that = this;
-			// 	var text = e.currentTarget.dataset.text;
-			// 	console.log(e);
-			// 	uni.setClipboardData({
-			// 		data: text,
-			// 		success: function (res) {
-			// 			// wx.hideToast();    //打开可不显示提示框
-			// 			uni.getClipboardData({
-			// 				success (res) {
-			// 					console.log(res.data) // data
-			// 				}
-			// 			})
-			// 		} 
-			// 	});
-			// },
 			// 富文本加载事件
 			onEditorReady() {
 				let that = this
@@ -151,9 +224,11 @@
 						if (this.offTitle == true) {
 							this.offTitle = false
 							this.heibotom = '0rpx'
+							this.scrrotop = '0rpx'
 						} else {
 							this.offTitle = true
-							this.heibotom = '305rpx'
+							this.heibotom = '405rpx'
+							this.scrrotop = '102rpx'
 						}
 						console.log('这是双击')
 					}
@@ -163,6 +238,31 @@
 			},
 			logGrouping() {
 				console.log('长按监听成功')
+			},
+			// 目录
+			catalogue(){
+				this.showmo = true
+				let that = this
+				this.$ureq({
+					url: 'api/book/toc',
+					method: 'GET',
+					data: {
+						bookguid: String(that.optionId)
+					},
+					header: {
+						Accept: 'application/json',
+						Authorization: String(that.$store.state.token)
+					}
+				}).then(res => {
+					console.log('目录',res)
+					this.catalogueList =  res.data
+				}).catch(err => {
+					console.log(err)
+				})
+				console.log('--------------')
+			},
+			showmode(row,index){
+				this.numbershow = index
 			}
 		},
 		mounted() {
@@ -321,6 +421,7 @@
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
+				
 				.bottom-itme{
 					font-size: 30rpx;
 					font-weight:500 ;
@@ -335,6 +436,40 @@
 						margin-right: 10rpx;
 					}
 				}
+			}
+		}
+		
+		.show-box-title{
+			height: 100rpx;
+			width: 100%;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			box-sizing: border-box;
+			padding: 0 108rpx;
+			font-size: 38rpx;
+			font-weight: 500;
+			border-bottom: 1rpx solid rgba(0,0,0,.1);
+			.show-one{
+				color:#A3834F;
+				padding-bottom: 32rpx;
+				border-bottom: 4rpx solid #A3834F;
+			}
+			.show-tow{
+				color:#999;
+				padding-bottom: 32rpx;
+				border-bottom: 4rpx solid #fff;
+			}
+		}
+		.catalogue-box{
+			padding: 0 31rpx;
+			box-sizing: border-box;
+			.title-itme {
+				padding: 41rpx 0;
+				color: #010101;
+				font-weight: 400;
+				font-family: PingFang SC;
+				border-bottom: 1rpx solid #E6E6E6;
 			}
 		}
 	}

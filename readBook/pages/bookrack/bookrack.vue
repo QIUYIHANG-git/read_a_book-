@@ -295,8 +295,17 @@
 				})
 			},
 			// 默认分组
-			defaultGrouping(index){
-				console.log(index)
+			defaultGrouping(row){	
+				console.log(row)
+				uni.navigateTo({
+					url:'./groupingBookrack/groupingBookrack?ids='+row.id+'&name='+row.text,
+					success(res) {
+						console.log(res)
+					},
+					fail(err) {
+						console.log(err)
+					}
+				})
 			},
 			// 添加分组确定
 			succeedConfig(){
