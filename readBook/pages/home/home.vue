@@ -25,7 +25,8 @@
 					<view class="text-title">正在阅读</view>
 				</view>
 				<view class="go-bookrack" @click="goBookrack">
-					<text>去书架</text><image src="../../static/icon/home/去书架.png" mode=""></image>
+					<text>去书架</text>
+					<image src="../../static/icon/home/去书架.png" mode=""></image>
 				</view>
 			</view>
 			<!-- 正在看书籍 -->
@@ -48,7 +49,7 @@
 			<!-- 分类 -->
 			<view class="text-classify">
 				<view class="text-classify-one">
-					<view class="text-classify-one-itme">
+					<view class="text-classify-one-itme" @click="pool()">
 						<view class="itme-img">
 							<image src="http://i1.fuimg.com/733036/9562348daa8754b0.png" mode=""></image>
 						</view>
@@ -56,46 +57,12 @@
 							总库
 						</view>
 					</view>
-					<view class="text-classify-one-itme">
+					<view class="text-classify-one-itme" v-for="(itme,index) in listClass" :key="index" @click="topClassification(listClass[index],index)">
 						<view class="itme-img">
-							<image src="http://i1.fuimg.com/733036/7e147a5b84a16058.png" mode=""></image>
+							<image :src="itme.url" mode=""></image>
 						</view>
 						<view class="itme-text">
-							經部
-						</view>
-					</view>
-					<view class="text-classify-one-itme">
-						<view class="itme-img">
-							<image src="http://i1.fuimg.com/733036/aadc1469fa043b55.png" mode=""></image>
-						</view>
-						<view class="itme-text">
-							史部
-						</view>
-					</view>
-				</view>
-				<view class="text-classify-one">
-					<view class="text-classify-one-itme">
-						<view class="itme-img">
-							<image src="http://i1.fuimg.com/733036/b26bb68f1360316e.png" mode=""></image>
-						</view>
-						<view class="itme-text">
-							子部
-						</view>
-					</view>
-					<view class="text-classify-one-itme">
-						<view class="itme-img">
-							<image src="http://i1.fuimg.com/733036/e0dac046bba7d2cf.png" mode=""></image>
-						</view>
-						<view class="itme-text">
-							集部
-						</view>
-					</view>
-					<view class="text-classify-one-itme">
-						<view class="itme-img">
-							<image src="http://i1.fuimg.com/733036/894160d42d45c96d.png" mode=""></image>
-						</view>
-						<view class="itme-text">
-							叢部
+							{{itme.catagoryName}}
 						</view>
 					</view>
 				</view>
@@ -105,7 +72,7 @@
 				<image src="http://i1.fuimg.com/733036/16a850f04e35a834.png" mode=""></image>
 			</view>
 			<view class="advertising-red-packet">
-			 	<image src="http://i1.fuimg.com/733036/771b3fc2134cd137.png" mode=""></image>
+				<image src="http://i1.fuimg.com/733036/771b3fc2134cd137.png" mode=""></image>
 			</view>
 			<!-- 推荐 -->
 			<view class="recommend-box">
@@ -113,18 +80,19 @@
 					<view class="text-title">推荐书籍</view>
 				</view>
 				<view class="go-bookrack" @click="moreOff">
-					<text>更多</text><image src="../../static/icon/home/去书架.png" mode=""></image>
+					<text>更多</text>
+					<image src="../../static/icon/home/去书架.png" mode=""></image>
 				</view>
 			</view>
 			<!-- 书籍说明 -->
-			<view class="books-information" v-for="(itme,index) in recommendedReading" :key="index" >
+			<view class="books-information" v-for="(itme,index) in recommendedReading" :key="index">
 				<view class="books-ba" @click="recommReading(recommendedReading[index])">
 					<view class="pos-ba">
 						{{itme.documentName}}
 					</view>
 				</view>
 				<view class="ba-pos">
-					
+
 				</view>
 				<view class="books-text">
 					<view class="books-text-one">
@@ -163,7 +131,9 @@
 				// 轮播数组
 				BannerList: [],
 				// 推荐阅读
-				recommendedReading:[],
+				recommendedReading: [],
+				// 分类
+				listClass: [],
 				// 书籍
 				shuList: [{
 						text: '周易孔義集說',
@@ -188,23 +158,23 @@
 				console.log(this.matop)
 			},
 			// 去书架
-			goBookrack(){
+			goBookrack() {
 				uni.switchTab({
-					url:'../bookrack/bookrack',
+					url: '../bookrack/bookrack',
 					fail(err) {
 						console.log(err)
 					}
 				})
 			},
 			// 更多事件
-			moreOff(){
+			moreOff() {
 				console.log('点击了更多')
 			},
 			// 书籍内容
-			recommReading(row){
+			recommReading(row) {
 				console.log(row)
 				uni.navigateTo({
-					url:'./theBookDetails/theBookDetails?id='+ row.bookguid+'&toc_id='+'1'+'&name='+row.documentName,
+					url: './theBookDetails/theBookDetails?id=' + row.bookguid + '&toc_id=' + '1' + '&name=' + row.documentName,
 					success(res) {
 						console.log(res)
 					},
@@ -212,67 +182,105 @@
 						console.log(err)
 					}
 				})
-				
+
 				console.log('点击')
 			},
 			//加入书架
-			addRecommReading(row){
+			addRecommReading(row) {
 				console.log(row)
 				this.$ureq({
-					url:'api/bookshelf',
-					method:'POST',
-					data:{
-						bookguid:row.bookguid,
-						dynastyname:row.dynasty
-					},
-					header:{
-						Accept:'application/json',
-						Authorization:String(this.$store.state.token) 
-					}
-				}).then(res => {
-					console.log(res)
-					uni.showToast({
-						title:'加入书架成功',
-						icon:'success',
-						duration:2000
+						url: 'api/bookshelf',
+						method: 'POST',
+						data: {
+							bookguid: row.bookguid,
+							dynastyname: row.dynasty
+						},
+						header: {
+							Accept: 'application/json',
+							Authorization: String(this.$store.state.token)
+						}
+					}).then(res => {
+						console.log(res)
+						uni.showToast({
+							title: '加入书架成功',
+							icon: 'success',
+							duration: 2000
+						})
 					})
-				})
-				.catch(err => {
-					console.log(err)
-				})
+					.catch(err => {
+						console.log(err)
+					})
 				console.log('加入书架')
-			 }
+			},
+			// 总库
+			pool() {
+				this.$store.commit('elimiclass')
+				uni.switchTab({
+					url: '../classify/classify',
+					fail(err) {
+						console.log(err)
+					}
+				})
+			},
+			// 顶级分类
+			topClassification(row,index){
+				this.$store.commit('classadd',{id:row.id,index:index})
+				uni.switchTab({
+					url: '../classify/classify',
+					fail(err) {
+						console.log(err)
+					}
+				})
+			}
 		},
 		onLoad() {
 			this.$ureq({
-				url:'common/banner',
-				method:'GET'
-			})
-			.then( (res)=> {
-				console.log(res)
-				this.BannerList = res.data
-			})
-			.catch((err) => {
-				console.log(err)
-			})
+					url: 'common/banner',
+					method: 'GET'
+				})
+				.then((res) => {
+					console.log(res)
+					this.BannerList = res.data
+				})
+				.catch((err) => {
+					console.log(err)
+				})
+			// 顶级分类
+			this.$ureq({
+					url: 'api/book/category',
+					method: 'GET'
+				})
+				.then((res) => {
+					this.listClass = res.data
+					// console.log('分类',res)
+					this.listClass[0].url = 'http://i1.fuimg.com/733036/7e147a5b84a16058.png'
+					this.listClass[1].url = 'http://i1.fuimg.com/733036/aadc1469fa043b55.png'
+					this.listClass[2].url = 'http://i1.fuimg.com/733036/b26bb68f1360316e.png'
+					this.listClass[3].url = 'http://i1.fuimg.com/733036/e0dac046bba7d2cf.png'
+					this.listClass[4].url = 'http://i1.fuimg.com/733036/894160d42d45c96d.png'
+					console.log('------------>', this.listClass)
+				})
+				.catch((err) => {
+					console.log(err)
+				})
 		},
 		onShow() {
 			// 推荐阅读
 			this.$ureq({
-				url:'api/book/recommend',
-				method:'GET',
-				data:{
-					page:'1',
-					per_page:'5'
-				}
-			})
-			.then( (res)=> {
-				console.log('推荐阅读请求:',res)
-				this.recommendedReading = res.data
-			})
-			.catch((err) => {
-				console.log(err)
-			})
+					url: 'api/book/recommend',
+					method: 'GET',
+					data: {
+						page: '1',
+						per_page: '5'
+					}
+				})
+				.then((res) => {
+					console.log('推荐阅读请求:', res)
+					this.recommendedReading = res.data
+				})
+				.catch((err) => {
+					console.log(err)
+				})
 		}
 	}
 </script>
@@ -281,7 +289,7 @@
 	.coupon {
 		height: 100%;
 		width: 100%;
-		background-color: rgb(250,248,243);
+		background-color: rgb(250, 248, 243);
 
 		.search-box {
 			background-color: #A1814C;
@@ -316,25 +324,29 @@
 			}
 
 		}
+
 		// 轮播图盒子
 		.Banner {
 			height: 280rpx;
 			width: 690rpx;
 			margin: 29rpx auto 0 auto;
 		}
+
 		//标题 
-		.title-box{
+		.title-box {
 			display: flex;
 			justify-content: space-between;
 			align-items: baseline;
-			.title-itme{
+
+			.title-itme {
 				width: 371.3rpx;
 				height: 104rpx;
 				margin-top: 39rpx;
 				background-image: url(../../static/icon/home/title.png);
 				background-size: 100% 100%;
 				background-repeat: no-repeat;
-				.text-title{
+
+				.text-title {
 					padding-top: 43rpx;
 					margin-left: 31rpx;
 					width: 141rpx;
@@ -346,8 +358,8 @@
 					// line-height: 60rpx;
 				}
 			}
-			
-			.go-bookrack{
+
+			.go-bookrack {
 				font-size: 26rpx;
 				color: #999999;
 				font-family: PingFang SC;
@@ -355,13 +367,15 @@
 				display: flex;
 				justify-content: center;
 				align-items: center;
-				image{
+
+				image {
 					margin: 0 30rpx 0 11rpx;
-					width:14rpx ;
+					width: 14rpx;
 					height: 24rpx;
 				}
 			}
 		}
+
 		// 正在阅读
 		.books {
 			position: relative;
@@ -369,21 +383,21 @@
 			width: 100%;
 			height: 296rpx;
 			z-index: 999;
-		
+
 			.books-box {
-		
+
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
 				padding: 0 29rpx;
 				box-sizing: border-box;
-		
+
 				.books-itme {
 					width: 206rpx;
 					height: 296rpx;
 					background-size: 100% 100%;
 					background-repeat: no-repeat;
-		
+
 					.text-box {
 						font-size: 24rpx;
 						margin-top: 28rpx;
@@ -397,7 +411,7 @@
 					}
 				}
 			}
-		
+
 			.books-pos {
 				position: absolute;
 				z-index: -1;
@@ -407,8 +421,8 @@
 				background-image: url(../../static/icon/home/推荐书籍.png);
 				background-size: 100% 100%;
 				background-repeat: no-repeat;
-				
-				.text-pos{
+
+				.text-pos {
 					position: relative;
 					top: 50rpx;
 					width: 100%;
@@ -418,7 +432,8 @@
 					align-items: center;
 					padding: 0 29rpx;
 					box-sizing: border-box;
-					.text-itme{
+
+					.text-itme {
 						width: 206rpx;
 						height: 100%;
 						font-size: 28rpx;
@@ -429,33 +444,41 @@
 				}
 			}
 		}
+
 		// 分类
-		.text-classify{
+		.text-classify {
 			width: 100%;
 			// height: 200rpx;
 			margin-top: 148rpx;
 			font-family: PingFang SC;
-			
-			.text-classify-one{
+
+			.text-classify-one {
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
+				flex-wrap: wrap;
 				padding: 0 40rpx;
 				box-sizing: border-box;
 				margin-bottom: 50rpx;
-				.text-classify-one-itme{
+
+				.text-classify-one-itme {
 					width: 150rpx;
-					.itme-img{
+					margin-right: 22rpx;
+					margin-bottom: 50rpx;
+
+					.itme-img {
 						width: 100%;
 						display: flex;
 						justify-content: center;
 						align-items: center;
-						image{
+
+						image {
 							width: 150rpx;
 							height: 154rpx;
 						}
 					}
-					.itme-text{
+
+					.itme-text {
 						width: 100%;
 						text-align: center;
 						font-size: 32rpx;
@@ -466,39 +489,46 @@
 				}
 			}
 		}
+
 		// 广告
-		.advertising-member{
+		.advertising-member {
 			width: 690rpx;
 			height: 160rpx;
 			margin: 0 auto;
-			image{
+
+			image {
 				width: 690rpx;
 				height: 160rpx;
 			}
 		}
-		.advertising-red-packet{
+
+		.advertising-red-packet {
 			width: 690rpx;
 			height: 100rpx;
 			margin: 30rpx auto;
-			image{
+
+			image {
 				width: 690rpx;
 				height: 100rpx;
 			}
 		}
+
 		//推荐书籍
-		.recommend-box{
+		.recommend-box {
 			display: flex;
 			justify-content: space-between;
 			align-items: baseline;
 			margin-bottom: 15rpx;
-			.recommend-itme{
+
+			.recommend-itme {
 				width: 371.3rpx;
 				height: 104rpx;
 				margin-top: 39rpx;
 				background-image: url(../../static/icon/home/title.png);
 				background-size: 100% 100%;
 				background-repeat: no-repeat;
-				.text-title{
+
+				.text-title {
 					padding-top: 43rpx;
 					margin-left: 31rpx;
 					width: 141rpx;
@@ -510,8 +540,8 @@
 					// line-height: 60rpx;
 				}
 			}
-			
-			.go-bookrack{
+
+			.go-bookrack {
 				font-size: 26rpx;
 				color: #999999;
 				font-family: PingFang SC;
@@ -519,22 +549,25 @@
 				display: flex;
 				justify-content: center;
 				align-items: center;
-				image{
+
+				image {
 					margin: 0 30rpx 0 11rpx;
-					width:14rpx ;
+					width: 14rpx;
 					height: 24rpx;
 				}
 			}
 		}
+
 		// 书籍信息
-		.books-information{
+		.books-information {
 			display: flex;
 			justify-content: left;
 			align-items: center;
 			margin-bottom: 54rpx;
 			position: relative;
 			z-index: 999;
-			.ba-pos{
+
+			.ba-pos {
 				width: 207rpx;
 				height: 32rpx;
 				z-index: -1;
@@ -545,14 +578,16 @@
 				bottom: -18rpx;
 				left: 20rpx;
 			}
-			.books-ba{
+
+			.books-ba {
 				width: 185rpx;
 				height: 266rpx;
 				margin-left: 31rpx;
 				background-image: url(http://i1.fuimg.com/733036/90ddcafb6b2377f7.png);
 				background-size: 100% 100%;
 				background-repeat: no-repeat;
-				.pos-ba{
+
+				.pos-ba {
 					width: 41rpx;
 					height: 171rpx;
 					margin-top: 26rpx;
@@ -560,9 +595,10 @@
 					overflow: hidden;
 					text-align: center;
 				}
-					
+
 			}
-			.books-text{
+
+			.books-text {
 				width: 310rpx;
 				height: 266rpx;
 				margin-left: 29rpx;
@@ -570,27 +606,32 @@
 				font-family: PingFang SC;
 				color: #666666;
 				font-weight: 400;
-				.books-text-one{
+
+				.books-text-one {
 					margin-top: 29rpx;
 					font-size: 32rpx;
 					color: #000;
 					font-weight: 500;
 				}
-				.books-text-tow{
+
+				.books-text-tow {
 					margin-top: 15rpx;
 				}
-				.books-text-therr{
+
+				.books-text-therr {
 					margin-top: 15rpx;
 				}
-				.books-text-four{
+
+				.books-text-four {
 					margin-top: 15rpx;
 				}
-				.books-text-fove{
+
+				.books-text-fove {
 					margin-top: 15rpx;
 				}
 			}
-			
-			.books-go{
+
+			.books-go {
 				background-color: #A3834F;
 				width: 140rpx;
 				height: 60rpx;

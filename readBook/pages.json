@@ -102,6 +102,33 @@
 					"titleNView": false
 				}
 			}
+		},
+		{
+			// 书籍详情
+			"path": "pages/classify/listOfBooks/listOfBooks",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			// 个人信息
+			"path": "pages/mine/userinfo/userinfo",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			// 编辑个人信息
+			"path": "pages/mine/mineCompile/mineCompile",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
 		}
 	],
 	"globalStyle": {

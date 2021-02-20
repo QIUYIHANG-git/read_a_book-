@@ -149,6 +149,7 @@
 									lang:'zh_CN',
 									success(res) {
 										console.log('----用户基本信息------：', res)
+										that.$store.commit('infoMessage',{name:res.userInfo.nickName,img:res.userInfo.avatarUrl})
 										uni.showToast({
 											title:'登录中...',
 											icon:'loading',

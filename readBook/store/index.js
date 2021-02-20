@@ -11,7 +11,11 @@ export default new Vuex.Store({
 			userImg: ''
 		},
 		token:'',
-		tokenType:''
+		tokenType:'',
+		row:{
+			id:'',
+			index:0
+		}
 	},
 	mutations: {
 		// 账号信息
@@ -31,7 +35,18 @@ export default new Vuex.Store({
 		// 清空tokenType
 		eliminateTokenType(state){
 			state.tokenType = ''
+		},
+		// 分类
+		classadd(state,payload){
+			state.row.id = payload.id
+			state.row.index = payload.index
+		},
+		// 清空分类id
+		elimiclass(state){
+			state.row.id = ''
+			state.row.index = 0
 		}
+		
 	},
 	actions: {},
 	modules: {}

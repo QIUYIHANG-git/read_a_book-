@@ -21,6 +21,10 @@
 				<view class="tow">
 					<image src="http://i1.fuimg.com/733036/95f1c9951a4f3220.png" mode=""></image>
 				</view>
+				<!-- 书签功能 -->
+				<view class="pos-img" @click="bookmarks()">
+					<image src="http://i2.tiimg.com/733036/8f90889b834ccd63.png" mode=""></image>
+				</view>
 			</view>
 			<view class="show-bottom" v-if="offTitle">
 				<view class="top-text">
@@ -83,6 +87,7 @@
 						{{itme}}
 					</view>
 				</view>
+				<!-- 目录 -->
 				<view v-if="numbershow == 0" >
 					<view class="catalogue-box" v-for="(itme,index) in catalogueList" :key="index">
 						<view class="title-itme" @click="itmename(catalogueList[index],index)">
@@ -263,6 +268,57 @@
 			},
 			showmode(row,index){
 				this.numbershow = index
+			},
+			// 书签功能
+			bookmarks(){
+				console.log('------------')
+				let that = this 
+				this.$ureq({
+					url: 'api/bookmark',
+					method: 'POST',
+					data: {
+						bookguid: String(that.optionId),
+						toc_id:String(that.optiontocId),
+						title:'无无无无无'
+					},
+					header: {
+						Accept: 'application/json',
+						Authorization: String(that.$store.state.token)
+					}
+				}).then(res => {
+					uni.showToast({
+						title:'添加书签成功',
+						icon:'success',
+						duration:1000
+					})
+					console.log('书签',res)
+				}).catch(err => {
+					console.log(err)
+				})
+			},
+			itmename(row,index){
+				console.log(row)
+				console.log(index)
+				this.optiontocId = row.id
+				let that = this
+				this.$ureq({
+						url: 'api/book/html',
+						method: 'GET',
+						data: {
+							bookguid: String(that.optionId),
+							toc_id: String(this.optiontocId)
+						},
+						header: {
+							Accept: 'application/json',
+							Authorization: String(that.$store.state.token)
+						}
+					}).then(res => {
+						that.listData = res.data
+						console.log(res)
+						this.showmo = false
+					}).catch(err => {
+						console.log(err)
+					})
 			}
 		},
 		mounted() {
@@ -280,19 +336,6 @@
 				}
 			}).then(res => {
 				that.listData = res.data
-				// uni.createSelectorQuery().select('#editor').context((res) => {
-				// 	that.editorCtx = res.context
-				// 	that.editorCtx.setContents({
-				// 		html: String(that.listData.html),
-				// 		success: (res) => {
-				// 			console.log('---->1', res)
-				// 		},
-				// 		fail: (res) => {
-				// 			console.log('------>2', res)
-				// 		},
-				// 	})
-				// 	console.log(res)
-				// }).exec()
 				console.log(that.listData)
 				console.log(res)
 			}).catch(err => {
@@ -340,7 +383,15 @@
 			font-size: 28rpx;
 			font-family: PingFang SC;
 			font-weight: 400;
-
+			.pos-img{
+				position: relative;
+				top: 150rpx;
+				image{
+					width: 60rpx;
+					height: 191rpx;
+				}
+			}
+			
 			.one {
 				display: flex;
 				justify-content: left;
@@ -368,6 +419,7 @@
 			}
 
 			.tow {
+				margin-left: 50rpx;
 				image {
 					width: 64rpx;
 					height: 64rpx;
