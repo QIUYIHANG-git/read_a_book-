@@ -68,10 +68,10 @@
 				</view>
 			</view>
 			<!-- 广告 -->
-			<view class="advertising-member">
+			<view class="advertising-member" >
 				<image src="http://i1.fuimg.com/733036/16a850f04e35a834.png" mode=""></image>
 			</view>
-			<view class="advertising-red-packet">
+			<view class="advertising-red-packet" @click="discounts()">
 				<image src="http://i1.fuimg.com/733036/771b3fc2134cd137.png" mode=""></image>
 			</view>
 			<!-- 推荐 -->
@@ -169,6 +169,12 @@
 			// 更多事件
 			moreOff() {
 				console.log('点击了更多')
+				uni.navigateTo({
+					url:'./recommend/recommend',
+					fail(err) {
+						console.log(err)
+					}
+				})
 			},
 			// 书籍内容
 			recommReading(row) {
@@ -228,6 +234,15 @@
 				uni.switchTab({
 					url: '../classify/classify',
 					fail(err) {
+						console.log(err)
+					}
+				})
+			},
+			// 限时优惠
+			discounts(){
+				uni.navigateTo({
+					url:'./discounts/discounts',
+					fail(err){
 						console.log(err)
 					}
 				})
