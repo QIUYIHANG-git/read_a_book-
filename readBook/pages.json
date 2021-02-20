@@ -129,6 +129,24 @@
 					"titleNView": false
 				}
 			}
+		},
+		{
+			// 限时优惠
+			"path": "pages/home/discounts/discounts",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			// 更多推荐书籍
+			"path": "pages/home/recommend/recommend",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
 		}
 	],
 	"globalStyle": {
