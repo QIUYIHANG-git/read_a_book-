@@ -147,6 +147,15 @@
 					"titleNView": false
 				}
 			}
+		},
+		{
+			// 会员
+			"path": "pages/mine/member/member",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
 		}
 	],
 	"globalStyle": {

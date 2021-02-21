@@ -17,7 +17,7 @@
 						<view class="img-text">
 							<view class="name">
 								<text>{{userName}}</text>
-								<image src="http://i1.fuimg.com/733036/e74c025b672761b8.png" mode=""></image>
+								<image v-if="!memberState==2" src="http://i1.fuimg.com/733036/e74c025b672761b8.png" mode=""></image>
 							</view>
 							<view v-if="memberState == 2" class="hint-tow">
 								首次完善个人信息送基础会员
@@ -33,7 +33,7 @@
 				</view>
 			</view>
 			<view class="pos-box">
-				<view v-if="memberState==2" class="pos-img">
+				<view v-if="memberState==2" class="pos-img" @click="memberClick()">
 					<image src="http://i1.fuimg.com/733036/16a850f04e35a834.png" mode=""></image>
 				</view>
 				<view class="white-box">
@@ -107,6 +107,15 @@
 			},
 			itmeindex(index){
 				console.log(index)
+			},
+			// 点击开通会员
+			memberClick(){
+				uni.navigateTo({
+					url:'./member/member',
+					fail(err) {
+						console.log(err)
+					}
+				})
 			}
 		},
 		onLoad() {

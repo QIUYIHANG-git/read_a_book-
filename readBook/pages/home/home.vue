@@ -11,7 +11,7 @@
 			<!-- 搜索盒子 -->
 			<view class="search-box">
 				<view class="search-itme">
-					<image src="../../static/icon/home/aso.png" mode=""></image><input placeholder-style="color: #B9A798;" placeholder="请输入书名/正文内容"
+					<image src="../../static/icon/home/aso.png" mode=""></image><input @focus="search" placeholder-style="color: #B9A798;" placeholder="请输入书名/正文内容"
 					 type="text" value="" />
 				</view>
 			</view>
@@ -156,6 +156,15 @@
 				console.log(data)
 				this.matop = data
 				console.log(this.matop)
+			},
+			// 搜索事件
+			search(){
+				uni.navigateTo({
+					url:'../bookrack/search/search',
+					fail(err) {
+						console.log(err)
+					}
+				})
 			},
 			// 去书架
 			goBookrack() {

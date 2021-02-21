@@ -141,6 +141,30 @@ export default {
 		// 缓存搜索方法
 		cacheCilck(row) {
 			console.log(row);
+			this.searchOff = false;
+			let _this = this 
+			_this.$ureq({
+				url: 'api/book/search',
+				method: 'GET',
+				data: {
+					page:_this.page,
+					per_page: '6',
+					searchWord: row
+				}
+			})
+				.then(res => {
+					if(res.data.length<1){
+						this.styoff = '已加载全部'
+						return
+					}
+					_this.onelist = res.data
+					_this.recommendedReading = [..._this.recommendedReading,..._this.onelist]
+					console.log(res);
+					console.log('----------->',_this.recommendedReading)
+				})
+				.catch(err => {
+					console.log(err);
+				});
 		},
 		// 清空缓存
 		deleteEnterThe() {
