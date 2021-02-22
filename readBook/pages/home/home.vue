@@ -11,7 +11,7 @@
 			<!-- 搜索盒子 -->
 			<view class="search-box">
 				<view class="search-itme">
-					<image src="../../static/icon/home/aso.png" mode=""></image><input @focus="search" placeholder-style="color: #B9A798;" placeholder="请输入书名/正文内容"
+					<image src="http://i1.fuimg.com/733036/95f1c9951a4f3220.png" mode=""></image><input @focus="search" placeholder-style="color: #B9A798;" placeholder="请输入书名/正文内容"
 					 type="text" value="" />
 				</view>
 			</view>
@@ -26,7 +26,7 @@
 				</view>
 				<view class="go-bookrack" @click="goBookrack">
 					<text>去书架</text>
-					<image src="../../static/icon/home/去书架.png" mode=""></image>
+					<image src="http://i1.fuimg.com/733036/1acc028a3cc3168a.png" mode=""></image>
 				</view>
 			</view>
 			<!-- 正在看书籍 -->
@@ -81,7 +81,7 @@
 				</view>
 				<view class="go-bookrack" @click="moreOff">
 					<text>更多</text>
-					<image src="../../static/icon/home/去书架.png" mode=""></image>
+					<image src="http://i1.fuimg.com/733036/1acc028a3cc3168a.png" mode=""></image>
 				</view>
 			</view>
 			<!-- 书籍说明 -->
@@ -373,7 +373,7 @@
 				.text-title {
 					padding-top: 43rpx;
 					margin-left: 31rpx;
-					width: 141rpx;
+					width: 143rpx;
 					height: 34rpx;
 					font-size: 36rpx;
 					font-family: PingFang SC;
@@ -442,7 +442,7 @@
 				bottom: -80rpx;
 				height: 118.5rpx;
 				width: 100%;
-				background-image: url(../../static/icon/home/推荐书籍.png);
+				background-image: url(http://i1.fuimg.com/733036/b57cb98258cd9e2a.png);
 				background-size: 100% 100%;
 				background-repeat: no-repeat;
 
@@ -548,14 +548,14 @@
 				width: 371.3rpx;
 				height: 104rpx;
 				margin-top: 39rpx;
-				background-image: url(../../static/icon/home/title.png);
+				background-image: url(http://i1.fuimg.com/733036/b6ce41c4a1872637.png);
 				background-size: 100% 100%;
 				background-repeat: no-repeat;
 
 				.text-title {
 					padding-top: 43rpx;
 					margin-left: 31rpx;
-					width: 141rpx;
+					width: 143rpx;
 					height: 34rpx;
 					font-size: 36rpx;
 					font-family: PingFang SC;

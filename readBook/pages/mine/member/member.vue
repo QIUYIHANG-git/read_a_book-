@@ -1,7 +1,7 @@
 <template>
 	<view class="coupon-box" :style="{height:`calc(100vh - ${matop})`}">
 		<taber @child-event='parevent'>
-			<image slot="img" src="../../../static/icon/min/fanx.png" mode=""></image>
+			<image slot="img" src="http://i2.tiimg.com/733036/c51090a6f01cc19e.png" mode=""></image>
 			<text slot='text'>会员</text>
 		</taber>
 		<view class="id" :style="{
@@ -12,18 +12,18 @@
 			<view class="member-img">
 				<view class="member-one">
 					<view class="member-one-lfet">
-						<image src="http://i1.fuimg.com/733036/9d6e434cfc171905.png" mode=""></image>
+						<image :src="userImg" mode=""></image>
 					</view>
 					<view class="member-one-rigth">
 						<view class="member-one-rigth-one">
-							诗人李白
+							{{userName}}
 						</view>
 						<view class="member-one-rigth-tow">
 							您当前未开通vip
 						</view>
 					</view>
 				</view>
-				<view class="member-tow">
+				<view class="member-tow" @click="dredgeClick()">
 					立即开通
 				</view>
 			</view>
@@ -56,6 +56,39 @@
 					</view>
 				</view>
 			</view>
+			<!-- 删除显示-->
+			<u-popup v-model="moveOff" mode="center"  width="560rpx" height="640rpx" :closeable="false" >
+				<view style="background-color: rgb(234,234,234);color: #fff;width: 100%;height: 100%;font-family: PingFang SC;position: relative;box-sizing: border-box;">
+					<view style="color: #000000;font-weight: 500;font-size: 36rpx;text-align: center;padding: 39rpx;">
+						会员权益
+					</view>
+					<view style="width: 418rpx;height: 203rpx;margin: 78rpx auto;color: #333333;font-size: 28rpx;font-weight: 400;">
+						<view class="">
+							<view class="">
+								权限内容  
+							</view>
+							<view class="">
+								初级会员可使用小程序端全部功能
+							</view>
+						</view>
+						<view style="margin-top: 50rpx;">
+							高级会员可使用PC端/小程序端全部功能
+						</view>
+					</view>
+					<view style="background-color: #A1814C;
+					width: 100%;
+					padding: 20rpx 0;
+					text-align: center;
+					font-size: 32rpx;
+					font-weight: 400;
+					position: absolute;
+					bottom: 0;
+					"
+					 @click="goGroupingConfig">
+						确定
+					</view>
+				</view>
+			</u-popup>
 		</scroll-view>
 	</view>
 </template>
@@ -69,6 +102,7 @@
 		data() {
 			return {
 				matop: '',
+				moveOff:false,
 				// viP权益
 				memberOne:[
 					{
@@ -100,7 +134,10 @@
 						title:'开通时间：2020.12.11',
 						img:''
 					}
-				]
+				],
+				userName:'',
+				userImg:'',
+				memberState:''
 			}
 		},
 		methods: {
@@ -148,10 +185,51 @@
 				.catch(err => {
 					console.log(err)
 				})
+			},
+			// 
+			userinfo(){
+				// 用户信息
+				this.$ureq({
+						url: 'api/user/info',
+						method: 'GET',
+						header: {
+							Accept: 'application/json',
+							Authorization: String(this.$store.state.token)
+						}
+					}).then(res => {
+						this.userName = res.data.name
+						this.userImg = res.data.avatar
+						this.memberState = res.data.vip_type
+						console.log('用户信息',res)
+					})
+					.catch(err => {
+						console.log(err)
+					})
+			},
+			// 立即开通
+			dredgeClick(){
+				uni.navigateTo({
+					url:'../addVIP/addVIP',
+					fail(err) {
+						console.log(err)
+					}
+				})
+			},
+			itmeOne(index){
+				console.log(index)
+				if(index==0){
+					this.moveOff = true
+				}else{
+					
+				}
+			},
+			goGroupingConfig(){
+				this.moveOff = false
 			}
 		},
 		onLoad() {
 			this.memberRecord()
+			this.userinfo()
 		}
 	}
 </script>

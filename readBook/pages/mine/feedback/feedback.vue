@@ -2,19 +2,14 @@
 	<view class="coupon-box" :style="{height:`calc(100vh - ${matop})`}">
 		<taber @child-event='parevent'>
 			<image slot="img" src="http://i2.tiimg.com/733036/c51090a6f01cc19e.png" mode=""></image>
-			<text slot='text'>协议</text>
+			<text slot='text'>问题反馈</text>
 		</taber>
 		<view class="id" :style="{
 			marginTop: `${matop}`
 		}">
 		</view>
 		<scroll-view class="coupon" scroll-y="true">
-			<view style="text-align: center;margin-top: 49rpx;">
-				{{listData.title}}
-			</view>
-			<view style="margin: 0 31rpx 0 31rpx ;margin-top: 49rpx;">
-				<u-parse :html="listData.content" :selectable="true"></u-parse>
-			</view>
+			问题反馈
 		</scroll-view>
 	</view>
 </template>
@@ -27,9 +22,7 @@
 		},
 		data() {
 			return {
-				matop: '',
-				listData: {},
-				editorCtx:''
+				matop: ''
 			}
 		},
 		methods: {
@@ -39,28 +32,13 @@
 				this.matop = data
 				console.log(this.matop)
 			}
-		},
-		onShow() {
-			this.$ureq({
-					url: 'common/single',
-					data: {
-						id: '1'
-					},
-					method: 'GET'
-				}).then((res) => {
-					console.log(res)
-					this.listData = res.data
-				})
-				.catch((err) => {
-					console.log(err)
-				})
 		}
 	}
 </script>
 
 <style scoped lang="less">
-	.coupon {
-		height: 100%;
+	.coupon{
+		height:100%;
 		width: 100%;
 		background-color: #fff;
 	}

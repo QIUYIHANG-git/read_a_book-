@@ -582,7 +582,7 @@
 				.read-box-therr-pos {
 					width: 180rpx;
 					height: 275rpx;
-					background-image: url(../../static/icon/bookrack/弹出.png);
+					background-image: url(http://i1.fuimg.com/733036/a8fcea7a1d6754be.png);
 					background-size: 100% 100%;
 					background-repeat: no-repeat;
 					position: absolute;

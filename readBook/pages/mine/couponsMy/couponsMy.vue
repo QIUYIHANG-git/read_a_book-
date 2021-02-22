@@ -2,7 +2,7 @@
 	<view class="coupon-box" :style="{height:`calc(100vh - ${matop})`}">
 		<taber @child-event='parevent'>
 			<image slot="img" src="http://i2.tiimg.com/733036/c51090a6f01cc19e.png" mode=""></image>
-			<text slot='text'>限时优惠</text>
+			<text slot='text'>我的优惠卷</text>
 		</taber>
 		<view class="id" :style="{
 			marginTop: `${matop}`
@@ -54,50 +54,23 @@
 				console.log(data)
 				this.matop = data
 				console.log(this.matop)
-			},
-			getDiscounts(row,index){
-				console.log(row)
-				console.log(index)
-				let that = this
-				this.$ureq({
-					url: 'api/marketing/getcoupon',
-					method: 'POST',
-					data: {
-						code:row.id
-					},
-					header: {
-						Accept: 'application/json',
-						Authorization: String(that.$store.state.token)
-					}
-				})
-				.then(res =>{
-					console.log(res)
-					uni.showToast({
-						title:'领取'+row.name+'优惠卷成功',
-						icon:'success',
-						duration:1000
-					})
-				})
-				.catch(err => {
-					console.log(err)
-				})
 			}
 		},
 		onLoad() {
 			this.$ureq({
-				url:'api/marketing/coupon',
+				url: 'api/user/mycoupon',
+				method: 'GET',
 				data:{
 					page:'1',
-					per_page:'100'
+					per_page:'6'
 				},
-				method:'GET'
-			})
-			.then( res => {
-				this.listDiscounts = res.data
-				for(let i in this.listDiscounts){
-					// this.listDiscounts[i].created_at.
+				header: {
+					Accept: 'application/json',
+					Authorization: String(this.$store.state.token)
 				}
-				console.log(res)
+			}).then(res => {
+				console.log('我的优惠劵',res)
+				this.listDiscounts = res.data
 			})
 			.catch(err => {
 				console.log(err)
@@ -110,8 +83,7 @@
 	.coupon{
 		height:100%;
 		width: 100%;
-		background-color: #FFFDF6;
-		font-family: PingFang SC;
+		background-color: #fff;
 		.discounts-box{
 			width: 690rpx;
 			height: 200rpx;

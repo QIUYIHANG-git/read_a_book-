@@ -156,6 +156,24 @@
 					"titleNView": false
 				}
 			}
+		},
+		{
+			// 添加会员
+			"path": "pages/mine/addVIP/addVIP",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			// 我的优惠卷
+			"path": "pages/mine/couponsMy/couponsMy",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
 		}
 	],
 	"globalStyle": {

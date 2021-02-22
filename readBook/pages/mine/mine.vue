@@ -107,6 +107,21 @@
 			},
 			itmeindex(index){
 				console.log(index)
+				if(index ==0){
+					uni.navigateTo({
+						url:'./couponsMy/couponsMy',
+						fail(err) {
+							console.log(err)
+						}
+					})
+				}else if(index == 1){
+					uni.navigateTo({
+						url:'./problemFeedback/problemFeedback',
+						fail(err) {
+							console.log(err)
+						}
+					})
+				}
 			},
 			// 点击开通会员
 			memberClick(){
