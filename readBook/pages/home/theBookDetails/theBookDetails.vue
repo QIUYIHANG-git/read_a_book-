@@ -27,8 +27,8 @@
 				</view>
 			</view>
 			<view class="show-bottom" v-if="offTitle">
-				<view class="top-text">
-					前言
+				<view class="top-text" @click="noteclick">
+					写笔记
 				</view>
 				<view class="cencer-text">
 					<view class="img-text">
@@ -54,7 +54,7 @@
 						<image src="http://i2.tiimg.com/733036/f15e1650459b3664.png" mode=""></image>
 						<text>书签</text>
 					</view>
-					<view class="bottom-itme" @click="note()">
+					<view class="bottom-itme" @click="notehuclick()">
 						<image src="http://i2.tiimg.com/733036/511345981cd3f8f6.png" mode=""></image>
 						<text>笔记</text>
 					</view>
@@ -111,9 +111,52 @@
 					</view>
 					
 				</view>
+				
 				<view v-else>
-					
+					<view style="
+					width: 86%;
+					margin: 0 auto;
+					padding: 40rpx 0;
+					border-bottom: 1rpx solid #E6E6E6;
+					"
+					v-for="(itmes,index) in valuenoteList" :key='index' 
+					>
+						<view style="font-size: 30rpx;font-weight: 500; color: #010101;">
+							<text style="color: #A3834F;">笔记：</text><text>{{itmes.notes_content}}</text>
+						</view>
+						<view style="
+						margin: 10rpx auto;
+						height: 134rpx;width: 100%;font-size:24rpx;padding: 20rpx;background-color: #F6F1E9;color: #666;
+						box-sizing: border-box;
+						font-weight: 400;
+						"
+						@click="valuenoteListindex(valuenoteList[index])"
+						>
+							{{itmes.original_content}}
+						</view>
+						<view style="
+						display: flex;
+						justify-content: space-between;
+						align-items: center;
+						margin-top: 10rpx;
+						">
+							<view >
+								{{itmes.created_at}}
+							</view>
+							<view @click="palyCilck(valuenoteList[index])" >
+								<image style="
+								display: flex;
+								justify-content: center;
+								align-items: center;
+								width: 27rpx;height: 28rpx;"
+								 src="http://i1.fuimg.com/733036/5f58c58676e7028c.png" 
+								 mode="">
+								 </image>
+							</view>
+						</view>
+					</view>
 				</view>
+				
 			</u-popup>
 			<u-popup v-model="showmoshu" mode='center' height="40%" width="80%">
 				<view style="background-color: rgb(234,234,234);color: #fff;width: 100%;height: 100%;font-family: PingFang SC;position: relative;box-sizing: border-box;">
@@ -147,6 +190,54 @@
 					</view> 
 				</view>	
 			</u-popup>
+			<u-popup v-model="shownote" mode='center' height="60%" width="80%">
+				<view style="background-color: rgb(234,234,234);color: #fff;width: 100%;height: 100%;font-family: PingFang SC;position: relative;box-sizing: border-box;">
+					<view  style="text-align: center;font-size: 32rpx;font-weight: 600;color: #333;padding: 30rpx 0;">
+						请复制粘贴笔记处文字
+					</view>
+					<view style="
+					width: 90%;
+					height: 200rpx;
+					padding:0 10rpx;
+					box-sizing: border-box;
+					margin: 30rpx auto;
+					background-color: #FFFEFC;
+					display:flex;
+					justify-content: left;
+					align-items: center;
+					">
+						<u-input v-model="valuenoteOne" placeholder="请复制粘贴原文" style='width: 100%;height: 100%;' :trim='true' type="textarea"  />
+					</view>
+					<view style="color: #333;font-size: 32rpx;width: 90%;margin: 0 auto;font-weight: 500;">
+						笔记内容
+					</view>
+					<view style="
+					width: 90%;
+					height: 200rpx;
+					padding:0 10rpx;
+					box-sizing: border-box;
+					margin: 30rpx auto;
+					background-color: #FFFEFC;
+					display:flex;
+					justify-content: left;
+					align-items: center;
+					">
+						<u-input v-model="valuenoteTow" placeholder="请填写您的笔记内容" style='width: 100%;height: 100%;' :trim='true' type="textarea"  />
+					</view>
+					<view style="background-color: #A1814C;
+					width: 100%;
+					padding: 20rpx 0;
+					text-align: center;
+					font-size: 32rpx;
+					font-weight: 400;
+					position: absolute;
+					bottom: 0;
+					"
+					 @click="gonoteConfig">
+						确定
+					</view> 
+				</view>	
+			</u-popup>
 		</scroll-view>
 	</view>
 </template>
@@ -166,6 +257,11 @@
 				valueshu:'',
 				// 所有书签名
 				bookmarkList:[],
+				// 写笔记
+				shownote:false,
+				valuenoteOne:'',
+				valuenoteTow:'',
+				valuenoteList:[],
 				// 
 				nametext:'正文',
 				// 触摸时间
@@ -445,6 +541,90 @@
 					}).catch(err => {
 						console.log(err)
 					})
+			},
+			// 写笔记
+			noteclick(){
+				this.shownote = true
+				console.log('写笔记')
+			},
+			// 确定写笔记
+			gonoteConfig(){
+				console.log(this.valuenoteOne)
+				console.log(this.valuenoteTow)
+				this.$ureq({
+					url: 'api/booknote',
+					method: 'POST',
+					data: {
+						bookguid: String(this.optionId),
+						toc_id: String(this.optiontocId),
+						original_content:this.valuenoteOne,
+						notes_content:this.valuenoteTow
+					},
+					header: {
+						Accept: 'application/json',
+						Authorization: String(this.$store.state.token)
+					}
+				}).then(res => {
+					this.shownote = false
+					uni.showToast({
+						title:'添加笔记成功',
+						icon:'success',
+						duration:1000
+					})
+					console.log(res)
+				}).catch(err => {
+					console.log(err)
+				})
+			},
+			// 所有笔记
+			notehuclick(){
+				console.log('所有笔记')
+				
+				this.$ureq({
+					url: 'api/booknote',
+					method: 'GET',
+					data: {
+						page: '1',
+						per_page: '100'
+					},
+					header: {
+						Accept: 'application/json',
+						Authorization: String(this.$store.state.token)
+					}
+				}).then(res => {
+					this.showmo = true
+					this.numbershow = 2
+					this.valuenoteList = res.data
+					console.log(res)
+				}).catch(err => {
+					console.log(err)
+				})
+			},
+			// 
+			valuenoteListindex(row){
+				console.log(row)
+			},
+			// 删除
+			palyCilck(row){
+				console.log(row)
+				this.$ureq({
+					url: 'api/booknote/'+row.id,
+					method: 'DELETE',
+					header: {
+						Accept: 'application/json',
+						Authorization: String(this.$store.state.token)
+					}
+				}).then(res => {
+					this.notehuclick()
+					uni.showToast({
+						title:'删除笔记成功',
+						icon:'success',
+						duration:1000
+					})
+					console.log(res)
+				}).catch(err => {
+					console.log(err)
+				})
 			}
 		},
 		mounted() {
@@ -512,6 +692,7 @@
 			.pos-img{
 				position: relative;
 				top: 150rpx;
+				right: 60rpx;
 				image{
 					width: 60rpx;
 					height: 191rpx;
@@ -546,6 +727,9 @@
 
 			.tow {
 				margin-left: 50rpx;
+				display: flex;  
+				justify-content: center;
+				align-items: center;
 				image {
 					width: 64rpx;
 					height: 64rpx;

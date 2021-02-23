@@ -41,7 +41,7 @@
 						{{list.text}}<text>[{{list.number}}]</text>
 					</view>
 					<view class="in-detail">
-						<image src="../../static/icon/bookrack/详细.png" mode=""></image>
+						<image src="http://i1.fuimg.com/733036/dac9aea73f67ec95.png" mode=""></image>
 					</view>
 				</view>
 			</view>
@@ -52,7 +52,7 @@
 						{{listUrl.name}}<text>[{{listUrl.book_count}}]</text>
 					</view>
 					<view class="in-detail">
-						<image src="../../static/icon/bookrack/详细.png" mode=""></image>
+						<image src="http://i1.fuimg.com/733036/dac9aea73f67ec95.png" mode=""></image>
 					</view>
 				</view>
 				<!-- 推荐书籍 -->
