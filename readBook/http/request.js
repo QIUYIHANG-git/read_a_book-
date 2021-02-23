@@ -23,15 +23,17 @@ let ureq = function uget(options = {}){
 			method:options.method,
 			// config,
 			success(res) {
-				if(res.statusCode != 200){
+				if(res.statusCode == 200){
+					resolve(res)
+				}else{
 					uni.showToast({
-						title:res.errMsg,
+						title:res.data.errors.id[0],
 						icon:'none',
 						duration:3000
 					})
 					return
 				}
-				resolve(res)
+				
 			},
 			fail(err) {
 				uni.showToast({

@@ -1,6 +1,7 @@
 <template>
 	<view class="coupon-box" :style="{height:`calc(100vh - ${matop})`}">
 		<taber @child-event='parevent'>
+			<image slot="img" src="http://i2.tiimg.com/733036/c51090a6f01cc19e.png" mode=""></image>
 			<text slot='text'>书架</text>
 		</taber>
 		<view class="id" :style="{
@@ -9,11 +10,11 @@
 		</view>
 		<scroll-view class="coupon" scroll-y="true" v-if="updes">
 			<view class="top-mou">
-				<view class="top-mou-one">
+				<view class="top-mou-one" @click="checkAll">
 					全选
 				</view>
 				<view class="top-mou-tow">
-					已选<text>2</text>本书籍
+					已选<text>{{checkAllNumber}}</text>本书籍
 				</view>
 				<view class="top-mou-therr" @click="cancelOff">
 					取消
@@ -131,8 +132,8 @@
 				matop: '',
 				// 
 				moveOff:false,
-				// selectedUrl:'http://i1.fuimg.com/733036/16a9b425f47dcf13.png',
-				// unselectedUrl:'http://i1.fuimg.com/733036/ad4f2460146f9b40.png',
+				// 选中几本书
+				checkAllNumber:0,
 				// orinumber
 				orinumber:[],
 				goGroupingOff:0,
@@ -178,9 +179,14 @@
 			},
 			// 取消事件
 			cancelOff() {
-				uni.navigateBack({
-					delta: 1
-				});
+				for(let i=0;i<this.lent.length;i++){
+					for(let j=0;j<this.lent[i].listtext.length;j++){
+						this.$set(this.lent[i].listtext[j],'mogbot',false)
+					}
+				}
+				this.$forceUpdate()
+				this.shuobjList = []
+				this.checkAllNumber = this.shuobjList.length
 			},
 			//选事件
 			oriOd(row,index1,index2){
@@ -204,22 +210,23 @@
 						
 				}
 				console.log(this.shuobjList)
+				this.checkAllNumber = this.shuobjList.length
 				this.$forceUpdate()
 			
 			},
-			// 删除分组
-			deletefa(){
-				// this.$ureq({
-				// 	url:'api/bookgroup/',
-				// 	method:'DELETE',
-				// 	data:{
-				// 		id:id
-				// 	},
-				// 	header:{
-				// 		Accept:'application/json',
-				// 		Authorization:String(this.$store.state.token) 
-				// 	}
-				// })
+			// 全选中
+			checkAll(){
+				this.shuobjList = []
+				
+				for(let i=0;i<this.lent.length;i++){
+					for(let j=0;j<this.lent[i].listtext.length;j++){
+						this.$set(this.lent[i].listtext[j],'mogbot',true)
+						this.shuobjList.push(this.lent[i].listtext[j])
+					}
+				}
+				this.checkAllNumber = this.shuobjList.length
+				console.log(this.shuobjList)
+				this.$forceUpdate()
 			},
 			// 书籍请求方法
 			shuListf(page,perPageNumber){
@@ -325,6 +332,11 @@
 							this.$forceUpdate()
 						}
 					}
+					uni.showToast({
+						title:'移动书籍成功',
+						icon:'success',
+						duration:1000
+					})
 				}).catch(err => {
 					console.log(err)
 				})
@@ -352,9 +364,14 @@
 					}
 				}).then(res =>{
 					_this.bokse()	
-					this.shuobjList.length = 0		
+					this.shuobjList.length = 0	
+					uni.showToast({
+						title:'删除成功',
+						icon:'success',
+						duration:1000
+					})	
 					console.log('删除处理选中ID',groupIds)
-					console.log(res)
+					console.log('------------>',res)
 				}).catch(err => {
 					console.log(err)
 				})

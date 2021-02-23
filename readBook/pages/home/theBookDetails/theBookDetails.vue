@@ -50,7 +50,7 @@
 						<image src="http://i2.tiimg.com/733036/3af87905f80426ae.png" mode=""></image>
 						<text>目录</text>
 					</view>
-					<view class="bottom-itme">
+					<view class="bottom-itme" @click="shubookmark()">
 						<image src="http://i2.tiimg.com/733036/f15e1650459b3664.png" mode=""></image>
 						<text>书签</text>
 					</view>
@@ -96,11 +96,56 @@
 					</view>
 				</view>
 				<view v-else-if="numbershow == 1">
+					<view class="bookmark-box" v-for="(itmetow,index) in bookmarkList" :key="index">
+						<view class="bookmark-one">
+							{{itmetow.title}}
+						</view>
+						<view class="bookmark-tow">
+							<view class="bookmark-tow-time">
+								{{itmetow.created_at}}
+							</view>
+							<view class="bookmark-tow-delet" @click="deleteshu(bookmarkList[index])">
+								<image src="http://i1.fuimg.com/733036/5f58c58676e7028c.png" mode=""></image>
+							</view>
+						</view>
+					</view>
 					
 				</view>
 				<view v-else>
 					
 				</view>
+			</u-popup>
+			<u-popup v-model="showmoshu" mode='center' height="40%" width="80%">
+				<view style="background-color: rgb(234,234,234);color: #fff;width: 100%;height: 100%;font-family: PingFang SC;position: relative;box-sizing: border-box;">
+					<view  style="text-align: center;font-size: 32rpx;font-weight: 600;color: #333;padding: 30rpx 0;">
+						请输入书签名
+					</view>
+					<view style="
+					width: 80%;
+					padding:0 30rpx;
+					box-sizing: border-box;
+					height: 110rpx;
+					margin: 100rpx auto;
+					background-color: #FFFEFC;
+					display:flex;
+					justify-content: left;
+					align-items: center;
+					">
+						<u-input v-model="valueshu" placeholder="请输入" style='width: 100%;' :trim='true' type="text"  />
+					</view>
+					<view style="background-color: #A1814C;
+					width: 100%;
+					padding: 20rpx 0;
+					text-align: center;
+					font-size: 32rpx;
+					font-weight: 400;
+					position: absolute;
+					bottom: 0;
+					"
+					 @click="goGroupingConfig">
+						确定
+					</view> 
+				</view>	
 			</u-popup>
 		</scroll-view>
 	</view>
@@ -116,6 +161,11 @@
 			return {
 				matop: '',
 				listData: {},
+				// 书签名
+				showmoshu:false,
+				valueshu:'',
+				// 所有书签名
+				bookmarkList:[],
 				// 
 				nametext:'正文',
 				// 触摸时间
@@ -266,32 +316,108 @@
 				})
 				console.log('--------------')
 			},
+			//选择目录，书签，笔记
 			showmode(row,index){
 				this.numbershow = index
+				if(index == 0){
+					this.$ureq({
+						url: 'api/book/toc',
+						method: 'GET',
+						data: {
+							bookguid: String(this.optionId)
+						},
+						header: {
+							Accept: 'application/json',
+							Authorization: String(this.$store.state.token)
+						}
+					}).then(res => {
+						console.log('目录',res)
+						this.catalogueList =  res.data
+					}).catch(err => {
+						console.log(err)
+					})
+				}else if(index == 1){
+					
+				}else {
+					
+				}
 			},
 			// 书签功能
 			bookmarks(){
+				this.showmoshu = true
 				console.log('------------')
-				let that = this 
+				
+			},
+			// 书签确定
+			goGroupingConfig(){
+				console.log('确定')
+				let that = this
 				this.$ureq({
 					url: 'api/bookmark',
 					method: 'POST',
 					data: {
 						bookguid: String(that.optionId),
 						toc_id:String(that.optiontocId),
-						title:'无无无无无'
+						title:this.valueshu
 					},
 					header: {
 						Accept: 'application/json',
 						Authorization: String(that.$store.state.token)
 					}
 				}).then(res => {
+					that.showmoshu = false
 					uni.showToast({
 						title:'添加书签成功',
 						icon:'success',
 						duration:1000
 					})
 					console.log('书签',res)
+				}).catch(err => {
+					console.log(err)
+				})
+			},
+			// 所有书签
+			shubookmark(){
+				console.log('所有书签')
+				this.showmo = true
+				this.numbershow = 1,
+				this.$ureq({
+					url: 'api/bookmark',
+					method: 'GET',
+					data: {
+						page: '1',
+						per_page:'30'
+					},
+					header: {
+						Accept: 'application/json',
+						Authorization: String(this.$store.state.token)
+					}
+				}).then(res => {
+					this.bookmarkList = res.data
+					console.log('所有书签',res)
+				}).catch(err => {
+					console.log(err)
+				})
+			},
+			// 删除书签
+			deleteshu(row){
+				console.log('删除书签')
+				console.log(row)
+				this.$ureq({
+					url: 'api/bookmark/'+ row.id,
+					method: 'DELETE',
+					header: {
+						Accept: 'application/json',
+						Authorization: String(this.$store.state.token)
+					}
+				}).then(res => {
+					this.shubookmark()
+					uni.showToast({
+						title:'删除书签成功',
+						icon:'success',
+						duration:1000
+					})
+					console.log(res)
 				}).catch(err => {
 					console.log(err)
 				})
@@ -522,6 +648,37 @@
 				font-weight: 400;
 				font-family: PingFang SC;
 				border-bottom: 1rpx solid #E6E6E6;
+			}
+		}
+		.bookmark-box{
+			width: 690rpx;
+			margin: 0 auto;
+			padding: 40rpx 0;
+			border-bottom: 1rpx solid #E6E6E6;
+			.bookmark-one{
+				color: #010101;
+				font-size: 30rpx;
+				font-weight: 400;
+			}
+			.bookmark-tow{
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				margin-top: 10rpx;
+				.bookmark-tow-time{
+					font-size: 24rpx;
+					font-weight: 400;
+					color: #999999;
+				}
+				.bookmark-tow-delet{
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					image{
+						width: 27rpx;
+						height: 28rpx;
+					}
+				}
 			}
 		}
 	}

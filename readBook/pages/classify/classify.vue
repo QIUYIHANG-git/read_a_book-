@@ -83,12 +83,13 @@
 				})
 				.then( (res)=> {
 					this.towListClass = res.data
+					console.log('-------catagoryCode------>',this.towListClass[0].catagoryCode)
 					this.$ureq({
 						url:'api/book/category',
 						method:'GET',
 						data:{
 							parentId:this.towListClass[0].id,
-							categoryCode:this.towListClass[0].categoryCode
+							categoryCode:this.towListClass[0].catagoryCode
 						}
 					})
 					.then( (res)=> {
@@ -115,7 +116,7 @@
 					method:'GET',
 					data:{
 						parentId:row.id,
-						categoryCode:row.categoryCode
+						categoryCode:row.catagoryCode
 					}
 				})
 				.then( (res)=> {
@@ -131,7 +132,7 @@
 				console.log(row) 
 				console.log(index)
 				uni.navigateTo({
-					url:'./listOfBooks/listOfBooks?catagoryCode='+row.catagoryCode+'&text='+row.catagoryName,
+					url:'./listOfBooks/listOfBooks?catagoryCode='+row.catagoryCode+'&text='+row.catagoryName+'&categoryCount='+ row.categoryCount,
 					success(res) {
 						console.log(res)
 					},
@@ -169,7 +170,7 @@
 						method:'GET',
 						data:{
 							parentId:this.listClass[this.figure].id,
-							categoryCode:this.towListClass[this.figure].categoryCode
+							catagoryCode:this.towListClass[this.figure].catagoryCode
 						}
 					})
 					.then( (res)=> {
