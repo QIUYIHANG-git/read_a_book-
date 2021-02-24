@@ -197,7 +197,7 @@
 			.then(res => {
 				this.userinfoOne[0].img = res.data.avatar
 				this.userinfoOne[1].title = res.data.name
-				this.userinfoOne[2].title = res.data.name
+				this.userinfoOne[2].title = res.data.real_name
 				this.userinfoOne[3].title = res.data.sex
 				if(this.userinfoOne[3].title == 1){
 					this.userinfoOne[3].title = '男'

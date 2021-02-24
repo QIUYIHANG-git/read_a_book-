@@ -32,16 +32,16 @@
 			<!-- 正在看书籍 -->
 			<view class="books">
 				<view class="books-box">
-					<view class="books-itme" v-for="(shuitme,index) in shuList" :key="index" :style="{backgroundImage:`${shuitme.url}`}">
+					<view class="books-itme" v-for="(shuitme,index) in shuList" :key="index" :style="{backgroundImage:`${shuitme.url}`}" @click="shujiyd(shuList[index])">
 						<view class="text-box">
-							{{shuitme.text}}
+							{{shuitme.book_info.bookname}}
 						</view>
 					</view>
 				</view>
 				<view class="books-pos">
 					<view class="text-pos">
 						<view class="text-itme" v-for="(shutext,index) in shuList" :key="index">
-							{{shutext.text}}
+							{{shutext.book_info.bookname}}
 						</view>
 					</view>
 				</view>
@@ -255,9 +255,43 @@
 						console.log(err)
 					}
 				})
+			},
+			// 正在阅读
+			being(){
+				this.$ureq({
+						url: 'api/bookshelf/recently',
+						method: 'GET',
+						header: {
+							Accept: 'application/json',
+							Authorization: String(this.$store.state.token)
+						}
+					}).then(res => {
+						this.shuList = res.data
+						this.shuList[0].url = 'url(http://i1.fuimg.com/733036/90ddcafb6b2377f7.png)'
+						this.shuList[1].url = 'url(http://i1.fuimg.com/733036/238573e6794ffa31.png)'
+						this.shuList[2].url = 'url(http://i1.fuimg.com/733036/6a2fba295b0f7cc1.png)'
+						console.log('正在阅读',res)
+					})
+					.catch(err => {
+						console.log(err)
+					})
+			},
+			shujiyd(row){
+				console.log(row)
+				uni.navigateTo({
+					url: './theBookDetails/theBookDetails?id=' + row.bookguid + '&toc_id=' + row.default_group + '&name=' + row.book_info.bookname,
+					success(res) {
+						console.log(res)
+					},
+					fail(err) {
+						console.log(err)
+					}
+				})
 			}
 		},
 		onLoad() {
+			// 正在阅读
+			this.being()
 			this.$ureq({
 					url: 'common/banner',
 					method: 'GET'
@@ -305,6 +339,9 @@
 				.catch((err) => {
 					console.log(err)
 				})
+		},
+		onHide() {
+			console.log('离开了')
 		}
 	}
 </script>
@@ -431,6 +468,7 @@
 						padding: 5rpx 18rpx;
 						box-sizing: border-box;
 						color: #333333;
+						overflow: hidden;
 						font-family: PingFang SC;
 					}
 				}
@@ -459,11 +497,12 @@
 
 					.text-itme {
 						width: 206rpx;
-						height: 100%;
+						height: 122%;
 						font-size: 28rpx;
 						font-family: PingFang SC;
 						font-weight: 500;
 						color: #000;
+						overflow: hidden;
 					}
 				}
 			}

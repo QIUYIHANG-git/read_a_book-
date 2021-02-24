@@ -10,7 +10,7 @@
 		<scroll-view class="coupon" scroll-y="true">
 			<view class="read-box">
 				<view class="read-box-one">
-					本周阅读<text>1980</text>分钟
+					本周阅读<text>{{times}}</text>分钟
 				</view>
 				<view class="read-box-tow">
 					<view class="search-itme" @click="csearchClick">
@@ -117,6 +117,8 @@
 		data() {
 			return {
 				matop: '',
+				// 阅读时间
+				times:'',
 				// 书架长度
 				lent:[],
 				// 菜单
@@ -476,6 +478,23 @@
 						console.log(err)
 					}
 				})
+			},
+			// 本周阅读时间
+			timescod(){
+				this.$ureq({
+					url:'api/book-pv/week',
+					method:'GET',
+					header:{
+						Accept:'application/json',
+						Authorization:String(this.$store.state.token) 
+					}
+				}).then(res =>{
+					this.times = res.data.minutes
+					console.log('阅读时间',res)
+				})
+				.catch(err => {
+					console.log(err)
+				})
 			}
 		},
 		mounted() {
@@ -521,6 +540,7 @@
 		onShow() {
 			this.bokse()
 			this.pattern()
+			this.timescod()
 		}
 	}
 </script>

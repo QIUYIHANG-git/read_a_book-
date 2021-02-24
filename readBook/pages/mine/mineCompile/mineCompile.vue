@@ -35,6 +35,7 @@
 				//参数
 				avatar:'',
 				name:'',
+				real_name:'',
 				mobile:'',
 				sex:'',
 				birthday:'',
@@ -67,14 +68,25 @@
 				if(this.stact==0){
 					if(this.indexs == 0){
 						this.avatar = this.userinfo
-					}else if(this.indexs == 1){
+					}
+					else if(this.indexs == 1){
 						this.name = this.userinfo
 					}else if(this.indexs == 2){
-						this.name = this.userinfo
+						this.real_name = this.userinfo
 					}else if(this.indexs == 3){
 						this.sex = this.userinfo
+						if(this.sex == 1){
+							this.sex = '男'
+						}else{
+							this.sex = '女'
+						}
 					}else if(this.indexs == 4){
-						this.birthday = this.userinfo
+						
+						if(this.birthday == null){
+							this.birthday = ''
+						}else{
+							this.birthday = this.userinfo
+						}
 					}else if(this.indexs == 5){
 						this.country = this.userinfo
 					}else {
@@ -100,12 +112,23 @@
 					}
 					console.log('状态3执行')
 				}
+				if(this.sex == 1){
+					this.sex = '男'
+				}else{
+					this.sex = '女'
+				}
+				if(this.birthday == null){
+					this.birthday = ''
+				}else{
+					this.birthday = this.userinfo
+				}
 				this.$ureq({
 					url: 'api/user/info',
 					method: 'POST',
 					data:{
 						avatar:this.avatar,
 						name:this.name,
+						real_name:this.real_name,
 						mobile:this.mobile,
 						sex:this.sex,
 						birthday:this.birthday,

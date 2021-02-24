@@ -2,7 +2,7 @@
 	<view class="coupon-box" :style="{height:`calc(100vh - ${matop})`}">
 		<taber @child-event='parevent'>
 			<image slot="img" src="http://i2.tiimg.com/733036/c51090a6f01cc19e.png" mode=""></image>
-			<text slot='text'>协议</text>
+			<text slot='text'>{{listData.title}}</text>
 		</taber>
 		<view class="id" :style="{
 			marginTop: `${matop}`
@@ -29,7 +29,8 @@
 			return {
 				matop: '',
 				listData: {},
-				editorCtx:''
+				editorCtx:'',
+				title:'协议'
 			}
 		},
 		methods: {
@@ -41,10 +42,13 @@
 			}
 		},
 		onShow() {
+			
+		},
+		onLoad(op) {
 			this.$ureq({
 					url: 'common/single',
 					data: {
-						id: '1'
+						id: op.id
 					},
 					method: 'GET'
 				}).then((res) => {

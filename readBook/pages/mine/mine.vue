@@ -121,6 +121,20 @@
 							console.log(err)
 						}
 					})
+				}else if(index == 2){
+					uni.navigateTo({
+						url:'../login/agreement/agreement?id='+3,
+						fail(err) {
+							console.log(err)
+						}
+					})
+				}else{
+					uni.navigateTo({
+						url:'../login/agreement/agreement?id='+4,
+						fail(err) {
+							console.log(err)
+						}
+					})
 				}
 			},
 			// 点击开通会员

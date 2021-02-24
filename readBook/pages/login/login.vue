@@ -7,7 +7,7 @@
 			marginTop: `${matop}`
 		}">
 		</view>
-		<scroll-view class="coupon" scroll-y="true">
+		<view class="coupon" scroll-y="true">
 			<view class="content-text">
 				<view class="text-one">
 					<view class="content-text-img">
@@ -90,7 +90,7 @@
 					</view>
 				</view>
 			</view>
-		</scroll-view>
+		</view>
 		
 	</view>
 </template>
@@ -236,7 +236,7 @@
 			agreement() {
 				console.log('用户协议')
 				uni.navigateTo({
-					url:'./agreement/agreement',
+					url:'./agreement/agreement?id='+1,
 					fail(err) {
 						console.log(err)
 					}
@@ -291,10 +291,13 @@
 		.content-text {
 			width: 100%;
 			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
 			
 			.text-one {
 				width: 84%;
-				margin: 100rpx auto 0 auto;
+				margin: 0rpx auto 0 auto;
 				height: 50%;
 
 				.content-text-img {

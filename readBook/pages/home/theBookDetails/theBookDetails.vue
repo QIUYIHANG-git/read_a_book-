@@ -18,11 +18,11 @@
 						<text :class="offText==index?'text-one':'text-tow'" @click="textCilck(index)">{{itme}}</text>
 					</view>
 				</view>
-				<view class="tow">
+				<view class="tow" @click="sosoCilck()">
 					<image src="http://i1.fuimg.com/733036/95f1c9951a4f3220.png" mode=""></image>
 				</view>
 				<!-- 书签功能 -->
-				<view class="pos-img" @click="bookmarks()">
+				<view v-if="offText==0" class="pos-img" @click="bookmarks()">
 					<image src="http://i2.tiimg.com/733036/8f90889b834ccd63.png" mode=""></image>
 				</view>
 			</view>
@@ -290,7 +290,9 @@
 				// 
 				numbershow:0,
 				// 目录列表
-				catalogueList:[]
+				catalogueList:[],
+				// 开始阅读id
+				stascid:''
 			}
 		},
 		methods: {
@@ -433,9 +435,9 @@
 						console.log(err)
 					})
 				}else if(index == 1){
-					
+					this.shubookmark()
 				}else {
-					
+					this.notehuclick()
 				}
 			},
 			// 书签功能
@@ -625,6 +627,52 @@
 				}).catch(err => {
 					console.log(err)
 				})
+			},
+			// 开始阅读
+			stasc(){
+				this.$ureq({
+					url: 'api/book-pv/start',
+					method: 'POST',
+					data: {
+						bookguid: String(this.optionId)
+					},
+					header: {
+						Accept: 'application/json',
+						Authorization: String(this.$store.state.token)
+					}
+				}).then(res => {
+					this.stascid = res.data.id
+					console.log(this.stascid)
+					console.log('开始阅读',res)
+				}).catch(err => {
+					console.log(err)
+				})
+			},
+			// 结束阅读
+			endsc(){
+				this.$ureq({
+					url: 'api/book-pv/end',
+					method: 'POST',
+					data: {
+						id: this.stascid
+					},
+					header: {
+						Accept: 'application/json',
+						Authorization: String(this.$store.state.token)
+					}
+				}).then(res => {
+					console.log('结束阅读',res)
+				}).catch(err => {
+					console.log(err)
+				})
+			},
+			sosoCilck(){
+				uni.navigateTo({
+					url:'../../bookrack/search/search',
+					fail(err) {
+						console.log(err)
+					}
+				})
 			}
 		},
 		mounted() {
@@ -650,9 +698,20 @@
 		},
 		onLoad(option) {
 			console.log(option)
+			
 			this.optionId = option.id
 			this.optiontocId = option.toc_id
 			this.nametext = option.name
+			// 开始阅读
+			this.stasc()
+		},
+		onHide(){
+			console.log('结束了')
+			this.endsc()
+		},
+		onUnload(){
+			console.log('结束了1')
+			this.endsc()
 		}
 	}
 </script>
@@ -692,7 +751,7 @@
 			.pos-img{
 				position: relative;
 				top: 150rpx;
-				right: 60rpx;
+				right: 66rpx;
 				image{
 					width: 60rpx;
 					height: 191rpx;
