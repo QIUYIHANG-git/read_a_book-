@@ -1,7 +1,7 @@
 <template>
 	<view class="coupon-box" :style="{height:`calc(100vh - ${matop})`}">
 		<taber @child-event='parevent'>
-			<image slot="img" src="http://i2.tiimg.com/733036/c51090a6f01cc19e.png" mode=""></image>
+			<image slot="img" src="http://i1.fuimg.com/733036/c51090a6f01cc19e.png" mode=""></image>
 			<text slot='text'>{{nametext}}</text>
 		</taber>
 		<view class="id" :style="{
@@ -23,7 +23,7 @@
 				</view>
 				<!-- 书签功能 -->
 				<view v-if="offText==0" class="pos-img" @click="bookmarks()">
-					<image src="http://i2.tiimg.com/733036/8f90889b834ccd63.png" mode=""></image>
+					<image src="http://i1.fuimg.com/733036/8f90889b834ccd63.png" mode=""></image>
 				</view>
 			</view>
 			<view class="show-bottom" v-if="offTitle">
@@ -33,9 +33,9 @@
 				<view class="cencer-text">
 					<view class="img-text">
 						<text style="margin-right: 30rpx;">字号:</text>
-						<image style="margin-right: 35rpx;" src="http://i2.tiimg.com/733036/25e24c50e3454252.png" mode="" @click="addfontSizeNuber"></image>
+						<image style="margin-right: 35rpx;" src="http://i1.fuimg.com/733036/25e24c50e3454252.png" mode="" @click="addfontSizeNuber"></image>
 						<text style="margin-right: 35rpx;">{{fontSizeNuber}}</text>
-						<image src="http://i2.tiimg.com/733036/71ad455b07c265a6.png" mode="" @click="subtractfontSizeNuber"></image>
+						<image src="http://i1.fuimg.com/733036/71ad455b07c265a6.png" mode="" @click="subtractfontSizeNuber"></image>
 					</view>
 					<view class="page-number-box">
 						<text style="margin-right: 32rpx;">跳转:</text> 
@@ -47,19 +47,19 @@
 				</view>
 				<view class="bottom-text">
 					<view class="bottom-itme" @click="catalogue()">
-						<image src="http://i2.tiimg.com/733036/3af87905f80426ae.png" mode=""></image>
+						<image src="http://i1.fuimg.com/733036/3af87905f80426ae.png" mode=""></image>
 						<text>目录</text>
 					</view>
 					<view class="bottom-itme" @click="shubookmark()">
-						<image src="http://i2.tiimg.com/733036/f15e1650459b3664.png" mode=""></image>
+						<image src="http://i1.fuimg.com/733036/f15e1650459b3664.png" mode=""></image>
 						<text>书签</text>
 					</view>
 					<view class="bottom-itme" @click="notehuclick()">
-						<image src="http://i2.tiimg.com/733036/511345981cd3f8f6.png" mode=""></image>
+						<image src="http://i1.fuimg.com/733036/511345981cd3f8f6.png" mode=""></image>
 						<text>笔记</text>
 					</view>
-					<view class="bottom-itme">
-						<image src="http://i2.tiimg.com/733036/d80e480f6fcd2a77.png" mode=""></image>
+					<view class="bottom-itme" @click="addshu()">
+						<image src="http://i1.fuimg.com/733036/d80e480f6fcd2a77.png" mode=""></image>
 						<text>加入书架</text>
 					</view>
 				</view>
@@ -673,6 +673,31 @@
 						console.log(err)
 					}
 				})
+			},
+			// 加入书架
+			addshu(){
+				this.$ureq({
+						url: 'api/bookshelf',
+						method: 'POST',
+						data: {
+							bookguid:this.optionId,
+							dynastyname: this.nametext
+						},
+						header: {
+							Accept: 'application/json',
+							Authorization: String(this.$store.state.token)
+						}
+					}).then(res => {
+						console.log(res)
+						uni.showToast({
+							title: '加入书架成功',
+							icon: 'success',
+							duration: 2000
+						})
+					})
+					.catch(err => {
+						console.log(err)
+					})
 			}
 		},
 		mounted() {
