@@ -199,7 +199,7 @@
 			recommReading(row) {
 				console.log(row)
 				uni.navigateTo({
-					url: './theBookDetails/theBookDetails?id=' + row.bookguid + '&toc_id=' + '1' + '&name=' + row.documentName,
+					url: './theBookDetails/theBookDetails?id=' + row.bookguid + '&toc_id=' + '1' + '&name=' + row.documentName+'&dynastyname='+row.dynasty,
 					success(res) {
 						console.log(res)
 					},
@@ -214,27 +214,27 @@
 			addRecommReading(row) {
 				console.log(row)
 				this.$ureq({
-						url: 'api/bookshelf',
-						method: 'POST',
-						data: {
-							bookguid: row.bookguid,
-							dynastyname: row.dynasty
-						},
-						header: {
-							Accept: 'application/json',
-							Authorization: String(this.$store.state.token)
-						}
-					}).then(res => {
-						console.log(res)
-						uni.showToast({
-							title: '加入书架成功',
-							icon: 'success',
-							duration: 2000
-						})
+					url: 'api/bookshelf',
+					method: 'POST',
+					data: {
+						bookguid: row.bookguid,
+						dynastyname: row.dynasty
+					},
+					header: {
+						Accept: 'application/json',
+						Authorization: String(this.$store.state.token)
+					}
+				}).then(res => {
+					console.log(res)
+					uni.showToast({
+						title: '加入书架成功',
+						icon: 'success',
+						duration: 2000
 					})
-					.catch(err => {
-						console.log(err)
-					})
+				})
+				.catch(err => {
+					console.log(err)
+				})
 				console.log('加入书架')
 			},
 			// 总库

@@ -469,8 +469,9 @@
 				console.log(row)
 				console.log(index)
 				console.log(index2)
+				console.log('----------------->>>>>>',row.book_info.dynastyname)
 				uni.navigateTo({
-					url:'../home/theBookDetails/theBookDetails?id='+ row.bookguid+'&toc_id='+'1'+'&name='+row.book_info.bookname,
+					url:'../home/theBookDetails/theBookDetails?id='+ row.bookguid+'&toc_id='+'1'+'&name='+row.book_info.bookname+'&dynastyname='+row.book_info.dynastyname,
 					success(res) {
 						console.log(res)
 					},

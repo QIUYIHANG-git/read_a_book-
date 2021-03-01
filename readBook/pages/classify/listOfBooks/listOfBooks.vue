@@ -64,7 +64,7 @@
 			recommReading(row){
 				console.log(row)
 				uni.navigateTo({
-					url: '../../home/theBookDetails/theBookDetails?id=' + row.bookguid + '&toc_id=' + '1' + '&name=' + row.sim_bookname,
+					url: '../../home/theBookDetails/theBookDetails?id=' + row.bookguid + '&toc_id=' + '1' + '&name=' + row.sim_bookname+'&dynastyname='+row.tra_dynastyname,
 					success(res) {
 						console.log(res)
 					},

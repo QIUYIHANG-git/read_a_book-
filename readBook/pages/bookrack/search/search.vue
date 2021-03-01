@@ -1,7 +1,7 @@
 <template>
 	<view class="coupon-box" :style="{ height: `calc(100vh - ${matop})` }">
 		<taber @child-event="parevent">
-			<image slot="img" src="http://i1.fuimg.com/733036/c51090a6f01cc19e.png" mode=""></image>
+			<image slot="img" src="http://i2.tiimg.com/733036/c51090a6f01cc19e.png" mode=""></image>
 			<text slot="text">搜索</text>
 		</taber>
 		<view
@@ -123,19 +123,6 @@ export default {
 			console.log(data);
 			this.matop = data;
 			console.log(this.matop);
-		},
-		recommReading(row){
-			console.log(row)
-			uni.navigateTo({
-				url: '../../home/theBookDetails/theBookDetails?id=' + row.bookguid + '&toc_id=' + '1' + '&name=' + row.sim_bookname,
-				success(res) {
-					console.log(res)
-				},
-				fail(err) {
-					console.log(err)
-				}
-			})
-			
 		},
 		// 搜索历史缓存
 		enterThe() {

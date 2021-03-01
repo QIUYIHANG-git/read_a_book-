@@ -1,7 +1,7 @@
 <template>
 	<view class="coupon-box" :style="{height:`calc(100vh - ${matop})`}">
 		<taber @child-event='parevent'>
-			<image slot="img" src="http://i1.fuimg.com/733036/c51090a6f01cc19e.png" mode=""></image>
+			<image slot="img" src="http://i2.tiimg.com/733036/c51090a6f01cc19e.png" mode=""></image>
 			<text slot='text'>{{textName}}</text>
 		</taber>
 		<view class="id" :style="{
@@ -153,7 +153,7 @@
 				console.log(index)
 				console.log(index2)
 				uni.navigateTo({
-					url:'../../home/theBookDetails/theBookDetails?id='+ row.bookguid+'&toc_id='+this.textId+'&name='+row.book_info.bookname,
+					url:'../../home/theBookDetails/theBookDetails?id='+ row.bookguid+'&toc_id='+(this.textId?this.textId:this.NnberId)+'&name='+row.book_info.bookname+'&dynastyname='+row.book_info.dynastyname,
 					success(res) {
 						console.log(res)
 					},

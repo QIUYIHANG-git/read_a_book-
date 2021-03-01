@@ -1,7 +1,7 @@
 <template>
 	<view class="coupon-box" :style="{height:`calc(100vh - ${matop})`}">
 		<taber @child-event='parevent'>
-			<image slot="img" src="http://i1.fuimg.com/733036/c51090a6f01cc19e.png" mode=""></image>
+			<image slot="img" src="http://i2.tiimg.com/733036/c51090a6f01cc19e.png" mode=""></image>
 			<text slot='text'>{{nametext}}</text>
 		</taber>
 		<view class="id" :style="{
@@ -59,8 +59,9 @@
 						</view>
 					</view>
 				</view>
+				
 				<view v-else-if="numbershow == 1">
-					<view class="bookmark-box" v-for="(itmetow,index) in bookmarkList" :key="index">
+					<view class="bookmark-box" v-for="(itmetow,index) in bookmarkList" :key="index" @click=" bookmarkCilck(bookmarkList[index],index)">
 						<view class="bookmark-one">
 							{{itmetow.title}}
 						</view>
@@ -75,7 +76,7 @@
 					</view>
 					
 				</view>
-				
+				<!-- 笔记 -->
 				<view v-else>
 					<view style="
 					width: 86%;
@@ -235,7 +236,7 @@
 					<image src="http://i2.tiimg.com/733036/511345981cd3f8f6.png" mode=""></image>
 					<text>笔记</text>
 				</view>
-				<view class="bottom-itme">
+				<view class="bottom-itme" @click="bttomAdd()">
 					<image src="http://i2.tiimg.com/733036/d80e480f6fcd2a77.png" mode=""></image>
 					<text>加入书架</text>
 				</view>
@@ -296,7 +297,9 @@
 				// 开始阅读id
 				stascid:'',
 				// 总页数
-				pagesList:0
+				pagesList:0,
+				// 
+				dynastyname:''
 			}
 		},
 		methods: {
@@ -306,7 +309,48 @@
 				this.matop = data
 				console.log(this.matop)
 			},
-			// 
+			// 选中笔记
+			bookmarkCilck(row,index){
+				console.log(row)
+				let that = this
+				this.$ureq({
+					url: 'api/book/html',
+					method: 'GET',
+					data: {
+						bookguid: String(row.bookguid),
+						toc_id: String(row.toc_id)
+					},
+					header: {
+						Accept: 'application/json',
+						Authorization: String(that.$store.state.token)
+					}
+				}).then(res => {
+					that.listData = res.data
+					console.log(res)
+					this.showmo = false
+				}).catch(err => {
+					console.log(err)
+				})
+				// 图片
+				this.$ureq({
+					url: 'api/book/imgurl',
+					method: 'GET',
+					data: {
+						bookguid: String(row.bookguid),
+						toc_id: String(row.toc_id)
+					},
+					header: {
+						Accept: 'application/json',
+						Authorization: String(that.$store.state.token)
+					}
+				}).then(res => {
+					this.imgurl = res.data.img_url
+					console.log(res)
+				}).catch(err => {
+					console.log(err)
+				})
+			},
+			// 阅读模式
 			textCilck(index) {
 				this.offText = index
 				let that = this
@@ -314,41 +358,25 @@
 					console.log('状态1')
 				}else if(this.offText == 1) {
 					console.log('状态2')
-					this.$ureq({
-						url: 'api/book/imgurl',
-						method: 'GET',
-						data: {
-							bookguid: String(that.optionId),
-							toc_id: String(that.optiontocId)
-						},
-						header: {
-							Accept: 'application/json',
-							Authorization: String(that.$store.state.token)
-						}
-					}).then(res => {
-						this.imgurl = res.data.img_url
-						console.log(res)
-					}).catch(err => {
-						console.log(err)
-					})
+					
 				}else {
-					this.$ureq({
-						url: 'api/book/imgurl',
-						method: 'GET',
-						data: {
-							bookguid: String(that.optionId),
-							toc_id: String(that.optiontocId)
-						},
-						header: {
-							Accept: 'application/json',
-							Authorization: String(that.$store.state.token)
-						}
-					}).then(res => {
-						this.imgurl = res.data.img_url
-						console.log(res)
-					}).catch(err => {
-						console.log(err)
-					})
+					// this.$ureq({
+					// 	url: 'api/book/imgurl',
+					// 	method: 'GET',
+					// 	data: {
+					// 		bookguid: String(that.optionId),
+					// 		toc_id: String(that.optiontocId)
+					// 	},
+					// 	header: {
+					// 		Accept: 'application/json',
+					// 		Authorization: String(that.$store.state.token)
+					// 	}
+					// }).then(res => {
+					// 	this.imgurl = res.data.img_url
+					// 	console.log(res)
+					// }).catch(err => {
+					// 	console.log(err)
+					// })
 				}
 				console.log(this.offText)
 			},
@@ -358,6 +386,7 @@
 			subtractfontSizeNuber(){
 				this.fontSizeNuber -= 1
 			},
+			// 跳转页面
 			pageCilck(){
 				console.log(this.pageNumber)
 				if(this.pageNumber>this.pagesList){
@@ -366,8 +395,9 @@
 						icon:'none',
 						duration:1000
 					})
-				}else{
-					
+				}else if(this.pageNumber>0){
+					console.log(this.catalogueList[this.pageNumber-1])
+					this.itmename(this.catalogueList[this.pageNumber-1],this.pageNumber-1)
 				}
 			},
 			// 富文本加载事件
@@ -535,29 +565,48 @@
 					console.log(err)
 				})
 			},
+			// 选中目录
 			itmename(row,index){
 				console.log(row)
 				console.log(index)
 				this.optiontocId = row.id
 				let that = this
 				this.$ureq({
-						url: 'api/book/html',
-						method: 'GET',
-						data: {
-							bookguid: String(that.optionId),
-							toc_id: String(this.optiontocId)
-						},
-						header: {
-							Accept: 'application/json',
-							Authorization: String(that.$store.state.token)
-						}
-					}).then(res => {
-						that.listData = res.data
-						console.log(res)
-						this.showmo = false
-					}).catch(err => {
-						console.log(err)
-					})
+					url: 'api/book/html',
+					method: 'GET',
+					data: {
+						bookguid: String(that.optionId),
+						toc_id: String(this.optiontocId)
+					},
+					header: {
+						Accept: 'application/json',
+						Authorization: String(that.$store.state.token)
+					}
+				}).then(res => {
+					that.listData = res.data
+					console.log(res)
+					this.showmo = false
+				}).catch(err => {
+					console.log(err)
+				})
+				// 图片
+				this.$ureq({
+					url: 'api/book/imgurl',
+					method: 'GET',
+					data: {
+						bookguid: String(that.optionId),
+						toc_id: String(that.optiontocId)
+					},
+					header: {
+						Accept: 'application/json',
+						Authorization: String(that.$store.state.token)
+					}
+				}).then(res => {
+					this.imgurl = res.data.img_url
+					console.log(res)
+				}).catch(err => {
+					console.log(err)
+				})
 			},
 			// 写笔记
 			noteclick(){
@@ -617,9 +666,46 @@
 					console.log(err)
 				})
 			},
-			// 
+			//选中笔记
 			valuenoteListindex(row){
 				console.log(row)
+				let that = this
+				this.$ureq({
+					url: 'api/book/html',
+					method: 'GET',
+					data: {
+						bookguid: String(row.bookguid),
+						toc_id: String(row.toc_id)
+					},
+					header: {
+						Accept: 'application/json',
+						Authorization: String(that.$store.state.token)
+					}
+				}).then(res => {
+					that.listData = res.data
+					console.log(res)
+					this.showmo = false
+				}).catch(err => {
+					console.log(err)
+				})
+				// 图片
+				this.$ureq({
+					url: 'api/book/imgurl',
+					method: 'GET',
+					data: {
+						bookguid: String(row.bookguid),
+						toc_id: String(row.toc_id)
+					},
+					header: {
+						Accept: 'application/json',
+						Authorization: String(that.$store.state.token)
+					}
+				}).then(res => {
+					this.imgurl = res.data.img_url
+					console.log(res)
+				}).catch(err => {
+					console.log(err)
+				})
 			},
 			// 删除
 			palyCilck(row){
@@ -690,29 +776,30 @@
 				})
 			},
 			// 加入书架
-			addshu(){
+			bttomAdd(){
+				let that = this
 				this.$ureq({
-						url: 'api/bookshelf',
-						method: 'POST',
-						data: {
-							bookguid:this.optionId,
-							dynastyname: this.nametext
-						},
-						header: {
-							Accept: 'application/json',
-							Authorization: String(this.$store.state.token)
-						}
-					}).then(res => {
-						console.log(res)
-						uni.showToast({
-							title: '加入书架成功',
-							icon: 'success',
-							duration: 2000
-						})
+					url: 'api/bookshelf',
+					method: 'POST',
+					data: {
+						bookguid: that.optionId,
+						dynastyname: that.dynastyname
+					},
+					header: {
+						Accept: 'application/json',
+						Authorization: String(this.$store.state.token)
+					}
+				}).then(res => {
+					console.log(res)
+					uni.showToast({
+						title: '加入书架成功',
+						icon: 'success',
+						duration: 1000
 					})
-					.catch(err => {
-						console.log(err)
-					})
+				})
+				.catch(err => {
+					console.log(err)
+				})
 			}
 		},
 		mounted() {
@@ -735,6 +822,23 @@
 			}).catch(err => {
 				console.log(err)
 			})
+			this.$ureq({
+				url: 'api/book/imgurl',
+				method: 'GET',
+				data: {
+					bookguid: String(that.optionId),
+					toc_id: String(that.optiontocId)
+				},
+				header: {
+					Accept: 'application/json',
+					Authorization: String(that.$store.state.token)
+				}
+			}).then(res => {
+				this.imgurl = res.data.img_url
+				console.log(res)
+			}).catch(err => {
+				console.log(err)
+			})
 		},
 		onLoad(option) {
 			console.log('----------------->',option)
@@ -742,6 +846,7 @@
 			this.optionId = option.id
 			this.optiontocId = option.toc_id
 			this.nametext = option.name
+			this.dynastyname = option.dynastyname
 			// 开始阅读
 			this.stasc()
 			this.catalogue(false)

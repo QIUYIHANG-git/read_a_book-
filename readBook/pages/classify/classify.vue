@@ -211,7 +211,7 @@
 				font-size: 32rpx;
 				font-family: PingFang SC;
 				color: #fff;
-				background-image: url(http://i1.fuimg.com/733036/2c3a4ae89f034b59.png);
+				background-image: url(http://i1.fuimg.com/733036/a1f7acc2afb0839b.png);
 				background-size: 100% 100%;
 				background-repeat: no-repeat;
 				padding: 19rpx 31rpx;
