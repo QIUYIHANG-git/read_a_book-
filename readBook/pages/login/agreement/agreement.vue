@@ -9,9 +9,9 @@
 		}">
 		</view>
 		<scroll-view class="coupon" scroll-y="true">
-			<view style="text-align: center;margin-top: 49rpx;">
+			<!-- <view style="text-align: center;margin-top: 49rpx;">
 				{{listData.title}}
-			</view>
+			</view> -->
 			<view style="margin: 0 31rpx 0 31rpx ;margin-top: 49rpx;">
 				<u-parse :html="listData.content" :selectable="true"></u-parse>
 			</view>

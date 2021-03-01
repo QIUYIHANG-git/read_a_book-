@@ -60,6 +60,9 @@
 					</view>
 				</view>
 			</view>
+			<view style="padding: 40rpx 30rpx;font-size: 24rpx;font-weight: 400;font-family: PingFang SC;color: #333333;">
+				<text style="color: #999999;">查看</text> <text style="color: #A3834F;" @click="agreement">《会员服务协议》</text>
+			</view>
 			<!-- 支付 -->
 			<view class="money-box">
 				<view class="money-box-one">
@@ -126,6 +129,14 @@
 			mothCilck(row,index){
 				this.offmoth = index
 				console.log(index)
+			},
+			agreement(){
+				uni.navigateTo({
+					url:'../../login/agreement/agreement?id='+2,
+					fail(err) {
+						console.log(err)
+					}
+				})
 			}
 		}
 	}

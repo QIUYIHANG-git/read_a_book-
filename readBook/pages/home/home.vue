@@ -68,7 +68,7 @@
 				</view>
 			</view>
 			<!-- 广告 -->
-			<view class="advertising-member" >
+			<view v-if="memberState == 1" class="advertising-member" @click="addmember()">
 				<image src="http://i1.fuimg.com/733036/16a850f04e35a834.png" mode=""></image>
 			</view>
 			<view class="advertising-red-packet" @click="discounts()">
@@ -148,6 +148,8 @@
 						url: 'url(http://i1.fuimg.com/733036/6a2fba295b0f7cc1.png)'
 					}
 				],
+				// 用户权限
+				memberState:1
 			}
 		},
 		methods: {
@@ -156,6 +158,14 @@
 				console.log(data)
 				this.matop = data
 				console.log(this.matop)
+			},
+			addmember(){
+				uni.navigateTo({
+					url:'../mine/addVIP/addVIP',
+					fail(err) {
+						console.log(err)
+					}
+				})
 			},
 			// 搜索事件
 			search(){
@@ -259,22 +269,32 @@
 			// 正在阅读
 			being(){
 				this.$ureq({
-						url: 'api/bookshelf/recently',
-						method: 'GET',
-						header: {
-							Accept: 'application/json',
-							Authorization: String(this.$store.state.token)
-						}
-					}).then(res => {
-						this.shuList = res.data
+					url: 'api/bookshelf/recently',
+					method: 'GET',
+					header: {
+						Accept: 'application/json',
+						Authorization: String(this.$store.state.token)
+					}
+				}).then(res => {
+					console.log('正在阅读',res)
+					this.shuList = res.data
+					if(this.shuList.length == 1){
+						this.shuList[0].url = 'url(http://i1.fuimg.com/733036/90ddcafb6b2377f7.png)'
+					}else if(this.shuList.length == 2){
+						this.shuList[0].url = 'url(http://i1.fuimg.com/733036/90ddcafb6b2377f7.png)'
+						this.shuList[1].url = 'url(http://i1.fuimg.com/733036/238573e6794ffa31.png)'
+					}else if(this.shuList.length == 3){
 						this.shuList[0].url = 'url(http://i1.fuimg.com/733036/90ddcafb6b2377f7.png)'
 						this.shuList[1].url = 'url(http://i1.fuimg.com/733036/238573e6794ffa31.png)'
 						this.shuList[2].url = 'url(http://i1.fuimg.com/733036/6a2fba295b0f7cc1.png)'
-						console.log('正在阅读',res)
-					})
-					.catch(err => {
-						console.log(err)
-					})
+					}else{
+						
+					}
+					
+				})
+				.catch(err => {
+					console.log(err)
+				})
 			},
 			shujiyd(row){
 				console.log(row)
@@ -287,11 +307,30 @@
 						console.log(err)
 					}
 				})
+			},
+			ueseinfo(){
+				// 用户信息
+				this.$ureq({
+						url: 'api/user/info',
+						method: 'GET',
+						header: {
+							Accept: 'application/json',
+							Authorization: String(this.$store.state.token)
+						}
+					}).then(res => {
+						this.$store.commit('climemberState',{memberState:res.data.vip_type})
+						this.memberState = this.$store.state.memberState
+						console.log(this.$store.state.memberState)
+						console.log('用户信息',res)
+					})
+					.catch(err => {
+						console.log(err)
+					})
 			}
 		},
 		onLoad() {
-			// 正在阅读
-			this.being()
+			this.ueseinfo()
+			
 			this.$ureq({
 					url: 'common/banner',
 					method: 'GET'
@@ -323,6 +362,8 @@
 				})
 		},
 		onShow() {
+			// 正在阅读
+			this.being()
 			// 推荐阅读
 			this.$ureq({
 					url: 'api/book/recommend',
@@ -410,7 +451,7 @@
 				.text-title {
 					padding-top: 43rpx;
 					margin-left: 31rpx;
-					width: 143rpx;
+					width: 150rpx;
 					height: 34rpx;
 					font-size: 36rpx;
 					font-family: PingFang SC;
@@ -448,14 +489,15 @@
 			.books-box {
 
 				display: flex;
-				justify-content: space-between;
+				justify-content: left;
 				align-items: center;
-				padding: 0 29rpx;
+				// padding: 0 29rpx;
 				box-sizing: border-box;
 
 				.books-itme {
 					width: 206rpx;
 					height: 296rpx;
+					margin-left: 38rpx;
 					background-size: 100% 100%;
 					background-repeat: no-repeat;
 
@@ -490,15 +532,16 @@
 					width: 100%;
 					height: 30rpx;
 					display: flex;
-					justify-content: space-between;
+					justify-content: left;
 					align-items: center;
-					padding: 0 29rpx;
+					// padding: 0 29rpx;
 					box-sizing: border-box;
 
 					.text-itme {
 						width: 206rpx;
 						height: 122%;
 						font-size: 28rpx;
+						margin-left: 38rpx;
 						font-family: PingFang SC;
 						font-weight: 500;
 						color: #000;
@@ -594,7 +637,7 @@
 				.text-title {
 					padding-top: 43rpx;
 					margin-left: 31rpx;
-					width: 143rpx;
+					width: 150rpx;
 					height: 34rpx;
 					font-size: 36rpx;
 					font-family: PingFang SC;

@@ -17,9 +17,10 @@
 						<view class="img-text">
 							<view class="name">
 								<text>{{userName}}</text>
-								<image v-if="!memberState==2" src="http://i1.fuimg.com/733036/e74c025b672761b8.png" mode=""></image>
+								<image v-if="memberState==2" src="http://i1.fuimg.com/733036/e74c025b672761b8.png" mode=""></image>
+								<image v-else-if="memberState==3" src="http://i1.fuimg.com/733036/e74c025b672761b8.png" mode=""></image>
 							</view>
-							<view v-if="memberState == 2" class="hint-tow">
+							<view v-if="memberState == 1" class="hint-tow">
 								首次完善个人信息送基础会员
 							</view>
 							<view v-else class="hint-one">
@@ -33,7 +34,7 @@
 				</view>
 			</view>
 			<view class="pos-box">
-				<view v-if="memberState==2" class="pos-img" @click="memberClick()">
+				<view v-if="memberState==1" class="pos-img" @click="memberClick()">
 					<image src="http://i1.fuimg.com/733036/16a850f04e35a834.png" mode=""></image>
 				</view>
 				<view class="white-box">

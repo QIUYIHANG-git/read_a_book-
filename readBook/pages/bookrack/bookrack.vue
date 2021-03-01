@@ -539,7 +539,26 @@
 		},
 		onShow() {
 			this.bokse()
-			this.pattern()
+			this.offpos = false
+			// this.pattern()
+			this.$ureq({
+				url:'api/bookgroup',
+				method:'GET',
+				header:{
+					Accept:'application/json',
+					Authorization:String(this.$store.state.token) 
+				}
+			}).then(res =>{
+				this.listTow = res.data
+				for(let i in this.listTow){
+					// url 书单
+					this.listTow[i].url = 'url(http://i1.fuimg.com/733036/858a6e0a012d3a88.png)'
+				}
+				console.log(res)
+			})
+			.catch(err => {
+				console.log(err)
+			})
 			this.timescod()
 		}
 	}
@@ -607,7 +626,7 @@
 					background-repeat: no-repeat;
 					position: absolute;
 					top: 100%;
-					z-index: 999;
+					z-index: 1000;
 					right: 0;
 					overflow: hidden;
 					animation-name: moveheigth;

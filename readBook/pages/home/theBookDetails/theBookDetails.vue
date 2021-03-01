@@ -8,62 +8,26 @@
 			marginTop: `${matop}`
 		}">
 		</view>
+		<view class="show-top" v-if="offTitle">
+			<view class="one">
+				<view v-for="(itme,index) in listText" :key="index" class="show-top-text">
+					<text :class="offText==index?'text-one':'text-tow'" @click="textCilck(index)">{{itme}}</text>
+				</view>
+			</view>
+			<view class="tow" @click="sosoCilck()">
+				<image src="http://i1.fuimg.com/733036/95f1c9951a4f3220.png" mode=""></image>
+			</view>
+			<!-- 书签功能 -->
+			<view v-if="offText==0" class="pos-img" @click="bookmarks()">
+				<image src="http://i2.tiimg.com/733036/8f90889b834ccd63.png" mode=""></image>
+			</view>
+		</view>
 		<scroll-view class="coupon" scroll-y="true" @click="onSet" :style="{
 			height: `calc(100% - ${heibotom})`,
 			paddingTop: `${scrrotop}`
 			}">
-			<view class="show-top" v-if="offTitle">
-				<view class="one">
-					<view v-for="(itme,index) in listText" :key="index" class="show-top-text">
-						<text :class="offText==index?'text-one':'text-tow'" @click="textCilck(index)">{{itme}}</text>
-					</view>
-				</view>
-				<view class="tow" @click="sosoCilck()">
-					<image src="http://i1.fuimg.com/733036/95f1c9951a4f3220.png" mode=""></image>
-				</view>
-				<!-- 书签功能 -->
-				<view v-if="offText==0" class="pos-img" @click="bookmarks()">
-					<image src="http://i2.tiimg.com/733036/8f90889b834ccd63.png" mode=""></image>
-				</view>
-			</view>
-			<view class="show-bottom" v-if="offTitle">
-				<view class="top-text" @click="noteclick">
-					写笔记
-				</view>
-				<view class="cencer-text">
-					<view class="img-text">
-						<text style="margin-right: 30rpx;">字号:</text>
-						<image style="margin-right: 35rpx;" src="http://i2.tiimg.com/733036/25e24c50e3454252.png" mode="" @click="addfontSizeNuber"></image>
-						<text style="margin-right: 35rpx;">{{fontSizeNuber}}</text>
-						<image src="http://i2.tiimg.com/733036/71ad455b07c265a6.png" mode="" @click="subtractfontSizeNuber"></image>
-					</view>
-					<view class="page-number-box">
-						<text style="margin-right: 32rpx;">跳转:</text> 
-						<view style="width:100rpx;height: 48rpx;border: 2rpx solid; #333;text-align: center;margin-right: 32rpx;">
-							<input v-model="pageNumber" type="number" value="" @blur="pageCilck"/>
-						</view>
-						<text>页</text>
-					</view>
-				</view>
-				<view class="bottom-text">
-					<view class="bottom-itme" @click="catalogue()">
-						<image src="http://i2.tiimg.com/733036/3af87905f80426ae.png" mode=""></image>
-						<text>目录</text>
-					</view>
-					<view class="bottom-itme" @click="shubookmark()">
-						<image src="http://i2.tiimg.com/733036/f15e1650459b3664.png" mode=""></image>
-						<text>书签</text>
-					</view>
-					<view class="bottom-itme" @click="notehuclick()">
-						<image src="http://i2.tiimg.com/733036/511345981cd3f8f6.png" mode=""></image>
-						<text>笔记</text>
-					</view>
-					<view class="bottom-itme">
-						<image src="http://i2.tiimg.com/733036/d80e480f6fcd2a77.png" mode=""></image>
-						<text>加入书架</text>
-					</view>
-				</view>
-			</view>
+			
+			
 			
 			<view v-if="offText==0" class="parse-box" @longpress="logGrouping" style="text-align: left;" :style="{fontSize:`${fontSizeNuber}rpx`}">
 				<u-parse :html="listData.html" :selectable="true" ></u-parse>
@@ -239,6 +203,44 @@
 				</view>	
 			</u-popup>
 		</scroll-view>
+		<view class="show-bottom" v-if="offTitle">
+			<view class="top-text" @click="noteclick">
+				写笔记
+			</view>
+			<view class="cencer-text">
+				<view class="img-text">
+					<text style="margin-right: 30rpx;">字号:</text>
+					<image style="margin-right: 35rpx;" src="http://i2.tiimg.com/733036/25e24c50e3454252.png" mode="" @click="addfontSizeNuber"></image>
+					<text style="margin-right: 35rpx;">{{fontSizeNuber}}</text>
+					<image src="http://i2.tiimg.com/733036/71ad455b07c265a6.png" mode="" @click="subtractfontSizeNuber"></image>
+				</view>
+				<view class="page-number-box">
+					<text style="margin-right: 32rpx;">跳转:</text> 
+					<view style="width:100rpx;height: 48rpx;border: 2rpx solid; #333;text-align: center;margin-right: 32rpx;">
+						<input v-model="pageNumber" :maxlength="2" type="number" value="" @blur="pageCilck"/>
+					</view>
+					<text>页</text>
+				</view>
+			</view>
+			<view class="bottom-text">
+				<view class="bottom-itme" @click="catalogue(true)">
+					<image src="http://i2.tiimg.com/733036/3af87905f80426ae.png" mode=""></image>
+					<text>目录</text>
+				</view>
+				<view class="bottom-itme" @click="shubookmark()">
+					<image src="http://i2.tiimg.com/733036/f15e1650459b3664.png" mode=""></image>
+					<text>书签</text>
+				</view>
+				<view class="bottom-itme" @click="notehuclick()">
+					<image src="http://i2.tiimg.com/733036/511345981cd3f8f6.png" mode=""></image>
+					<text>笔记</text>
+				</view>
+				<view class="bottom-itme">
+					<image src="http://i2.tiimg.com/733036/d80e480f6fcd2a77.png" mode=""></image>
+					<text>加入书架</text>
+				</view>
+			</view>
+		</view> 
 	</view>
 </template>
 
@@ -292,7 +294,9 @@
 				// 目录列表
 				catalogueList:[],
 				// 开始阅读id
-				stascid:''
+				stascid:'',
+				// 总页数
+				pagesList:0
 			}
 		},
 		methods: {
@@ -356,6 +360,15 @@
 			},
 			pageCilck(){
 				console.log(this.pageNumber)
+				if(this.pageNumber>this.pagesList){
+					uni.showToast({
+						title:'该书籍最大页面为'+this.pagesList,
+						icon:'none',
+						duration:1000
+					})
+				}else{
+					
+				}
 			},
 			// 富文本加载事件
 			onEditorReady() {
@@ -368,33 +381,34 @@
 				console.log(e)
 			},
 			onSet(e) {
-				//console.log(new Date().getTime())
-				if (this.touchStartTime == 0) {
-					this.touchStartTime = new Date().getTime()
+				if (this.offTitle == true) {
+					this.offTitle = false
+					this.heibotom = '0rpx'
+					this.scrrotop = '0rpx'
 				} else {
-					if (new Date().getTime() - this.touchStartTime <= 300) {
-						// this.setMeau = true
-						if (this.offTitle == true) {
-							this.offTitle = false
-							this.heibotom = '0rpx'
-							this.scrrotop = '0rpx'
-						} else {
-							this.offTitle = true
-							this.heibotom = '405rpx'
-							this.scrrotop = '102rpx'
-						}
-						console.log('这是双击')
-					}
-					this.touchStartTime = 0
+					this.offTitle = true
+					this.heibotom = '405rpx'
+					this.scrrotop = '102rpx'
 				}
+				//console.log(new Date().getTime())
+				// if (this.touchStartTime == 0) {
+				// 	this.touchStartTime = new Date().getTime()
+				// } else {
+				// 	if (new Date().getTime() - this.touchStartTime <= 300) {
+				// 		// this.setMeau = true
+						
+				// 		console.log('这是双击')
+				// 	}
+				// 	this.touchStartTime = 0
+				// }
 
 			},
 			logGrouping() {
 				console.log('长按监听成功')
 			},
 			// 目录
-			catalogue(){
-				this.showmo = true
+			catalogue(off){
+				this.showmo = off
 				let that = this
 				this.$ureq({
 					url: 'api/book/toc',
@@ -409,6 +423,7 @@
 				}).then(res => {
 					console.log('目录',res)
 					this.catalogueList =  res.data
+					this.pagesList = this.catalogueList.length
 				}).catch(err => {
 					console.log(err)
 				})
@@ -697,13 +712,14 @@
 			})
 		},
 		onLoad(option) {
-			console.log(option)
+			console.log('----------------->',option)
 			
 			this.optionId = option.id
 			this.optiontocId = option.toc_id
 			this.nametext = option.name
 			// 开始阅读
 			this.stasc()
+			this.catalogue(false)
 		},
 		onHide(){
 			console.log('结束了')
@@ -717,25 +733,11 @@
 </script>
 
 <style scoped lang="less">
-	.coupon {
-		width: 100%;
-		background-color: rgb(250, 248, 243);
+	.coupon-box{
 		position: relative;
-
-		.parse-box {
-			margin: 0 auto;
-			box-sizing: border-box;
-			width: 86%;
-			font-size: 32rpx;
-			text-align: left;
-			color: #333;
-			line-height: 56rpx;
-			font-family: PingFangSC-Regular;
-		}
-
 		.show-top {
-			position: fixed;
-			top: 125rpx;
+			position: absolute;
+			top: 0rpx;
 			width: 750rpx;
 			height: 100rpx;
 			background-color: #fff;
@@ -762,19 +764,19 @@
 				display: flex;
 				justify-content: left;
 				align-items: center;
-
+				
 				.show-top-text {
 					display: flex;
 					justify-content: left;
 					align-items: center;
-
+				
 					.text-one {
 						padding-bottom: 20rpx;
 						border-bottom: 2rpx solid #A3834F;
 						margin-right: 61rpx;
 						color: #A3834F;
 					}
-
+				
 					.text-tow {
 						padding-bottom: 20rpx;
 						border-bottom: 2rpx solid #fff;
@@ -783,7 +785,7 @@
 					}
 				}
 			}
-
+				
 			.tow {
 				margin-left: 50rpx;
 				display: flex;  
@@ -794,16 +796,16 @@
 					height: 64rpx;
 				}
 			}
-
+				
 		}
-
 		.show-bottom {
 			position: fixed;
 			bottom: 0;
 			width: 750rpx;
 			height: 305rpx;
 			background-color: #fff;
-
+			z-index: 1000;
+				
 			.top-text {
 				margin-top: 30rpx;
 				text-align: center;
@@ -812,7 +814,7 @@
 				font-weight: 400;
 				font-family: PingFang SC;
 			}
-
+				
 			.cencer-text {
 				padding: 40rpx 29rpx;
 				color: #333333;	
@@ -836,7 +838,7 @@
 					align-items: center;
 				}
 			}
-
+				
 			.bottom-text {
 				padding: 46rpx 20rpx;
 				display: flex;
@@ -859,70 +861,91 @@
 				}
 			}
 		}
-		
-		.show-box-title{
-			height: 100rpx;
+		.coupon {
 			width: 100%;
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			box-sizing: border-box;
-			padding: 0 108rpx;
-			font-size: 38rpx;
-			font-weight: 500;
-			border-bottom: 1rpx solid rgba(0,0,0,.1);
-			.show-one{
-				color:#A3834F;
-				padding-bottom: 32rpx;
-				border-bottom: 4rpx solid #A3834F;
+			background-color: rgb(250, 248, 243);
+			position: relative;
+		
+			.parse-box {
+				margin: 0 auto;
+				box-sizing: border-box;
+				width: 86%;
+				font-size: 32rpx;
+				text-align: left;
+				color: #333;
+				line-height: 56rpx;
+				font-family: PingFangSC-Regular;
 			}
-			.show-tow{
-				color:#999;
-				padding-bottom: 32rpx;
-				border-bottom: 4rpx solid #fff;
-			}
-		}
-		.catalogue-box{
-			padding: 0 31rpx;
-			box-sizing: border-box;
-			.title-itme {
-				padding: 41rpx 0;
-				color: #010101;
-				font-weight: 400;
-				font-family: PingFang SC;
-				border-bottom: 1rpx solid #E6E6E6;
-			}
-		}
-		.bookmark-box{
-			width: 690rpx;
-			margin: 0 auto;
-			padding: 40rpx 0;
-			border-bottom: 1rpx solid #E6E6E6;
-			.bookmark-one{
-				color: #010101;
-				font-size: 30rpx;
-				font-weight: 400;
-			}
-			.bookmark-tow{
+		
+			
+		
+			
+			
+			.show-box-title{
+				height: 100rpx;
+				width: 100%;
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
-				margin-top: 10rpx;
-				.bookmark-tow-time{
-					font-size: 24rpx;
-					font-weight: 400;
-					color: #999999;
+				box-sizing: border-box;
+				padding: 0 108rpx;
+				font-size: 38rpx;
+				font-weight: 500;
+				border-bottom: 1rpx solid rgba(0,0,0,.1);
+				.show-one{
+					color:#A3834F;
+					padding-bottom: 32rpx;
+					border-bottom: 4rpx solid #A3834F;
 				}
-				.bookmark-tow-delet{
+				.show-tow{
+					color:#999;
+					padding-bottom: 32rpx;
+					border-bottom: 4rpx solid #fff;
+				}
+			}
+			.catalogue-box{
+				padding: 0 31rpx;
+				box-sizing: border-box;
+				.title-itme {
+					padding: 41rpx 0;
+					color: #010101;
+					font-weight: 400;
+					font-family: PingFang SC;
+					border-bottom: 1rpx solid #E6E6E6;
+				}
+			}
+			.bookmark-box{
+				width: 690rpx;
+				margin: 0 auto;
+				padding: 40rpx 0;
+				border-bottom: 1rpx solid #E6E6E6;
+				.bookmark-one{
+					color: #010101;
+					font-size: 30rpx;
+					font-weight: 400;
+				}
+				.bookmark-tow{
 					display: flex;
-					justify-content: center;
+					justify-content: space-between;
 					align-items: center;
-					image{
-						width: 27rpx;
-						height: 28rpx;
+					margin-top: 10rpx;
+					.bookmark-tow-time{
+						font-size: 24rpx;
+						font-weight: 400;
+						color: #999999;
+					}
+					.bookmark-tow-delet{
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						image{
+							width: 27rpx;
+							height: 28rpx;
+						}
 					}
 				}
 			}
 		}
 	}
+	
 </style>

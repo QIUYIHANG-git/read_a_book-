@@ -177,6 +177,7 @@
 																}
 															})
 														},1500)
+														console.log('状态值',res.data.first_login)
 														if (res.data.first_login == 1) {
 															console.log(res.data.first_login)
 														} else {
@@ -185,6 +186,7 @@
 														}
 														that.$store.state.token ='Bearer ' + res.data.token
 														that.$store.state.tokenType = res.data.token_type
+														that.$store.commit('climemberState',{memberState:res.data.first_login})
 													}else{
 														that.onConfigOff = true
 													}

@@ -42,7 +42,7 @@
 			</view>
 			<!-- 会员开通记录 -->
 			<view class="tow">
-				<view class="itme" v-for="(itme,index) in memberTow" :key="index" @click="itmeOne(index)">
+				<view class="itme" v-for="(itme,index) in memberTow" :key="index" >
 					<view class="itme-let">
 						<view>{{itme.text}}</view>
 						<view v-if="itme.title" style="color: #999999;font-size: 24rpx;margin-top: 5rpx;">
@@ -225,6 +225,12 @@
 			},
 			goGroupingConfig(){
 				this.moveOff = false
+				uni.navigateTo({
+					url:'../../login/agreement/agreement?id='+5,
+					fail(err) {
+						console.log(err)
+					}
+				})
 			}
 		},
 		onLoad() {

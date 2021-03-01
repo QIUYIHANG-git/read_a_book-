@@ -26,8 +26,11 @@ let ureq = function uget(options = {}){
 				if(res.statusCode == 200){
 					resolve(res)
 				}else{
+					let ju
+					ju = Object.keys(res.data.errors)
+					let ki = ju[0]
 					uni.showToast({
-						title:res.data.errors.id[0],
+						title: res.data.errors[ki][0],
 						icon:'none',
 						duration:3000
 					})

@@ -15,7 +15,9 @@ export default new Vuex.Store({
 		row:{
 			id:'',
 			index:0
-		}
+		},
+		// 会员状态
+		memberState:1
 	},
 	mutations: {
 		// 账号信息
@@ -45,6 +47,10 @@ export default new Vuex.Store({
 		elimiclass(state){
 			state.row.id = ''
 			state.row.index = 0
+		},
+		// 修改状态
+		climemberState(state,payload){
+			state.memberState = payload.memberState
 		}
 		
 	},
