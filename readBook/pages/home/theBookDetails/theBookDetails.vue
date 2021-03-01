@@ -1,7 +1,7 @@
 <template>
 	<view class="coupon-box" :style="{height:`calc(100vh - ${matop})`}">
 		<taber @child-event='parevent'>
-			<image slot="img" src="http://i2.tiimg.com/733036/c51090a6f01cc19e.png" mode=""></image>
+			<image slot="img" src="http://i1.fuimg.com/733036/c51090a6f01cc19e.png" mode=""></image>
 			<text slot='text'>{{nametext}}</text>
 		</taber>
 		<view class="id" :style="{
@@ -688,6 +688,31 @@
 						console.log(err)
 					}
 				})
+			},
+			// 加入书架
+			addshu(){
+				this.$ureq({
+						url: 'api/bookshelf',
+						method: 'POST',
+						data: {
+							bookguid:this.optionId,
+							dynastyname: this.nametext
+						},
+						header: {
+							Accept: 'application/json',
+							Authorization: String(this.$store.state.token)
+						}
+					}).then(res => {
+						console.log(res)
+						uni.showToast({
+							title: '加入书架成功',
+							icon: 'success',
+							duration: 2000
+						})
+					})
+					.catch(err => {
+						console.log(err)
+					})
 			}
 		},
 		mounted() {

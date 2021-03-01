@@ -1,7 +1,7 @@
 <template>
 	<view class="coupon-box" :style="{height:`calc(100vh - ${matop})`}">
 		<taber @child-event='parevent'>
-			<image slot="img" src="http://i2.tiimg.com/733036/c51090a6f01cc19e.png" mode=""></image>
+			<image slot="img" src="http://i1.fuimg.com/733036/c51090a6f01cc19e.png" mode=""></image>
 			<text slot='text'>书架</text>
 		</taber>
 		<view class="id" :style="{
@@ -363,7 +363,15 @@
 						Authorization:String(this.$store.state.token) 
 					}
 				}).then(res =>{
+					_this.customf()
 					_this.bokse()	
+					this.shuobjList = []
+					for(let i in this.lent){
+						for(let j in this.lent[i].listtext){
+							this.$set(this.lent[i].listtext[j],'mogbot',false)
+							this.$forceUpdate()
+						}
+					}
 					this.shuobjList.length = 0	
 					uni.showToast({
 						title:'删除成功',

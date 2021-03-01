@@ -63,6 +63,15 @@
 			},
 			recommReading(row){
 				console.log(row)
+				uni.navigateTo({
+					url: '../../home/theBookDetails/theBookDetails?id=' + row.bookguid + '&toc_id=' + '1' + '&name=' + row.sim_bookname,
+					success(res) {
+						console.log(res)
+					},
+					fail(err) {
+						console.log(err)
+					}
+				})
 			},
 			addRecommReading(row){
 				console.log(row)
