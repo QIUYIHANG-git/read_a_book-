@@ -1,7 +1,7 @@
 <template>
 	<view class="coupon-box" :style="{height:`calc(100vh - ${matop})`}">
 		<taber @child-event='parevent'>
-			<image slot="img" src="http://i2.tiimg.com/733036/c51090a6f01cc19e.png" mode=""></image>
+			<image slot="img" src="https://api-guji.sinmore.vip/wximg/110/返回.png" mode=""></image>
 			<text slot='text'>编辑{{text}}</text>
 		</taber>
 		<view class="id" :style="{
@@ -66,94 +66,205 @@
 			// 确定事件
 			confirm(){
 				if(this.stact==0){
-					if(this.indexs == 0){
-						this.avatar = this.userinfo
-					}
-					else if(this.indexs == 1){
-						this.name = this.userinfo
-					}else if(this.indexs == 2){
-						this.real_name = this.userinfo
-					}else if(this.indexs == 3){
-						this.sex = this.userinfo
-						if(this.sex == 1){
-							this.sex = '男'
-						}else{
-							this.sex = '女'
-						}
-					}else if(this.indexs == 4){
+					if(this.indexs == 1){
+						this.$ureq({
+							url: 'api/user/info',
+							method: 'POST',
+							data:{
+								name:this.userinfo,
+							},
+							header: {
+								Accept: 'application/json',
+								Authorization: String(this.$store.state.token)
+							}
+						})
+						.then(res => {
+							uni.showToast({
+								title:'编辑名称成功',
+								icon:'success',
+								duration:1000
+							})
+							console.log('用户信息',res)
+						})
+						.catch(err => {
+							console.log(err)
+						})
 						
-						if(this.birthday == null){
-							this.birthday = ''
-						}else{
-							this.birthday = this.userinfo
-						}
+					}else if(this.indexs == 2){
+						this.$ureq({
+							url: 'api/user/info',
+							method: 'POST',
+							data:{
+								real_name:this.userinfo,
+							},
+							header: {
+								Accept: 'application/json',
+								Authorization: String(this.$store.state.token)
+							}
+						})
+						.then(res => {
+							uni.showToast({
+								title:'编辑姓名成功',
+								icon:'success',
+								duration:1000
+							})
+							console.log('用户信息',res)
+						})
+						.catch(err => {
+							console.log(err)
+						})
 					}else if(this.indexs == 5){
-						this.country = this.userinfo
+						this.$ureq({
+							url: 'api/user/info',
+							method: 'POST',
+							data:{
+								country:this.userinfo,
+							},
+							header: {
+								Accept: 'application/json',
+								Authorization: String(this.$store.state.token)
+							}
+						})
+						.then(res => {
+							uni.showToast({
+								title:'编辑国家成功',
+								icon:'success',
+								duration:1000
+							})
+							console.log('用户信息',res)
+						})
+						.catch(err => {
+							console.log(err)
+						})
 					}else {
 						this.city = this.userinfo
 					}
 					console.log('状态1执行')
 				}else if(this.stact==1){
-					if(this.indexs == 0){
-						this.education = this.userinfo
-					}else if(this.indexs == 1){
-						this.discipline = this.userinfo
+					if(this.indexs == 1){
+						this.$ureq({
+							url: 'api/user/info',
+							method: 'POST',
+							data:{
+								discipline:this.userinfo,
+							},
+							header: {
+								Accept: 'application/json',
+								Authorization: String(this.$store.state.token)
+							}
+						})
+						.then(res => {
+							uni.showToast({
+								title:'编辑专业成功',
+								icon:'success',
+								duration:1000
+							})
+							console.log('用户信息',res)
+						})
+						.catch(err => {
+							console.log(err)
+						})
 					}else{
-						this.job = this.userinfo
+						this.$ureq({
+							url: 'api/user/info',
+							method: 'POST',
+							data:{
+								job:this.userinfo,
+							},
+							header: {
+								Accept: 'application/json',
+								Authorization: String(this.$store.state.token)
+							}
+						})
+						.then(res => {
+							uni.showToast({
+								title:'编辑职业成功',
+								icon:'success',
+								duration:1000
+							})
+							console.log('用户信息',res)
+						})
+						.catch(err => {
+							console.log(err)
+						})
 					}
 					console.log('状态2执行')
 				}else{
 					if(this.indexs == 0){
-						this.company = this.userinfo
+						this.$ureq({
+							url: 'api/user/info',
+							method: 'POST',
+							data:{
+								company:this.userinfo,
+							},
+							header: {
+								Accept: 'application/json',
+								Authorization: String(this.$store.state.token)
+							}
+						})
+						.then(res => {
+							uni.showToast({
+								title:'编辑单位名称成功',
+								icon:'success',
+								duration:1000
+							})
+							console.log('用户信息',res)
+						})
+						.catch(err => {
+							console.log(err)
+						})
 					}else if(this.indexs == 1){
-						this.tel = this.userinfo
+						this.$ureq({
+							url: 'api/user/info',
+							method: 'POST',
+							data:{
+								tel:this.userinfo,
+							},
+							header: {
+								Accept: 'application/json',
+								Authorization: String(this.$store.state.token)
+							}
+						})
+						.then(res => {
+							uni.showToast({
+								title:'编辑电话号码成功',
+								icon:'success',
+								duration:1000
+							})
+							console.log('用户信息',res)
+						})
+						.catch(err => {
+							console.log(err)
+						})
 					}else{
-						this.email = this.userinfo
+						this.$ureq({
+							url: 'api/user/info',
+							method: 'POST',
+							data:{
+								email:this.userinfo,
+							},
+							header: {
+								Accept: 'application/json',
+								Authorization: String(this.$store.state.token)
+							}
+						})
+						.then(res => {
+							uni.showToast({
+								title:'编辑邮箱成功',
+								icon:'success',
+								duration:1000
+							})
+							console.log('用户信息',res)
+						})
+						.catch(err => {
+							console.log(err)
+						})
 					}
 					console.log('状态3执行')
 				}
-				if(this.sex == 1){
-					this.sex = '男'
-				}else{
-					this.sex = '女'
-				}
-				if(this.birthday == null){
-					this.birthday = ''
-				}else{
-					this.birthday = this.userinfo
-				}
-				this.$ureq({
-					url: 'api/user/info',
-					method: 'POST',
-					data:{
-						avatar:this.avatar,
-						name:this.name,
-						real_name:this.real_name,
-						mobile:this.mobile,
-						sex:this.sex,
-						birthday:this.birthday,
-						country:this.country,
-						province:this.province,
-						city:this.city,
-						area:this.area,
-						education:this.education,
-						discipline:this.discipline,
-						job:this.job,
-						company:this.company,
-						tel:this.tel,
-						email:this.email
-					},
-					header: {
-						Accept: 'application/json',
-						Authorization: String(this.$store.state.token)
-					}
-				})
-				.then(res => {
-					console.log('用户信息',res)
-				})
-				.catch(err => {
-					console.log(err)
-				})
+				uni.navigateBack({
+					delta: 1
+				});
 			}
 		},
 		onLoad(op) {

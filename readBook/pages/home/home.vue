@@ -11,7 +11,7 @@
 			<!-- 搜索盒子 -->
 			<view class="search-box">
 				<view class="search-itme">
-					<image src="http://i1.fuimg.com/733036/95f1c9951a4f3220.png" mode=""></image><input @focus="search" placeholder-style="color: #B9A798;" placeholder="请输入书名/正文内容"
+					<image src="https://api-guji.sinmore.vip/wximg/100/a10搜索.png" mode=""></image><input @focus="search" placeholder-style="color: #B9A798;" placeholder="请输入书名/正文内容"
 					 type="text" value="" />
 				</view>
 			</view>
@@ -26,7 +26,7 @@
 				</view>
 				<view class="go-bookrack" @click="goBookrack">
 					<text>去书架</text>
-					<image src="http://i1.fuimg.com/733036/1acc028a3cc3168a.png" mode=""></image>
+					<image src="https://api-guji.sinmore.vip/wximg/100/去书架.png" mode=""></image>
 				</view>
 			</view>
 			<!-- 正在看书籍 -->
@@ -51,7 +51,7 @@
 				<view class="text-classify-one">
 					<view class="text-classify-one-itme" @click="pool()">
 						<view class="itme-img">
-							<image src="http://i1.fuimg.com/733036/9562348daa8754b0.png" mode=""></image>
+							<image src="https://api-guji.sinmore.vip/wximg/100/总库.png" mode=""></image>
 						</view>
 						<view class="itme-text">
 							总库
@@ -69,10 +69,10 @@
 			</view>
 			<!-- 广告 -->
 			<view v-if="memberState == 1" class="advertising-member" @click="addmember()">
-				<image src="http://i1.fuimg.com/733036/16a850f04e35a834.png" mode=""></image>
+				<image src="https://api-guji.sinmore.vip/wximg/100/会员.png" mode=""></image>
 			</view>
 			<view class="advertising-red-packet" @click="discounts()">
-				<image src="http://i1.fuimg.com/733036/771b3fc2134cd137.png" mode=""></image>
+				<image src="https://api-guji.sinmore.vip/wximg/100/红包.png" mode=""></image>
 			</view>
 			<!-- 推荐 -->
 			<view class="recommend-box">
@@ -81,12 +81,12 @@
 				</view>
 				<view class="go-bookrack" @click="moreOff">
 					<text>更多</text>
-					<image src="http://i1.fuimg.com/733036/1acc028a3cc3168a.png" mode=""></image>
+					<image src="https://api-guji.sinmore.vip/wximg/100/去书架.png" mode=""></image>
 				</view>
 			</view>
 			<!-- 书籍说明 -->
 			<view class="books-information" v-for="(itme,index) in recommendedReading" :key="index">
-				<view class="books-ba" @click="recommReading(recommendedReading[index])">
+				<view class="books-ba" :style="{backgroundImage:`${itme.url}`}" @click="recommReading(recommendedReading[index])">
 					<view class="pos-ba">
 						{{itme.documentName}}
 					</view>
@@ -279,14 +279,14 @@
 					console.log('正在阅读',res)
 					this.shuList = res.data
 					if(this.shuList.length == 1){
-						this.shuList[0].url = 'url(http://i1.fuimg.com/733036/90ddcafb6b2377f7.png)'
+						this.shuList[0].url = 'url(https://api-guji.sinmore.vip/wximg/100/经部封面.png)'
 					}else if(this.shuList.length == 2){
-						this.shuList[0].url = 'url(http://i1.fuimg.com/733036/90ddcafb6b2377f7.png)'
-						this.shuList[1].url = 'url(http://i1.fuimg.com/733036/238573e6794ffa31.png)'
+						this.shuList[0].url = 'url(https://api-guji.sinmore.vip/wximg/100/经部封面.png)'
+						this.shuList[1].url = 'url(https://api-guji.sinmore.vip/wximg/100/史部封面.png)'
 					}else if(this.shuList.length == 3){
-						this.shuList[0].url = 'url(http://i1.fuimg.com/733036/90ddcafb6b2377f7.png)'
-						this.shuList[1].url = 'url(http://i1.fuimg.com/733036/238573e6794ffa31.png)'
-						this.shuList[2].url = 'url(http://i1.fuimg.com/733036/6a2fba295b0f7cc1.png)'
+						this.shuList[0].url = 'url(https://api-guji.sinmore.vip/wximg/100/经部封面.png)'
+						this.shuList[1].url = 'url(https://api-guji.sinmore.vip/wximg/100/史部封面.png)'
+						this.shuList[2].url = 'url(https://api-guji.sinmore.vip/wximg/100/子部封面.png)'
 					}else{
 						
 					}
@@ -326,6 +326,26 @@
 					.catch(err => {
 						console.log(err)
 					})
+			},
+			classdo(){
+				// 顶级分类
+				this.$ureq({
+						url: 'api/book/category',
+						method: 'GET'
+					})
+					.then((res) => {
+						this.listClass = res.data
+						// console.log('分类',res)
+						this.listClass[0].url = 'https://api-guji.sinmore.vip/wximg/100/經部.png'
+						this.listClass[1].url = 'https://api-guji.sinmore.vip/wximg/100/史部.png'
+						this.listClass[2].url = 'https://api-guji.sinmore.vip/wximg/100/子部.png'
+						this.listClass[3].url = 'https://api-guji.sinmore.vip/wximg/100/集部.png'
+						this.listClass[4].url = 'https://api-guji.sinmore.vip/wximg/100/叢部.png'
+						console.log('------------>', this.listClass)
+					})
+					.catch((err) => {
+						console.log(err)
+					})
 			}
 		},
 		onLoad() {
@@ -342,28 +362,12 @@
 				.catch((err) => {
 					console.log(err)
 				})
-			// 顶级分类
-			this.$ureq({
-					url: 'api/book/category',
-					method: 'GET'
-				})
-				.then((res) => {
-					this.listClass = res.data
-					// console.log('分类',res)
-					this.listClass[0].url = 'http://i1.fuimg.com/733036/7e147a5b84a16058.png'
-					this.listClass[1].url = 'http://i1.fuimg.com/733036/aadc1469fa043b55.png'
-					this.listClass[2].url = 'http://i1.fuimg.com/733036/b26bb68f1360316e.png'
-					this.listClass[3].url = 'http://i1.fuimg.com/733036/e0dac046bba7d2cf.png'
-					this.listClass[4].url = 'http://i1.fuimg.com/733036/894160d42d45c96d.png'
-					console.log('------------>', this.listClass)
-				})
-				.catch((err) => {
-					console.log(err)
-				})
+			
 		},
 		onShow() {
 			// 正在阅读
 			this.being()
+			this.classdo()
 			// 推荐阅读
 			this.$ureq({
 					url: 'api/book/recommend',
@@ -376,6 +380,15 @@
 				.then((res) => {
 					console.log('推荐阅读请求:', res)
 					this.recommendedReading = res.data
+					this.recommendedReading.length = res.data.length
+					this.recommendedReading[0].url='url(https://api-guji.sinmore.vip/wximg/100/经部封面-列表.png)'
+					this.recommendedReading[1].url='url(https://api-guji.sinmore.vip/wximg/100/史部封面-列表.png)'
+					this.recommendedReading[2].url='url(https://api-guji.sinmore.vip/wximg/100/集部封面-列表.png)'
+					this.recommendedReading[3].url='url(https://api-guji.sinmore.vip/wximg/100/丛部封面-列表.png)'
+					this.recommendedReading[4].url='url(https://api-guji.sinmore.vip/wximg/100/子部封面-列表.png)'
+					// for(let i=0;i<res.data.length;i++){
+						
+					// }
 				})
 				.catch((err) => {
 					console.log(err)
@@ -444,7 +457,7 @@
 				width: 371.3rpx;
 				height: 104rpx;
 				margin-top: 39rpx;
-				background-image: url(../../static/icon/home/title.png);
+				background-image: url(https://api-guji.sinmore.vip/wximg/100/标题装饰.png);
 				background-size: 100% 100%;
 				background-repeat: no-repeat;
 
@@ -522,7 +535,7 @@
 				bottom: -80rpx;
 				height: 118.5rpx;
 				width: 100%;
-				background-image: url(http://i1.fuimg.com/733036/b57cb98258cd9e2a.png);
+				background-image: url(https://api-guji.sinmore.vip/wximg/100/推荐书籍.png);
 				background-size: 100% 100%;
 				background-repeat: no-repeat;
 
@@ -630,7 +643,7 @@
 				width: 371.3rpx;
 				height: 104rpx;
 				margin-top: 39rpx;
-				background-image: url(http://i1.fuimg.com/733036/b6ce41c4a1872637.png);
+				background-image: url(https://api-guji.sinmore.vip/wximg/100/标题装饰.png);
 				background-size: 100% 100%;
 				background-repeat: no-repeat;
 
@@ -677,7 +690,7 @@
 				width: 207rpx;
 				height: 32rpx;
 				z-index: -1;
-				background-image: url(http://i1.fuimg.com/733036/b57cb98258cd9e2a.png);
+				background-image: url(https://api-guji.sinmore.vip/wximg/100/书架.png);
 				background-size: 100% 100%;
 				background-repeat: no-repeat;
 				position: absolute;
@@ -689,7 +702,7 @@
 				width: 185rpx;
 				height: 266rpx;
 				margin-left: 31rpx;
-				background-image: url(http://i1.fuimg.com/733036/90ddcafb6b2377f7.png);
+				// background-image: url(http://i1.fuimg.com/733036/90ddcafb6b2377f7.png);
 				background-size: 100% 100%;
 				background-repeat: no-repeat;
 
@@ -714,26 +727,41 @@
 				font-weight: 400;
 
 				.books-text-one {
-					margin-top: 29rpx;
+					// margin-top: 29rpx;
 					font-size: 32rpx;
 					color: #000;
 					font-weight: 500;
+					width: 100%;
+					height: 38rpx;
+					overflow: hidden;
 				}
 
 				.books-text-tow {
 					margin-top: 15rpx;
+					width: 100%;
+					height: 36rpx;
+					overflow: hidden;
 				}
 
 				.books-text-therr {
 					margin-top: 15rpx;
+					width: 100%;
+					height: 36rpx;
+					overflow: hidden;
 				}
 
 				.books-text-four {
 					margin-top: 15rpx;
+					width: 100%;
+					height: 36rpx;
+					overflow: hidden;
 				}
 
 				.books-text-fove {
 					margin-top: 15rpx;
+					width: 100%;
+					height: 36rpx;
+					overflow: hidden;
 				}
 			}
 

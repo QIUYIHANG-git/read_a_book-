@@ -14,13 +14,13 @@
 				</view>
 				<view class="read-box-tow">
 					<view class="search-itme" @click="csearchClick">
-						<image src="http://i1.fuimg.com/733036/9e98775c16b2b2e8.png" mode=""></image>
+						<image src="https://api-guji.sinmore.vip/wximg/200/a10搜索.png" mode=""></image>
 						<!-- <input placeholder-style="color: #B9A798;" placeholder="搜索"type="text" value="" /> -->
 						<text>搜索</text>
 					</view>
 				</view>
 				<view class="read-box-therr">
-					<image src="http://i1.fuimg.com/733036/f4cebf350195b2cb.png" mode="" @click="offOn"></image>
+					<image src="https://api-guji.sinmore.vip/wximg/200/菜单.png" mode="" @click="offOn"></image>
 					<view v-show="offpos" class="read-box-therr-pos">
 						<view class="text-itme" @click="grouping">
 							新建分组
@@ -41,7 +41,7 @@
 						{{list.text}}<text>[{{list.number}}]</text>
 					</view>
 					<view class="in-detail">
-						<image src="http://i1.fuimg.com/733036/dac9aea73f67ec95.png" mode=""></image>
+						<image src="https://api-guji.sinmore.vip/wximg/200/详细.png" mode=""></image>
 					</view>
 				</view>
 			</view>
@@ -52,7 +52,7 @@
 						{{listUrl.name}}<text>[{{listUrl.book_count}}]</text>
 					</view>
 					<view class="in-detail">
-						<image src="http://i1.fuimg.com/733036/dac9aea73f67ec95.png" mode=""></image>
+						<image src="https://api-guji.sinmore.vip/wximg/200/详细.png" mode=""></image>
 					</view>
 				</view>
 				<!-- 推荐书籍 -->
@@ -141,31 +141,31 @@
 						text: '經部',
 						number: 10,
 						id:null,
-						url: 'url(http://i1.fuimg.com/733036/efdd3523da44179a.png)'
+						url: 'url(https://api-guji.sinmore.vip/wximg/230/经部书单.png)'
 					},
 					{
 						text: '史部',
 						number: 4,
 						id:null,
-						url: 'url(http://i1.fuimg.com/733036/861f1c925c3f033a.png)'
+						url: 'url(https://api-guji.sinmore.vip/wximg/230/史部书单.png)'
 					},
 					{
 						text: '子部',
 						number: 10,
 						id:null,
-						url: 'url(http://i1.fuimg.com/733036/b6a50ea69c19fedb.png)'
+						url: 'url(https://api-guji.sinmore.vip/wximg/230/子部书单.png)'
 					},
 					{
 						text: '集部',
 						number: 4,
 						id:null,
-						url: 'url(http://i1.fuimg.com/733036/67d5de97495fb1fe.png)'
+						url: 'url(https://api-guji.sinmore.vip/wximg/230/集部书单.png)'
 					},
 					{
 						text: '叢部',
 						number: 4,
 						id:null,
-						url: 'url(http://i1.fuimg.com/733036/d365f55a606d93f9.png)'
+						url: 'url(https://api-guji.sinmore.vip/wximg/230/丛部书单.png)'
 					}
 				],
 				// 模式1分组
@@ -405,7 +405,7 @@
 						this.lent.length = parseInt(res.data.length/3)+1
 					}
 					for(let i=0;i<this.lent.length;i++){
-						this.lent[i] = {listtext:[],styleimg:'url(http://i1.fuimg.com/733036/ac0d7b103ba414e6.png)'}
+						this.lent[i] = {listtext:[],styleimg:'url(https://api-guji.sinmore.vip/wximg/100/书架.png)'}
 						let hu = String(i+1)
 						this.shuListf(hu,'3')
 					}				
@@ -446,14 +446,14 @@
 						this.lent[indexs].listtext[i].mogbot = false
 					}
 					if(this.lent[indexs].listtext.length == 1){
-						this.lent[indexs].listtext[0].url = 'url(http://i1.fuimg.com/733036/90ddcafb6b2377f7.png)'
+						this.lent[indexs].listtext[0].url = 'url(https://api-guji.sinmore.vip/wximg/100/经部封面-列表.png)'
 					}else if (this.lent[indexs].listtext.length == 2){
-						this.lent[indexs].listtext[0].url = 'url(http://i1.fuimg.com/733036/90ddcafb6b2377f7.png)'
-						this.lent[indexs].listtext[1].url = 'url(http://i1.fuimg.com/733036/1ef9ed57bdb18d55.png)'
+						this.lent[indexs].listtext[0].url = 'url(https://api-guji.sinmore.vip/wximg/100/经部封面-列表.png)'
+						this.lent[indexs].listtext[1].url = 'url(https://api-guji.sinmore.vip/wximg/100/史部封面-列表.png)'
 					}else{
-						this.lent[indexs].listtext[0].url = 'url(http://i1.fuimg.com/733036/90ddcafb6b2377f7.png)'
-						this.lent[indexs].listtext[1].url = 'url(http://i1.fuimg.com/733036/1ef9ed57bdb18d55.png)'
-						this.lent[indexs].listtext[2].url = 'url(http://i1.fuimg.com/733036/b6a91f6bb5db7669.png)'
+						this.lent[indexs].listtext[0].url = 'url(https://api-guji.sinmore.vip/wximg/100/经部封面-列表.png)'
+						this.lent[indexs].listtext[1].url = 'url(https://api-guji.sinmore.vip/wximg/100/史部封面-列表.png)'
+						this.lent[indexs].listtext[2].url = 'url(https://api-guji.sinmore.vip/wximg/100/子部封面-列表.png)'
 					}
 					console.log('赋值了',koumd)
 					let ki = this.lent
@@ -553,7 +553,7 @@
 				this.listTow = res.data
 				for(let i in this.listTow){
 					// url 书单
-					this.listTow[i].url = 'url(http://i1.fuimg.com/733036/858a6e0a012d3a88.png)'
+					this.listTow[i].url = 'url(https://api-guji.sinmore.vip/wximg/100/书架.png)'
 				}
 				console.log(res)
 			})
@@ -622,7 +622,7 @@
 				.read-box-therr-pos {
 					width: 180rpx;
 					height: 275rpx;
-					background-image: url(http://i1.fuimg.com/733036/a8fcea7a1d6754be.png);
+					background-image: url(https://api-guji.sinmore.vip/wximg/210/弹出.png);
 					background-size: 100% 100%;
 					background-repeat: no-repeat;
 					position: absolute;
@@ -715,7 +715,7 @@
 			width: 690rpx;
 			height: 120rpx;
 			margin: 0 auto 30rpx auto;
-			background-image: url(http://i1.fuimg.com/733036/858a6e0a012d3a88.png);
+			background-image: url(https://api-guji.sinmore.vip/wximg/200/书单.png);
 			background-size: 100% 100%;
 			background-repeat: no-repeat;
 			display: flex;

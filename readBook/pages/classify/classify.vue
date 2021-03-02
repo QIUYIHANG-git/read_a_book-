@@ -211,7 +211,7 @@
 				font-size: 32rpx;
 				font-family: PingFang SC;
 				color: #fff;
-				background-image: url(http://i1.fuimg.com/733036/a1f7acc2afb0839b.png);
+				background-image: url(https://api-guji.sinmore.vip/wximg/300/选中.png);
 				background-size: 100% 100%;
 				background-repeat: no-repeat;
 				padding: 19rpx 31rpx;
@@ -259,7 +259,7 @@
 				display: flex;
 				justify-content: center;
 				align-items: center;
-				background-image: url(http://i1.fuimg.com/733036/8ded2f9896905900.png);
+				background-image: url(https://api-guji.sinmore.vip/wximg/300/三级分类.png);
 				background-size: 100%;
 				background-repeat: no-repeat;
 				font-size: 28rpx;

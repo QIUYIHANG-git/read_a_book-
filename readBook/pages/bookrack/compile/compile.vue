@@ -1,7 +1,7 @@
 <template>
 	<view class="coupon-box" :style="{height:`calc(100vh - ${matop})`}">
 		<taber @child-event='parevent'>
-			<image slot="img" src="http://i2.tiimg.com/733036/c51090a6f01cc19e.png" mode=""></image>
+			<image slot="img" src="https://api-guji.sinmore.vip/wximg/110/返回.png" mode=""></image>
 			<text slot='text'>书架</text>
 		</taber>
 		<view class="id" :style="{
@@ -27,7 +27,7 @@
 					{{listUrl.name}}<text>[{{listUrl.book_count}}]</text>
 				</view>
 				<view class="in-detail">
-					<image src="http://i1.fuimg.com/733036/dac9aea73f67ec95.png" mode=""></image>
+					<image src="https://api-guji.sinmore.vip/wximg/200/详细.png" mode=""></image>
 				</view>
 				<!-- 选中编辑 -->
 				<!-- <view class="ori" @click="oriOd(index)">
@@ -483,7 +483,7 @@
 			width: 690rpx;
 			height: 120rpx;
 			margin: 44rpx auto 30rpx auto;
-			background-image: url(http://i1.fuimg.com/733036/858a6e0a012d3a88.png);
+			background-image: url(https://api-guji.sinmore.vip/wximg/200/书单.png);
 			background-size: 100% 100%;
 			background-repeat: no-repeat;
 			display: flex;

@@ -1,7 +1,7 @@
 <template>
 	<view class="coupon-box" :style="{height:`calc(100vh - ${matop})`}">
 		<taber @child-event='parevent'>
-			<image slot="img" src="http://i2.tiimg.com/733036/c51090a6f01cc19e.png" mode=""></image>
+			<image slot="img" src="https://api-guji.sinmore.vip/wximg/110/返回.png" mode=""></image>
 			<text slot='text'>限时优惠</text>
 		</taber>
 		<view class="id" :style="{
@@ -115,7 +115,7 @@
 		.discounts-box{
 			width: 690rpx;
 			height: 200rpx;
-			background-image: url(http://i2.tiimg.com/733036/900bb364bd5677c1.png);
+			background-image: url(https://api-guji.sinmore.vip/wximg/120/优惠券封面.png);
 			background-size: 100% 100%;
 			background-repeat: no-repeat;
 			margin: 30rpx auto;

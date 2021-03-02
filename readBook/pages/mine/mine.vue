@@ -17,8 +17,9 @@
 						<view class="img-text">
 							<view class="name">
 								<text>{{userName}}</text>
-								<image v-if="memberState==2" src="http://i1.fuimg.com/733036/e74c025b672761b8.png" mode=""></image>
-								<image v-else-if="memberState==3" src="http://i1.fuimg.com/733036/e74c025b672761b8.png" mode=""></image>
+								<image v-if="memberState==2" src="https://api-guji.sinmore.vip/wximg/400/会员.png" mode=""></image>
+								<!-- 缺SVIP图 -->
+								<image v-else-if="memberState==3" src="https://api-guji.sinmore.vip/wximg/400/会员.png" mode=""></image>
 							</view>
 							<view v-if="memberState == 1" class="hint-tow">
 								首次完善个人信息送基础会员
@@ -29,13 +30,13 @@
 						</view>
 					</view>
 					<view class="img-fan">
-						<image src="http://i1.fuimg.com/733036/2dcc5d08d0f440e7.png" mode=""></image>
+						<image src="https://api-guji.sinmore.vip/wximg/400/右箭头.png" mode=""></image>
 					</view>
 				</view>
 			</view>
 			<view class="pos-box">
 				<view v-if="memberState==1" class="pos-img" @click="memberClick()">
-					<image src="http://i1.fuimg.com/733036/16a850f04e35a834.png" mode=""></image>
+					<image src="https://api-guji.sinmore.vip/wximg/100/会员.png" mode=""></image>
 				</view>
 				<view class="white-box">
 					<view class="white-box-itme" v-for="(itme,index) in listContent" :key="index" @click="itmeindex(index)">
@@ -48,7 +49,7 @@
 							</view>
 						</view>
 						<view class="itme-rigth">
-							<image src="http://i1.fuimg.com/733036/2dcc5d08d0f440e7.png" mode=""></image>
+							<image src="https://api-guji.sinmore.vip/wximg/400/右箭头.png" mode=""></image>
 						</view>
 					</view>
 				</view>
@@ -73,19 +74,19 @@
 				listContent:[
 					{
 						text:'我的优惠卷',
-						url:'http://i1.fuimg.com/733036/9446330a5e3c8d83.png'
+						url:'https://api-guji.sinmore.vip/wximg/400/我的优惠券.png'
 					},
 					{
 						text:'问题反馈',
-						url:'http://i1.fuimg.com/733036/3d880e504c6ba8be.png'
+						url:'https://api-guji.sinmore.vip/wximg/400/问题反馈.png'
 					},
 					{
 						text:'关于我们',
-						url:'http://i1.fuimg.com/733036/4b730ee857a4ab52.png'
+						url:'https://api-guji.sinmore.vip/wximg/400/关于我们.png'
 					},
 					{
 						text:'帮助',
-						url:'http://i1.fuimg.com/733036/dbd6f154fdbf445d.png'
+						url:'https://api-guji.sinmore.vip/wximg/400/帮助.png'
 					}
 				]
 			}
@@ -149,6 +150,9 @@
 			}
 		},
 		onLoad() {
+			
+		},
+		onShow() {
 			// 用户信息
 			this.$ureq({
 					url: 'api/user/info',
@@ -180,7 +184,7 @@
 		.top-img {
 			width: 100%;
 			height: 300rpx;
-			background-image: url(http://i1.fuimg.com/733036/c78414689eac31c3.png);
+			background-image: url(https://api-guji.sinmore.vip/wximg/400/顶部配图.png);
 			background-size: 100% 100%;
 			background-repeat: no-repeat;
 			box-sizing: border-box;
